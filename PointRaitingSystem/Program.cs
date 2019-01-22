@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define LOGINLESS
+#undef LOGINLESS
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +18,18 @@ namespace PointRaitingSystem
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+
+#if LOGINLESS
+            Application.Run(new MainForm("sidor"));
+#else
+            //Login form runs first
+            LoginForm loginForm = new LoginForm();
+            Application.Run(loginForm);
+            if (loginForm.IsLoggedIn)
+                Application.Run(new MainForm());
+            else
+                Application.Exit();
+#endif
         }
     }
 }

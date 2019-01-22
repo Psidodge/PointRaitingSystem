@@ -15,18 +15,21 @@ namespace PointRaitingSystem
     public partial class dataSourceConnectionForm : Form
     {
         private SQLworker sqlConnectionHandler;
+        private ErrorLogger errorLogger;
+
         private bool isServerPicked = false,
                      isCanceld = false;
 
-        public dataSourceConnectionForm()
+        public dataSourceConnectionForm(ref ErrorLogger errLogger)
         {
             InitializeComponent();
+            this.errorLogger = errLogger;
         }
-
-        public dataSourceConnectionForm(ref SQLworker sqlHandler)
+        public dataSourceConnectionForm(ref SQLworker sqlHandler, ref ErrorLogger errLogger)
         {
             InitializeComponent();
             this.sqlConnectionHandler = sqlHandler;
+            this.errorLogger = errLogger;
         }
 
         private void cbISValidSqlServer_CheckedChanged(object sender, EventArgs e)
@@ -34,7 +37,6 @@ namespace PointRaitingSystem
             this.txtPassword.ReadOnly = this.checkbIsValidSqlServer.Checked;
             this.txtUserName.ReadOnly = this.checkbIsValidSqlServer.Checked;
         }
-
         private void btnOk_Click(object sender, EventArgs e)
         {
             sqlConnectionHandler.CreateConnection(this.cbServerPick.SelectedItem.ToString(), this.cbDbPick.SelectedItem.ToString());
@@ -43,7 +45,6 @@ namespace PointRaitingSystem
             this.sqlConnectionHandler.OpenConnection();
             this.Close();
         }
-
         private void btnCheckConnetion_Click(object sender, EventArgs e)
         {
             sqlConnectionHandler.CreateConnection(this.cbServerPick.SelectedItem.ToString(), this.cbDbPick.SelectedItem.ToString());
@@ -75,13 +76,22 @@ namespace PointRaitingSystem
 
         private void bwSQLServerListQuery_DoWork(object sender, DoWorkEventArgs e)
         {
-            List<string> tempList = this.sqlConnectionHandler.GetListOfServers();
-            this.Invoke((MethodInvoker)delegate ()
+            List<string> tempList;
+            try
             {
-                this.cbServerPick.Items.Clear();
-                this.cbServerPick.Items.AddRange(tempList.ToArray());
-                isServerPicked = true;
-            });
+                tempList = this.sqlConnectionHandler.GetListOfServers();
+                this.Invoke((MethodInvoker)delegate ()
+                {
+                    this.cbServerPick.Items.Clear();
+                    this.cbServerPick.Items.AddRange(tempList.ToArray());
+                    isServerPicked = true;
+                });
+                }
+            catch (Exception ex)
+            {
+                errorLogger.ErrorStackTrace(ex.StackTrace.Trim());
+                errorLogger.Error(this, ex.Message);
+            }
         }
         private void bwSQLListOfDatabasesQuery_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -95,20 +105,29 @@ namespace PointRaitingSystem
 
             if (_serverName == null)
                 return;
-            List<string> tempList = this.sqlConnectionHandler.GetListOfDatabases(_serverName);
+            List<string> tempList;
 
-            this.Invoke((MethodInvoker)delegate ()
+            try
             {
-                this.cbDbPick.Items.Clear();
-                this.cbDbPick.Items.AddRange(tempList.ToArray());
-            });
+                tempList = this.sqlConnectionHandler.GetListOfDatabases(_serverName);
+                this.Invoke((MethodInvoker)delegate ()
+                {
+                    this.cbDbPick.Items.Clear();
+                    this.cbDbPick.Items.AddRange(tempList.ToArray());
+                });
+            }
+            catch(Exception ex)
+            {
+                errorLogger.ErrorStackTrace(ex.StackTrace.Trim());
+                errorLogger.Error(this, ex.Message);
+            }
         }
 
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             isCanceld = true;
-
+            this.Close();
         }
 
         public bool IsCanceld { get => this.isCanceld; }

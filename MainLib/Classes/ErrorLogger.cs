@@ -29,6 +29,7 @@ namespace MainLib
             StreamWriter sw = File.AppendText(currentLogFilePath);
             if (inDebugMode)
             {
+                sw.WriteLine(string.Format("{0}[{1}_{2}]{0}", new string('=', 15), DateTime.Now.ToShortDateString(), DateTime.Now.ToLongTimeString()));
                 sw.WriteLine(string.Format("DEBUG - {0}", debugMsg));
             }
             sw.Close();
@@ -36,12 +37,14 @@ namespace MainLib
         public void Error(object sender, string errorMsg)
         {
             StreamWriter sw = File.AppendText(currentLogFilePath);
+            sw.WriteLine(string.Format("{0}[{1}_{2}]{0}", new string('=', 15), DateTime.Now.ToLongDateString(), DateTime.Now.ToLongTimeString()));
             sw.WriteLine(string.Format("ERROR at {0} - {1}", sender.ToString(), errorMsg));
             sw.Close();
         }
         public void ErrorStackTrace(string stackTrace)
         {
             StreamWriter sw = File.AppendText(currentLogFilePath);
+            sw.WriteLine(string.Format("{0}[{1}_{2}]{0}", new string('=', 15), DateTime.Now.ToShortDateString(), DateTime.Now.ToLongTimeString()));
             sw.WriteLine(stackTrace);
             sw.Close();
         }
@@ -58,7 +61,7 @@ namespace MainLib
             {
                 Directory.CreateDirectory(Path.Combine(logFolderPath, "Logs"));
             }
-            logFolderPath = Path.Combine(logFolderPath, "Log");
+            logFolderPath = Path.Combine(logFolderPath, "Logs");
         }
         private void CreateLogFile()
         {

@@ -34,5 +34,16 @@ namespace PointRaitingSystem.Properties {
                 this["ConnectionString"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DESKTOP-GO946L3\\SQLEXPRESS;Initial Catalog=cp_db;Integrated Security=" +
+            "True")]
+        public string cp_dbConnectionString {
+            get {
+                return ((string)(this["cp_dbConnectionString"]));
+            }
+        }
     }
 }
