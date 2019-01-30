@@ -7,17 +7,13 @@ namespace PointRaitingSystem
 {
     public partial class LoginForm : Form
     {
-        private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
-        private bool isLoggedIn = false;
-
         public LoginForm()
         {
             InitializeComponent();
         }
 
-        private void LoginForm_Load(object sender, EventArgs e)
-        {
-        }
+        private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private bool isLoggedIn = false;
 
         private void btnEnter_Click(object sender, EventArgs e)
         {
@@ -36,16 +32,12 @@ namespace PointRaitingSystem
             catch(Exception ex)
             {
                 logger.Error(ex);
-                MessageBox.Show("Успешно перестало работать", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Необработанная ошибка", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-        private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-
         }
 
         public bool IsLoggedIn { get => isLoggedIn; }

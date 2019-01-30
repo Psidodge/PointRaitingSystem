@@ -14,35 +14,39 @@ namespace PointRaitingSystem
 {
     public partial class childForm : Form
     {
-        private int groupId;
         public childForm()
         {
             InitializeComponent();
         }
-        public childForm(Disciplines selectedDiscipline, int SelectedGroupId)
+        public childForm(Discipline selectedDiscipline, int SelectedGroupId)
         {
             InitializeComponent();
             InitializeDataSets(selectedDiscipline);
             groupId = SelectedGroupId;
         }
 
+        private int groupId;
+        private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
-        private void childForm_Load(object sender, EventArgs e)
-        {
 
-        }
-        private void InitializeDataSets(Disciplines selectedDiscipline = null)
+        private void InitializeDataSets(Discipline selectedDiscipline = null)
         {
-            cbDiscipline.DataSource = DataService.SelectDisciplines(CurrentSession.GetCurrentSession().ID);
-            cbDiscipline.ValueMember = "id";
-            cbDiscipline.DisplayMember = "discipline_name";
+            try
+            {
+                List<Discipline> disciplines = DataService.SelectDisciplinesByTeacherID(CurrentSession.GetCurrentSession().ID);
+                DataSetInitializer<Discipline>.ComboBoxDataSetInitializer(ref cbDiscipline, disciplines, "id", "discipline_name");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+            }
+
             if (selectedDiscipline != null)
                 cbDiscipline.SelectedItem = selectedDiscipline;
         }
-
         private void btnSave_Click(object sender, EventArgs e)
         {
-            ControlPoints cp = new ControlPoints
+            ControlPoint cp = new ControlPoint
             {
                 id_of_teacher = CurrentSession.GetCurrentSession().ID,
                 id_of_discipline = (int)cbDiscipline.SelectedValue,
@@ -50,16 +54,32 @@ namespace PointRaitingSystem
                 date = dateTimePicker.Value,
                 Description = txtDescription.Text
             };
-            DataService.InsertIntoCP(cp);
+
+            try
+            {
+                DataService.InsertIntoControlPointsTable(cp);
+            }
+            catch(Exception ex)
+            {
+                logger.Error(ex);
+            }
+
             createStudentsControlPoints();
             this.Close();
         }
         private void createStudentsControlPoints()
         {
-            int indexOfCP = DataService.GetIndexOfLastCP();
-            foreach (Students student in DataService.SelectStudentsByGroupId(groupId))
+            try
             {
-                DataService.InsertIntoStCP(new ControlPointsOfStudents{ id_of_cp = indexOfCP, id_of_student = student.id, points = 0});
+                int indexOfCP = DataService.GetIndexOfLastControlPoint();
+                foreach (Student student in DataService.SelectStudentsByGroupId(groupId))
+                {
+                    DataService.InsertIntoStudentCPTable(new ControlPointsOfStudents{ id_of_cp = indexOfCP, id_of_student = student.id, points = 0});
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
             }
         }
     }

@@ -152,11 +152,10 @@
             this.Controls.Add(this.txtCPWeight);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "childForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "childForm";
-            this.Load += new System.EventHandler(this.childForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.bsStudents)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
