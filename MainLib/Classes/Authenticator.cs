@@ -12,7 +12,7 @@ namespace MainLib.Auth
     {
         public static bool WasAuthenticated(string login, string password)
         {
-            List<TeacherAuthInfo> authInfos;
+            List<AuthInfo> authInfos;
             try
             {
                 authInfos = DataService.SelectAuthInfoByLogin(login);

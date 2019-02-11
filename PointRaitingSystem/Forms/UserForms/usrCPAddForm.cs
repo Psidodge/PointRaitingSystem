@@ -12,13 +12,13 @@ using System.Windows.Forms;
 
 namespace PointRaitingSystem
 {
-    public partial class childForm : Form
+    public partial class usrCPAddForm : Form
     {
-        public childForm()
+        public usrCPAddForm()
         {
             InitializeComponent();
         }
-        public childForm(Discipline selectedDiscipline, int SelectedGroupId)
+        public usrCPAddForm(Discipline selectedDiscipline, int SelectedGroupId)
         {
             InitializeComponent();
             InitializeDataSets(selectedDiscipline);

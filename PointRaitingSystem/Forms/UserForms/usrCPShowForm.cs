@@ -11,13 +11,13 @@ using System.Windows.Forms;
 
 namespace PointRaitingSystem
 {
-    public partial class childForm2 : Form
+    public partial class usrCPShowForm : Form
     {
-        public childForm2()
+        public usrCPShowForm()
         {
             InitializeComponent();
         }
-        public childForm2(Discipline selectedDiscipline)
+        public usrCPShowForm(Discipline selectedDiscipline)
         {
             InitializeComponent();
             InitializeDataSets(selectedDiscipline);

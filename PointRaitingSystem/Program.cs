@@ -1,5 +1,6 @@
 ﻿#define LOGINLESS
 #undef LOGINLESS
+using MainLib.Session;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,10 @@ namespace PointRaitingSystem
             LoginForm loginForm = new LoginForm();
             Application.Run(loginForm);
             if (loginForm.IsLoggedIn)
-                Application.Run(new MainForm());
+                if(CurrentSession.GetCurrentSession().isAdmin)
+                    Application.Run(new admMainForm());
+                else
+                    Application.Run(new usrMainForm());
             else
                 Application.Exit();
 #endif

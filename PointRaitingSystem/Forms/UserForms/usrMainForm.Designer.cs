@@ -1,6 +1,6 @@
 ﻿namespace PointRaitingSystem
 {
-    partial class MainForm
+    partial class usrMainForm
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -30,9 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.формыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiDataSoruce = new System.Windows.Forms.ToolStripMenuItem();
+            this.bindingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuPanel = new System.Windows.Forms.Panel();
             this.button3 = new System.Windows.Forms.Button();
             this.btnCreateCP = new System.Windows.Forms.Button();
@@ -72,8 +70,7 @@
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.формыToolStripMenuItem,
-            this.настройкиToolStripMenuItem});
+            this.bindingsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
@@ -81,29 +78,12 @@
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "mainMenuBar";
             // 
-            // формыToolStripMenuItem
+            // bindingsToolStripMenuItem
             // 
-            this.формыToolStripMenuItem.Enabled = false;
-            this.формыToolStripMenuItem.Name = "формыToolStripMenuItem";
-            this.формыToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
-            this.формыToolStripMenuItem.Text = "Формы";
-            // 
-            // настройкиToolStripMenuItem
-            // 
-            this.настройкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiDataSoruce});
-            this.настройкиToolStripMenuItem.Enabled = false;
-            this.настройкиToolStripMenuItem.Name = "настройкиToolStripMenuItem";
-            this.настройкиToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
-            this.настройкиToolStripMenuItem.Text = "Настройки";
-            // 
-            // tsmiDataSoruce
-            // 
-            this.tsmiDataSoruce.Enabled = false;
-            this.tsmiDataSoruce.Name = "tsmiDataSoruce";
-            this.tsmiDataSoruce.Size = new System.Drawing.Size(171, 22);
-            this.tsmiDataSoruce.Text = "Источник данных";
-            this.tsmiDataSoruce.Click += new System.EventHandler(this.tsmiDataSoruce_Click);
+            this.bindingsToolStripMenuItem.Name = "bindingsToolStripMenuItem";
+            this.bindingsToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
+            this.bindingsToolStripMenuItem.Text = "Привязки";
+            this.bindingsToolStripMenuItem.Click += new System.EventHandler(this.bindingsToolStripMenuItem_Click);
             // 
             // menuPanel
             // 
@@ -233,9 +213,12 @@
             // 
             // dgvStudents
             // 
+            this.dgvStudents.AllowUserToAddRows = false;
+            this.dgvStudents.AllowUserToDeleteRows = false;
             this.dgvStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvStudents.Location = new System.Drawing.Point(198, 23);
             this.dgvStudents.Name = "dgvStudents";
+            this.dgvStudents.ReadOnly = true;
             this.dgvStudents.RowHeadersVisible = false;
             this.dgvStudents.Size = new System.Drawing.Size(272, 365);
             this.dgvStudents.TabIndex = 4;
@@ -363,7 +346,7 @@
             this.label5.TabIndex = 0;
             this.label5.Text = "Создана:";
             // 
-            // MainForm
+            // usrMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -376,7 +359,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "MainForm";
+            this.Name = "usrMainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Меню";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
@@ -399,7 +382,6 @@
         #endregion
 
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem формыToolStripMenuItem;
         private System.Windows.Forms.Panel menuPanel;
         private System.Windows.Forms.ComboBox cbDiscipline;
         private System.Windows.Forms.Label label4;
@@ -410,8 +392,7 @@
         private System.Windows.Forms.ToolStripStatusLabel tsslTeacherName;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel tsslCurrentDate;
-        private System.Windows.Forms.ToolStripMenuItem настройкиToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tsmiDataSoruce;
+        private System.Windows.Forms.ToolStripMenuItem bindingsToolStripMenuItem;
         private System.Windows.Forms.DataGridView dgvStudents;
         private System.Windows.Forms.DataGridView dgvStudentCPs;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;

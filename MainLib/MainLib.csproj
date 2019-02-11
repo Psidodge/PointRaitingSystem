@@ -55,6 +55,7 @@
     <Compile Include="Classes\DatabaseServices\DataRepresentation.cs" />
     <Compile Include="Classes\Authenticator.cs" />
     <Compile Include="Classes\DatabaseServices\DataService.cs" />
+    <Compile Include="Classes\PasswordEncryptor.cs" />
     <Compile Include="Classes\Session.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

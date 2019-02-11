@@ -17,7 +17,7 @@ namespace MainLib.DBServices
         private static string connectionString = ConfigurationManager.ConnectionStrings["cp_dbConnectionString"].ConnectionString;
 
 
-        public static List<TeacherAuthInfo> SelectAuthInfoByLogin(string userLogin)
+        public static List<AuthInfo> SelectAuthInfoByLogin(string userLogin)
         {
             string query = "SELECT pass_hash, salt FROM authInfo WHERE [login] = @login";
 
@@ -33,12 +33,12 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.Query<TeacherAuthInfo>(query, new { login = userLogin }).ToList();
+                return connection.Query<AuthInfo>(query, new { login = userLogin }).ToList();
             }
         }
-        public static TeacherInfo SelectLoggedTeacher(string userLogin)
+        public static UserInfo SelectLoggedTeacher(string userLogin)
         {
-            string query =  "SELECT t.id, t.[name] FROM teachers as t " +
+            string query = "SELECT t.id, t.[name], t.isAdmin FROM users as t " +
                             "INNER JOIN authInfo AS ai ON t.id_of_authInfo = ai.id " +
                             "WHERE ai.login = @login";
 
@@ -57,15 +57,15 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.QueryFirst<TeacherInfo>(query, parametrs);
+                return connection.QueryFirst<UserInfo>(query, parametrs);
             }
         }
-        public static TeacherInfo SelectTeacherById(int id)
+        public static UserInfo SelectTeacherById(int userId)
         {
-            string query = "SELECT id, [name] FROM teachers WHERE id = @id";
+            string query = "SELECT id, [name], isAdmin FROM users WHERE id = @id";
 
             var parametrs = new DynamicParameters();
-            parametrs.Add("@id", id);
+            parametrs.Add("@id", userId);
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -79,18 +79,18 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.QueryFirst<TeacherInfo>(query, parametrs);
+                return connection.QueryFirst<UserInfo>(query, parametrs);
             }
         }
-        public static List<Group> SelectGroupsByTeacherId(int id)
+        public static List<Group> SelectGroupsByTeacherId(int userId)
         {
             string query = "SELECT gr.* from groups as gr " +
                            "INNER JOIN teacher_groups as tgr on gr.id = tgr.id_of_group " +
-                           "INNER JOIN teachers as t on tgr.id_of_teacher = t.id " +
+                           "INNER JOIN users as t on tgr.id_of_teacher = t.id " +
                            "WHERE t.id = @id";
 
             var parametrs = new DynamicParameters();
-            parametrs.Add("@id", id);
+            parametrs.Add("@id", userId);
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -275,6 +275,93 @@ namespace MainLib.DBServices
             }
         }
 
+        public static List<TeacherInfo> SelectAllTeachersInfo()
+        {
+            //NOTE: Если пользователь не админ, то не выполняем, нужно как-то это сообщить пользователю
+            if (!SelectTeacherById(Session.CurrentSession.GetCurrentSession().ID).isAdmin)
+                return null;
+
+            string query = "SELECT usr.id, usr.name, ai.[login], usr.isAdmin, usr.id_of_authInfo FROM users AS usr " +
+                           "INNER JOIN authInfo AS ai ON ai.id = usr.id_of_authInfo";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                return connection.Query<TeacherInfo>(query).ToList();
+            }
+        }
+        public static List<StudentInfo> SelectAllStudentsInfo()
+        {
+            //NOTE: Если пользователь не админ, то не выполняем, нужно как-то это сообщить пользователю
+            if (!SelectTeacherById(Session.CurrentSession.GetCurrentSession().ID).isAdmin)
+                return null;
+
+            string query = "SELECT st.id, st.name, gr.group_name FROM dbo.students AS st " +
+                           "INNER JOIN dbo.groups AS gr ON gr.id = st.id_of_group";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                return connection.Query<StudentInfo>(query).ToList();
+            }
+        }
+        public static List<DisciplineInfo> SelectAllDisciplinesInfo()
+        {
+            string query = "SELECT id, discipline_name, semestr FROM disciplines";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                return connection.Query<DisciplineInfo>(query).ToList();
+            }
+        }
+        public static List<GroupInfo> SelectAllGroupsInfo()
+        {
+            string query = "SELECT id, group_name, group_course FROM groups";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                return connection.Query<GroupInfo>(query).ToList();
+            }
+        }
+
         public static int GetIndexOfLastControlPoint()
         {
             string query = "SELECT MAX(id) FROM controlPoints";
@@ -292,6 +379,50 @@ namespace MainLib.DBServices
                 }
 
                 return connection.QueryFirst<int>(query);
+            }
+        }
+        public static int GetIdOfGroupByGroupName(string groupName)
+        {
+            string query = "SELECT id FROM groups WHERE group_name = @grName";
+
+            var parametrs = new DynamicParameters();
+            parametrs.Add("@grName", groupName);
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                return connection.QueryFirst<int>(query, parametrs);
+            }
+        }
+        public static bool CheckLogin(string login)
+        {
+            string query = "SELECT Count(*) FROM authInfo WHERE login = @login";
+
+            var parametrs = new DynamicParameters();
+            parametrs.Add("@login", login);
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                return (connection.QueryFirst<int>(query, parametrs) > 0 ? true : false);
             }
         }
 
@@ -344,7 +475,306 @@ namespace MainLib.DBServices
                 return connection.Execute(query, parametrs);
             }
         }
-        
+        public static int InsertIntoTeacherDisciplines(int teacherId, int disciplineId)
+        {
+            string query = "INSERT INTO teacher_disciplines(id_of_teacher, id_of_discipline) VALUES (@tID, @disID)";
+            var parametrs = new DynamicParameters();
+            parametrs.Add("@tID", teacherId);
+            parametrs.Add("@disID", disciplineId);
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                return connection.Execute(query, parametrs);
+            }
+        }
+        public static int InsertIntoTeacherGroups(int teacherId, int groupId)
+        {
+            string query = "INSERT INTO teacher_groups(id_of_teacher, id_of_group) VALUES (@tID, @grID)";
+            var parametrs = new DynamicParameters();
+            parametrs.Add("@tID", teacherId);
+            parametrs.Add("@grID", groupId);
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                return connection.Execute(query, parametrs);
+            }
+        }
+        public static int InsertIntoGroupDiscipline(int disciplineId, int groupId)
+        {
+            string query = "INSERT INTO group_disciplines(id_of_discipline, id_of_group) VALUES (@dID, @grID)";
+            var parametrs = new DynamicParameters();
+            parametrs.Add("@dID", disciplineId);
+            parametrs.Add("@grID", groupId);
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                return connection.Execute(query, parametrs);
+            }
+        }
+
+        public static int InsertIntoStudentsTable(Student stToIns)
+        {
+            if (!SelectTeacherById(Session.CurrentSession.GetCurrentSession().ID).isAdmin)
+                return -1;
+
+            string query = "INSERT INTO students(name, id_of_group) VALUES (@sName, @grId);";
+            var parametrs = new DynamicParameters();
+            parametrs.Add("@sName", stToIns.name);
+            parametrs.Add("@grId", stToIns.id_of_group);
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                return connection.Execute(query, parametrs);
+            }
+        }
+        //NOTE: To remake, possibly works wrong
+        public static int InsertIntoTeachersTable(TeacherInfo userToInsert, AuthInfoAdmin authInfo)
+        {
+            if (!SelectTeacherById(Session.CurrentSession.GetCurrentSession().ID).isAdmin)
+                return -1;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                string query =  "INSERT INTO authInfo(login, pass_hash, salt) VALUES (@login, @hash, @salt)";
+                var parametrs = new DynamicParameters();
+                parametrs.Add("@login", authInfo.login);
+                parametrs.Add("@hash", authInfo.Pass_hash);
+                parametrs.Add("@salt", authInfo.Salt);
+
+                connection.Execute(query, parametrs);
+
+                int authInfoId = connection.QueryFirst<int>("SELECT MAX(id) FROM authInfo");
+
+                query = "INSERT INTO users(name, id_of_authInfo, isAdmin) VALUES (@tName, @aiId, @isAdm);";
+                parametrs = new DynamicParameters();
+                parametrs.Add("@tName", userToInsert.Name);
+                parametrs.Add("@aiId", authInfoId);
+                parametrs.Add("@isAdm", userToInsert.isAdmin);
+
+
+                return connection.Execute(query, parametrs);
+            }
+        }
+        public static int InsertIntoGroupsTable(Group grToIns)
+        {
+            if (!SelectTeacherById(Session.CurrentSession.GetCurrentSession().ID).isAdmin)
+                return -1;
+
+            string query = "INSERT INTO groups(group_name, group_course) VALUES (@grName, @grCourse);";
+            var parametrs = new DynamicParameters();
+            parametrs.Add("@grName", grToIns.group_name);
+            parametrs.Add("@grCourse", grToIns.group_course);
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                return connection.Execute(query, parametrs);
+            }
+        }
+        public static int InsertIntoDisciplinesTable(Discipline disciplineToIns)
+        {
+            if (!SelectTeacherById(Session.CurrentSession.GetCurrentSession().ID).isAdmin)
+                return -1;
+
+            string query = "INSERT INTO disciplines(discipline_name, semestr) VALUES (@dName, @dSem);";
+            var parametrs = new DynamicParameters();
+            parametrs.Add("@dName", disciplineToIns.discipline_name);
+            parametrs.Add("@dSem", disciplineToIns.semestr);
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                return connection.Execute(query, parametrs);
+            }
+        }
+
+
+        public static int UpdateStudents(Student stToUpd)
+        {
+            if (!SelectTeacherById(Session.CurrentSession.GetCurrentSession().ID).isAdmin)
+                return -1;
+
+            string query = "UPDATE students SET name = @sName, id_of_group = @grId WHERE id = @id;";
+            var parametrs = new DynamicParameters();
+            parametrs.Add("@id", stToUpd.id);
+            parametrs.Add("@sName", stToUpd.name);
+            parametrs.Add("@grId", stToUpd.id_of_group);
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                return connection.Execute(query, parametrs);
+            }
+        }
+        //NOTE: возможность изменять аут. данные есть, но она не используется
+        public static int UpdateTeachers(TeacherInfo usrToUpdate, AuthInfoAdmin authInfo = null)
+        {
+            if (!SelectTeacherById(Session.CurrentSession.GetCurrentSession().ID).isAdmin)
+                return -1;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                string query;
+                var parametrs = new DynamicParameters();
+
+                if (authInfo != null && usrToUpdate.id_of_authInfo != 0)
+                {
+                    query = "UPDATE authInfo SET login = @login, pass_hash = @hash, salt = @salt WHERE id = @id;";
+                    parametrs.Add("@login", authInfo.login);
+                    parametrs.Add("@hash", authInfo.Pass_hash);
+                    parametrs.Add("@salt", authInfo.Salt);
+                    parametrs.Add("@id", usrToUpdate.id_of_authInfo);
+                    connection.Execute(query, parametrs);
+                }
+
+                query = "UPDATE users SET name = @tName, isAdmin = @isAdm, id_of_authInfo = @authId WHERE id = @id";
+                parametrs = new DynamicParameters();
+                parametrs.Add("@id", usrToUpdate.id);
+                parametrs.Add("@tName", usrToUpdate.Name);
+                parametrs.Add("@isAdm", usrToUpdate.isAdmin);
+                parametrs.Add("@authId", usrToUpdate.id_of_authInfo);
+
+                return connection.Execute(query, parametrs);
+            }
+        }
+        public static int UpdateGroups(Group grToUpd)
+        {
+            if (!SelectTeacherById(Session.CurrentSession.GetCurrentSession().ID).isAdmin)
+                return -1;
+
+            string query = "UPDATE groups SET group_name = @grName, group_course = @grCourse WHERE id = @id;";
+            var parametrs = new DynamicParameters();
+            parametrs.Add("@id", grToUpd.id);
+            parametrs.Add("@grName", grToUpd.group_name);
+            parametrs.Add("@grCourse", grToUpd.group_course);
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                return connection.Execute(query, parametrs);
+            }
+        }
+        public static int UpdateDisciplines(Discipline disciplineToUpd)
+        {
+            if (!SelectTeacherById(Session.CurrentSession.GetCurrentSession().ID).isAdmin)
+                return -1;
+
+            string query = "UPDATE disciplines SET discipline_name = @dName, semestr = @dSemestr WHERE id = @id;";
+            var parametrs = new DynamicParameters();
+            parametrs.Add("@id", disciplineToUpd.id);
+            parametrs.Add("@dName", disciplineToUpd.discipline_name);
+            parametrs.Add("@dSemestr", disciplineToUpd.semestr);
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                return connection.Execute(query, parametrs);
+            }
+        }
         public static int UpdateStudentCP(int points, int cpId)
         {
             string query = "UPDATE cp_of_student SET points = @points WHERE id = @id;";

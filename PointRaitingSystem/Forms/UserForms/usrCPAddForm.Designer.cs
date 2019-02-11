@@ -1,6 +1,6 @@
 ﻿namespace PointRaitingSystem
 {
-    partial class childForm
+    partial class usrCPAddForm
     {
         /// <summary>
         /// Required designer variable.

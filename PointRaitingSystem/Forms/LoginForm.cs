@@ -27,7 +27,7 @@ namespace PointRaitingSystem
                 }
             }catch(Auth.QueryResultIsNullException)
             {
-                //tsslInfoLabel.Text = "Неверное имя пользователя или пароль";
+                tsslInfo.Text = "Неверное имя пользователя или пароль";
             }
             catch(Exception ex)
             {
@@ -41,5 +41,11 @@ namespace PointRaitingSystem
         }
 
         public bool IsLoggedIn { get => isLoggedIn; }
+
+        private void txtKeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+                btnEnter_Click(this, e);
+        }
     }
 }

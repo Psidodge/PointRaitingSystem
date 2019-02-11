@@ -34,7 +34,7 @@ namespace MainLib.Session
 
     public class Session
     {
-        private TeacherInfo currentSession;
+        private UserInfo currentSession;
         private string login;
 
         public Session(string _login)
@@ -46,5 +46,6 @@ namespace MainLib.Session
         public int ID { get => currentSession.id; }
         public string UserLogin { get => login; }
         public string UserName { get => currentSession.Name; }
+        public bool isAdmin { get => currentSession.isAdmin; }
     }
 }

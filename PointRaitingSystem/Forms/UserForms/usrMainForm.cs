@@ -12,9 +12,9 @@ using MainLib.Session;
 
 namespace PointRaitingSystem
 {
-    public partial class MainForm : Form
+    public partial class usrMainForm : Form
     {
-        public MainForm() 
+        public usrMainForm() 
         {
             InitializeComponent();
             InitializeDataSets();
@@ -36,6 +36,7 @@ namespace PointRaitingSystem
 
         }
         //NOTE: FIX HERE PLS
+        //EXC: возникает исключение, когд список дисциплин пуст
         private void create_dgvStudentCPsCells()
         {
             dgvStudentCPs.Columns.Clear();
@@ -68,12 +69,12 @@ namespace PointRaitingSystem
         //NOTE: refactor here
         private void btnCreateCP_Click(object sender, EventArgs e)
         {
-            childForm form = new childForm((Discipline)cbDiscipline.SelectedItem, (int)cbGroups.SelectedValue);
+            usrCPAddForm form = new usrCPAddForm((Discipline)cbDiscipline.SelectedItem, (int)cbGroups.SelectedValue);
             form.ShowDialog();
         }
         private void btnShowCP_Click(object sender, EventArgs e)
         {
-            childForm2 form2 = new childForm2((Discipline)cbDiscipline.SelectedItem);
+            usrCPShowForm form2 = new usrCPShowForm((Discipline)cbDiscipline.SelectedItem);
             form2.Show();
         }
         private void button3_Click(object sender, EventArgs e)
@@ -177,6 +178,13 @@ namespace PointRaitingSystem
             lblbDate.Text = string.Empty;
             lblWeight.Text = string.Empty;
             txtDescription.Text = string.Empty;
+        }
+
+        private void bindingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            usrSettingsForm usrSettingsForm = new usrSettingsForm();
+            usrSettingsForm.ShowDialog();
+            InitializeDataSets();
         }
     }
 }

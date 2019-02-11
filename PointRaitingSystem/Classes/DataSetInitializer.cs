@@ -20,11 +20,13 @@ namespace PointRaitingSystem
             elementRef.AutoGenerateColumns = autoGenerateColumns;
             elementRef.DataSource = dataSet;
 
-            foreach(int index in columnsToHide)
-                elementRef.Columns[index].Visible = false;
+            if (columnsToHide != null)
+                foreach (int index in columnsToHide)
+                    elementRef.Columns[index].Visible = false;
 
-            foreach (int index in columnsSizeFill)
-                elementRef.Columns[index].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            if (columnsSizeFill != null)
+                foreach (int index in columnsSizeFill)
+                    elementRef.Columns[index].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
         }
         public static void dgvDataSetInitializer(ref DataGridView elementRef, List<T> dataSet, int[] columnsToHide, string[] columnsSizeFill, bool autoGenerateColumns = true)
@@ -32,11 +34,24 @@ namespace PointRaitingSystem
             elementRef.AutoGenerateColumns = autoGenerateColumns;
             elementRef.DataSource = dataSet;
 
-            foreach (int index in columnsToHide)
-                elementRef.Columns[index].Visible = false;
+            if(columnsToHide != null)
+                foreach (int index in columnsToHide)
+                    elementRef.Columns[index].Visible = false;
 
-            foreach (string index in columnsSizeFill)
-                elementRef.Columns[index].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            if(columnsSizeFill != null)
+                foreach (string index in columnsSizeFill)
+                    elementRef.Columns[index].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        }
+        public static void dgvDataSetInitializer(ref DataGridView elementRef, List<T> dataSet, bool autoGenerateColumns = true)
+        {
+            elementRef.AutoGenerateColumns = autoGenerateColumns;
+            elementRef.DataSource = dataSet;
+        }
+        public static void clbDataSetInitialize(ref CheckedListBox elementRef, List<T> dataSource, string valueMember, string displayMember)
+        {
+            (elementRef as ListBox).DataSource = dataSource;
+            (elementRef as ListBox).ValueMember = valueMember;
+            (elementRef as ListBox).DisplayMember = displayMember;
         }
     }
 }
