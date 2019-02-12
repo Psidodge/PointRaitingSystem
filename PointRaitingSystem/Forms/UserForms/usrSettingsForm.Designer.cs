@@ -30,35 +30,29 @@
         {
             this.clbGroups = new System.Windows.Forms.CheckedListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtGroupsFilter = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.clbDisciplines = new System.Windows.Forms.CheckedListBox();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
-            this.txtGroupsFilter = new System.Windows.Forms.TextBox();
-            this.txtDisciplinesFilter = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.cbGroups = new System.Windows.Forms.ComboBox();
-            this.cbDisciplines = new System.Windows.Forms.ComboBox();
-            this.btnBindGrToDisc = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.cbDisciplines = new System.Windows.Forms.ComboBox();
+            this.lbDisciplines = new System.Windows.Forms.ListBox();
+            this.btbBind = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // clbGroups
             // 
-            this.clbGroups.CheckOnClick = true;
             this.clbGroups.FormattingEnabled = true;
             this.clbGroups.Location = new System.Drawing.Point(6, 48);
             this.clbGroups.Name = "clbGroups";
             this.clbGroups.Size = new System.Drawing.Size(120, 184);
             this.clbGroups.TabIndex = 0;
+            this.clbGroups.SelectedIndexChanged += new System.EventHandler(this.clbGroups_SelectedIndexChanged);
             // 
             // groupBox1
             // 
@@ -71,29 +65,29 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Группы:";
             // 
+            // txtGroupsFilter
+            // 
+            this.txtGroupsFilter.Location = new System.Drawing.Point(7, 22);
+            this.txtGroupsFilter.Name = "txtGroupsFilter";
+            this.txtGroupsFilter.Size = new System.Drawing.Size(119, 20);
+            this.txtGroupsFilter.TabIndex = 1;
+            this.txtGroupsFilter.TextChanged += new System.EventHandler(this.txtGroupsFilter_TextChanged);
+            // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.txtDisciplinesFilter);
-            this.groupBox2.Controls.Add(this.clbDisciplines);
+            this.groupBox2.Controls.Add(this.btbBind);
+            this.groupBox2.Controls.Add(this.lbDisciplines);
+            this.groupBox2.Controls.Add(this.cbDisciplines);
             this.groupBox2.Location = new System.Drawing.Point(157, 27);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(293, 238);
+            this.groupBox2.Size = new System.Drawing.Size(311, 238);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Дисциплины:";
             // 
-            // clbDisciplines
-            // 
-            this.clbDisciplines.CheckOnClick = true;
-            this.clbDisciplines.FormattingEnabled = true;
-            this.clbDisciplines.Location = new System.Drawing.Point(6, 48);
-            this.clbDisciplines.Name = "clbDisciplines";
-            this.clbDisciplines.Size = new System.Drawing.Size(281, 184);
-            this.clbDisciplines.TabIndex = 0;
-            // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(369, 300);
+            this.btnClose.Location = new System.Drawing.Point(312, 267);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 3;
@@ -103,7 +97,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(369, 271);
+            this.btnSave.Location = new System.Drawing.Point(393, 267);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 4;
@@ -111,93 +105,21 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // txtGroupsFilter
-            // 
-            this.txtGroupsFilter.Location = new System.Drawing.Point(7, 22);
-            this.txtGroupsFilter.Name = "txtGroupsFilter";
-            this.txtGroupsFilter.Size = new System.Drawing.Size(119, 20);
-            this.txtGroupsFilter.TabIndex = 1;
-            // 
-            // txtDisciplinesFilter
-            // 
-            this.txtDisciplinesFilter.Location = new System.Drawing.Point(6, 22);
-            this.txtDisciplinesFilter.Name = "txtDisciplinesFilter";
-            this.txtDisciplinesFilter.Size = new System.Drawing.Size(281, 20);
-            this.txtDisciplinesFilter.TabIndex = 2;
-            // 
             // menuStrip1
             // 
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(465, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(480, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.label2);
-            this.groupBox3.Controls.Add(this.label1);
-            this.groupBox3.Controls.Add(this.btnBindGrToDisc);
-            this.groupBox3.Controls.Add(this.cbDisciplines);
-            this.groupBox3.Controls.Add(this.cbGroups);
-            this.groupBox3.Location = new System.Drawing.Point(12, 271);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(351, 75);
-            this.groupBox3.TabIndex = 6;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Дисциплины группы";
-            // 
-            // cbGroups
-            // 
-            this.cbGroups.FormattingEnabled = true;
-            this.cbGroups.Location = new System.Drawing.Point(82, 46);
-            this.cbGroups.Name = "cbGroups";
-            this.cbGroups.Size = new System.Drawing.Size(98, 21);
-            this.cbGroups.TabIndex = 0;
-            // 
-            // cbDisciplines
-            // 
-            this.cbDisciplines.FormattingEnabled = true;
-            this.cbDisciplines.Location = new System.Drawing.Point(82, 19);
-            this.cbDisciplines.Name = "cbDisciplines";
-            this.cbDisciplines.Size = new System.Drawing.Size(253, 21);
-            this.cbDisciplines.TabIndex = 1;
-            // 
-            // btnBindGrToDisc
-            // 
-            this.btnBindGrToDisc.Location = new System.Drawing.Point(260, 46);
-            this.btnBindGrToDisc.Name = "btnBindGrToDisc";
-            this.btnBindGrToDisc.Size = new System.Drawing.Size(75, 23);
-            this.btnBindGrToDisc.TabIndex = 2;
-            this.btnBindGrToDisc.Text = "Привязать";
-            this.btnBindGrToDisc.UseVisualStyleBackColor = true;
-            this.btnBindGrToDisc.Click += new System.EventHandler(this.btnBindGrToDisc_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 46);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(42, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Группа";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 22);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(70, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Дисциплина";
             // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 353);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 308);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(465, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(480, 22);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -206,13 +128,40 @@
             this.statusLabel.Name = "statusLabel";
             this.statusLabel.Size = new System.Drawing.Size(0, 17);
             // 
+            // cbDisciplines
+            // 
+            this.cbDisciplines.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbDisciplines.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbDisciplines.FormattingEnabled = true;
+            this.cbDisciplines.Location = new System.Drawing.Point(7, 20);
+            this.cbDisciplines.Name = "cbDisciplines";
+            this.cbDisciplines.Size = new System.Drawing.Size(217, 21);
+            this.cbDisciplines.TabIndex = 0;
+            // 
+            // lbDisciplines
+            // 
+            this.lbDisciplines.FormattingEnabled = true;
+            this.lbDisciplines.Location = new System.Drawing.Point(7, 48);
+            this.lbDisciplines.Name = "lbDisciplines";
+            this.lbDisciplines.Size = new System.Drawing.Size(298, 186);
+            this.lbDisciplines.TabIndex = 1;
+            // 
+            // btbBind
+            // 
+            this.btbBind.Location = new System.Drawing.Point(230, 18);
+            this.btbBind.Name = "btbBind";
+            this.btbBind.Size = new System.Drawing.Size(75, 23);
+            this.btbBind.TabIndex = 2;
+            this.btbBind.Text = "Привязать";
+            this.btbBind.UseVisualStyleBackColor = true;
+            this.btbBind.Click += new System.EventHandler(this.btbBind_Click);
+            // 
             // usrSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(465, 375);
+            this.ClientSize = new System.Drawing.Size(480, 330);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.groupBox2);
@@ -229,9 +178,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -244,19 +190,14 @@
         private System.Windows.Forms.CheckedListBox clbGroups;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.CheckedListBox clbDisciplines;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.TextBox txtGroupsFilter;
-        private System.Windows.Forms.TextBox txtDisciplinesFilter;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnBindGrToDisc;
-        private System.Windows.Forms.ComboBox cbDisciplines;
-        private System.Windows.Forms.ComboBox cbGroups;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel statusLabel;
+        private System.Windows.Forms.Button btbBind;
+        private System.Windows.Forms.ListBox lbDisciplines;
+        private System.Windows.Forms.ComboBox cbDisciplines;
     }
 }

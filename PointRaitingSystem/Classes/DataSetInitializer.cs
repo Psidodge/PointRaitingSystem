@@ -53,5 +53,11 @@ namespace PointRaitingSystem
             (elementRef as ListBox).ValueMember = valueMember;
             (elementRef as ListBox).DisplayMember = displayMember;
         }
+        public static void lbDataSetInitialize(ref ListBox elementRef, List<T> dataSource, string valueMember, string displayMember)
+        {
+            elementRef.DataSource = dataSource;
+            elementRef.ValueMember = valueMember;
+            elementRef.DisplayMember = displayMember;
+        }
     }
 }

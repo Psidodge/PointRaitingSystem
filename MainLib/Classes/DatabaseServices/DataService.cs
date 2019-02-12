@@ -425,16 +425,62 @@ namespace MainLib.DBServices
                 return (connection.QueryFirst<int>(query, parametrs) > 0 ? true : false);
             }
         }
+        public static bool isTeacherDiscipline(int disciplineId, int teacherId)
+        {
+            string query =  "SELECT d.* from disciplines as d " +
+                            "INNER JOIN teacher_disciplines as td on td.id_of_discipline = d.id " +
+                            "WHERE td.id_of_teacher = @tId AND d.id = @dId";
+
+            var parametrs = new DynamicParameters();
+            parametrs.Add("@tId", teacherId);
+            parametrs.Add("@dId", disciplineId);
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                return connection.Query<Discipline>(query, parametrs).Count() != 0;
+            }
+        }
+        public static bool isGroupDiscipline(int disciplineId, int groupId)
+        {
+            string query =  "SELECT * FROM group_disciplines " +
+                            "WHERE id_of_discipline = @dId AND id_of_group = @grId";
+
+            var parametrs = new DynamicParameters();
+            parametrs.Add("@dId", disciplineId);
+            parametrs.Add("@grId", groupId);
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                return connection.Query<Discipline>(query, parametrs).Count() != 0;
+            }
+        }
 
         public static int InsertIntoControlPointsTable(ControlPoint cpToIns)
         {
-            string query = "INSERT INTO ControlPoints(id_of_teacher, id_of_discipline, weight, date, description) VALUES (@tid, @did, @weight, @date, @desc);";
+            string query = "INSERT INTO ControlPoints(id_of_teacher, id_of_discipline, weight, description) VALUES (@tid, @did, @weight, @desc);";
 
             var parametrs = new DynamicParameters();
             parametrs.Add("@tid", cpToIns.id_of_teacher);
             parametrs.Add("@did", cpToIns.id_of_discipline);
             parametrs.Add("@weight", cpToIns.weight);
-            parametrs.Add("@date", cpToIns.date);
             parametrs.Add("@desc", cpToIns.Description);
 
             using (SqlConnection connection = new SqlConnection(connectionString))

@@ -126,7 +126,7 @@ namespace PointRaitingSystem
             {
                 fillControlPointsInformation(DataService.SelectTeacherById(cp.id_of_teacher).Name,
                                              DataService.SelectDisciplineById(cp.id_of_discipline).discipline_name,
-                                             cp.date.ToShortDateString(), cp.weight.ToString(), txtDescription.Text = cp.Description);
+                                             cp.weight.ToString(), txtDescription.Text = cp.Description);
             }
             catch (Exception ex)
             {
@@ -163,11 +163,10 @@ namespace PointRaitingSystem
             //dgvStudentCPs
             dgvStudentCPs.AutoGenerateColumns = true;
         }
-        private void fillControlPointsInformation(string cpCreator, string discipline, string date, string weight, string description)
+        private void fillControlPointsInformation(string cpCreator, string discipline,  string weight, string description)
         {
             lblTeacher.Text = cpCreator;
             lblDiscipline.Text = discipline;
-            lblbDate.Text = date;
             lblWeight.Text = weight;
             txtDescription.Text = description;
         }
@@ -175,7 +174,6 @@ namespace PointRaitingSystem
         {
             lblTeacher.Text = string.Empty;
             lblDiscipline.Text = string.Empty;
-            lblbDate.Text = string.Empty;
             lblWeight.Text = string.Empty;
             txtDescription.Text = string.Empty;
         }

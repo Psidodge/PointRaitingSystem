@@ -15,10 +15,13 @@ namespace PointRaitingSystem
     public partial class usrSettingsForm : Form
     {
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private List<GroupInfo> clbGroupsDataSource;
+
 
         public usrSettingsForm()
         {
             InitializeComponent();
+            this.Text = string.Format("{0} - {1}", this.Text, CurrentSession.GetCurrentSession().UserName);
         }
         private void usrSettingsForm_Load(object sender, EventArgs e)
         {
@@ -31,58 +34,46 @@ namespace PointRaitingSystem
             try
             {
                 List<Group> teacherGroups = DataService.SelectGroupsByTeacherId(CurrentSession.GetCurrentSession().ID);
-                List<GroupInfo> groupsToCheck = (from gr in groups
-                                                join tGr in teacherGroups on gr.id equals tGr.id
+                List<GroupInfo> groupsToCheck = (from gr in clbGroupsDataSource
+                                                 join tGr in teacherGroups on gr.id equals tGr.id
                                                 select gr).ToList<GroupInfo>();
-
-                DataSetInitializer<GroupInfo>.ComboBoxDataSetInitializer(ref cbGroups, groupsToCheck, "id", "group_name");
+                foreach(int index in clbGroups.CheckedIndices)
+                {
+                    clbGroups.SetItemChecked(index, false);
+                }
 
                 foreach (var groupToCheck in groupsToCheck)
                 {
-                    clbGroups.SetItemChecked(clbGroups.Items.IndexOf(groupToCheck), true);
+                    if(clbGroups.Items.Contains(groupToCheck))
+                        clbGroups.SetItemChecked(clbGroups.Items.IndexOf(groupToCheck), true);
                 }
             }
             catch(Exception ex)
             {
+                statusLabel.Text = "Возникла необработанная ошибка.";
                 logger.Error(ex);
             }
         }
-        private void CheckAlreadyAttachedDisciplines(List<DisciplineInfo> disciplines)
+        private void PrintListOfGroupDiscipline()
         {
-            try
-            {
-                List<Discipline> teacherDisciplines = DataService.SelectDisciplinesByTeacherID(CurrentSession.GetCurrentSession().ID);
-                List<DisciplineInfo> disciplinesToCheck = (from d in disciplines
-                                                          join tD in teacherDisciplines on d.id equals tD.id
-                                                          select d).ToList<DisciplineInfo>();
-
-                DataSetInitializer<DisciplineInfo>.ComboBoxDataSetInitializer(ref cbDisciplines, disciplinesToCheck, "id", "full_name");
-
-                foreach (var disciplineToCheck in disciplinesToCheck)
-                {
-                    clbDisciplines.SetItemChecked(clbDisciplines.Items.IndexOf(disciplineToCheck), true);
-                }
-            }
-            catch (Exception ex)
-            {
-                logger.Error(ex);
-            }
+            List<Discipline> disciplines = DataService.SelectDisciplinesByTeacherIdAndGroupId(CurrentSession.GetCurrentSession().ID, ((GroupInfo)clbGroups.SelectedItem).id);
+            DataSetInitializer<Discipline>.lbDataSetInitialize(ref lbDisciplines, disciplines, "id", "full_name");
         }
-        //TODO: сделать пометку привязаных элементов
+        
         private void InitializeDataSets()
         {
             try
             {
-                List<GroupInfo> groups = DataService.SelectAllGroupsInfo();
-                DataSetInitializer<GroupInfo>.clbDataSetInitialize(ref clbGroups, groups, "id", "group_name");
-                CheckAlreadyAttachedGroups(groups); 
+                clbGroupsDataSource = DataService.SelectAllGroupsInfo();
+                DataSetInitializer<GroupInfo>.clbDataSetInitialize(ref clbGroups, clbGroupsDataSource, "id", "group_name");
+                CheckAlreadyAttachedGroups(clbGroupsDataSource);
 
-                List<DisciplineInfo> disciplines = DataService.SelectAllDisciplinesInfo();
-                DataSetInitializer<DisciplineInfo>.clbDataSetInitialize(ref clbDisciplines, disciplines, "id", "full_name");
-                CheckAlreadyAttachedDisciplines(disciplines);
+                List<DisciplineInfo> disciplinesInfo = DataService.SelectAllDisciplinesInfo();
+                DataSetInitializer<DisciplineInfo>.ComboBoxDataSetInitializer(ref cbDisciplines, disciplinesInfo, "id", "full_name");
             }
             catch (Exception ex)
             {
+                statusLabel.Text = "Возникла необработанная ошибка.";
                 logger.Error(ex);
             }
         }
@@ -103,26 +94,46 @@ namespace PointRaitingSystem
                 if(!teacherGroups.Any(item => item.id == ((GroupInfo)checkedGroup).id))
                     DataService.InsertIntoTeacherGroups(CurrentSession.GetCurrentSession().ID, ((GroupInfo)checkedGroup).id);
             }
-
-            foreach (var checkedDiscipline in clbDisciplines.CheckedItems)
-            {
-                if (!teacherDisciplines.Any(item => item.id == ((DisciplineInfo)checkedDiscipline).id))
-                    DataService.InsertIntoTeacherDisciplines(CurrentSession.GetCurrentSession().ID, ((DisciplineInfo)checkedDiscipline).id);
-            }
-            statusLabel.Text = "Сохранено.";
+            statusLabel.Text = "Сохранено";
             InitializeDataSets();
         }
-        private void btnBindGrToDisc_Click(object sender, EventArgs e)
+
+        private void clbGroups_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PrintListOfGroupDiscipline();
+        }
+        private void btbBind_Click(object sender, EventArgs e)
         {
             try
             {
-                DataService.InsertIntoGroupDiscipline((int)cbDisciplines.SelectedValue, (int)cbGroups.SelectedValue);
-                statusLabel.Text = "Предмет успешно привязан к группе.";
+                if (DataService.isGroupDiscipline((int)cbDisciplines.SelectedValue, ((GroupInfo)clbGroups.SelectedItem).id))
+                    return;
+
+                DataService.InsertIntoGroupDiscipline((int)cbDisciplines.SelectedValue, ((GroupInfo)clbGroups.SelectedItem).id);
+                if (!DataService.isTeacherDiscipline((int)cbDisciplines.SelectedValue, CurrentSession.GetCurrentSession().ID))
+                    DataService.InsertIntoTeacherDisciplines(CurrentSession.GetCurrentSession().ID, (int)cbDisciplines.SelectedValue);
+                PrintListOfGroupDiscipline();
             }
             catch(Exception ex)
             {
+                statusLabel.Text = "Возникла необработанная ошибка.";
                 logger.Error(ex);
             }
+        }
+        //HACK: придумать что-нибудь получше
+        private void txtGroupsFilter_TextChanged(object sender, EventArgs e)
+        {
+            DataSetInitializer<GroupInfo>.clbDataSetInitialize(ref clbGroups, clbGroupsDataSource, "id", "group_name");
+            CheckAlreadyAttachedGroups(clbGroupsDataSource);
+            List<GroupInfo> groups = new List<GroupInfo>();
+
+            foreach(GroupInfo item in clbGroups.Items)
+            {
+                if (item.group_name.Contains(txtGroupsFilter.Text))
+                    groups.Add(item);
+            }
+            DataSetInitializer<GroupInfo>.clbDataSetInitialize(ref clbGroups, groups, "id", "group_name");
+            CheckAlreadyAttachedGroups(groups);
         }
     }
 }

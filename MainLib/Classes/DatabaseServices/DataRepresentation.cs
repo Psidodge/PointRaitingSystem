@@ -15,9 +15,7 @@ namespace MainLib.DBServices
         public int id_of_teacher { get; set; }
         public int id_of_discipline { get; set; }
         public int weight { get; set; }
-        public DateTime date { get; set; } //TODO: if isTemplate changing to false need to ask an user to change date and need to link this template to current students
         public string Description { get; set; }
-        public bool isTemplate { get; set; } // добавлено для нормального подсчета баллов, становится истиным при окончании семестра,
     }
 
     public class ControlPointsOfStudents
@@ -28,6 +26,7 @@ namespace MainLib.DBServices
         public int points { get; set; }
         public bool readOnly { get; set; }
     }
+
 
     public class Group
     {
@@ -44,7 +43,7 @@ namespace MainLib.DBServices
         public string discipline_type { get; set; } //NOTE: ?
         public int semestr { get; set; }
         public int prevDisciplineId { get; set; }
-        //public string displayName { get; set; }
+        public string full_name { get => string.Concat(discipline_name, " ", semestr, " семестр"); }
     }
 
     public class GroupDiscipline

@@ -51,7 +51,6 @@ namespace PointRaitingSystem
                 id_of_teacher = CurrentSession.GetCurrentSession().ID,
                 id_of_discipline = (int)cbDiscipline.SelectedValue,
                 weight = int.Parse(txtCPWeight.Text),
-                date = dateTimePicker.Value,
                 Description = txtDescription.Text
             };
 
