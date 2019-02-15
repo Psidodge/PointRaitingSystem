@@ -74,7 +74,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(955, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1046, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "mainMenuBar";
             // 
@@ -100,7 +100,7 @@
             this.menuPanel.Location = new System.Drawing.Point(0, 24);
             this.menuPanel.Margin = new System.Windows.Forms.Padding(2);
             this.menuPanel.Name = "menuPanel";
-            this.menuPanel.Size = new System.Drawing.Size(193, 390);
+            this.menuPanel.Size = new System.Drawing.Size(284, 556);
             this.menuPanel.TabIndex = 2;
             // 
             // button3
@@ -185,10 +185,10 @@
             this.tsslTeacherName,
             this.toolStripStatusLabel1,
             this.tsslCurrentDate});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 392);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 558);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 10, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(955, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1046, 22);
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -202,7 +202,7 @@
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(918, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(1009, 17);
             this.toolStripStatusLabel1.Spring = true;
             // 
             // tsslCurrentDate
@@ -216,11 +216,11 @@
             this.dgvStudents.AllowUserToAddRows = false;
             this.dgvStudents.AllowUserToDeleteRows = false;
             this.dgvStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvStudents.Location = new System.Drawing.Point(198, 23);
+            this.dgvStudents.Location = new System.Drawing.Point(289, 23);
             this.dgvStudents.Name = "dgvStudents";
             this.dgvStudents.ReadOnly = true;
             this.dgvStudents.RowHeadersVisible = false;
-            this.dgvStudents.Size = new System.Drawing.Size(272, 365);
+            this.dgvStudents.Size = new System.Drawing.Size(272, 518);
             this.dgvStudents.TabIndex = 4;
             this.dgvStudents.SelectionChanged += new System.EventHandler(this.dgvStudents_SelectionChanged);
             // 
@@ -230,7 +230,7 @@
             this.dgvStudentCPs.AllowUserToDeleteRows = false;
             this.dgvStudentCPs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvStudentCPs.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.dgvStudentCPs.Location = new System.Drawing.Point(476, 23);
+            this.dgvStudentCPs.Location = new System.Drawing.Point(567, 23);
             this.dgvStudentCPs.Name = "dgvStudentCPs";
             this.dgvStudentCPs.RowHeadersVisible = false;
             this.dgvStudentCPs.RowTemplate.Height = 25;
@@ -253,7 +253,7 @@
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox1.Location = new System.Drawing.Point(476, 78);
+            this.groupBox1.Location = new System.Drawing.Point(567, 84);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(467, 310);
             this.groupBox1.TabIndex = 6;
@@ -350,7 +350,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(955, 414);
+            this.ClientSize = new System.Drawing.Size(1046, 580);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgvStudentCPs);
             this.Controls.Add(this.dgvStudents);

@@ -134,7 +134,7 @@ namespace PointRaitingSystem
         {
             Regex regex = new Regex("^(?=.{5,25}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$");
            
-            if (regex.IsMatch(txtLogin.Text) && !DataService.CheckLogin(txtLogin.Text))
+            if (regex.IsMatch(txtLogin.Text) && !DataService.isLoginExist(txtLogin.Text))
             {
                 txtLogin.ForeColor = Color.Green;
                 loginValdiationComplete = true;

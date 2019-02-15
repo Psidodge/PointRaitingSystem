@@ -33,7 +33,7 @@ namespace PointRaitingSystem
         {
             try
             {
-                List<Discipline> disciplines = DataService.SelectDisciplinesByTeacherID(CurrentSession.GetCurrentSession().ID);
+                List<Discipline> disciplines = DataService.SelectDisciplinesByTeacherID(Session.GetCurrentSession().ID);
                 DataSetInitializer<Discipline>.ComboBoxDataSetInitializer(ref cbDiscipline, disciplines, "id", "discipline_name");
             }
             catch (Exception ex)
@@ -48,7 +48,7 @@ namespace PointRaitingSystem
         {
             ControlPoint cp = new ControlPoint
             {
-                id_of_teacher = CurrentSession.GetCurrentSession().ID,
+                id_of_teacher = Session.GetCurrentSession().ID,
                 id_of_discipline = (int)cbDiscipline.SelectedValue,
                 weight = int.Parse(txtCPWeight.Text),
                 Description = txtDescription.Text

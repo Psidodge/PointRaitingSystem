@@ -32,16 +32,20 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtGroupsFilter = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btbBind = new System.Windows.Forms.Button();
+            this.lbDisciplines = new System.Windows.Forms.ListBox();
+            this.cbDisciplines = new System.Windows.Forms.ComboBox();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.cbDisciplines = new System.Windows.Forms.ComboBox();
-            this.lbDisciplines = new System.Windows.Forms.ListBox();
-            this.btbBind = new System.Windows.Forms.Button();
+            this.привязкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showAllBindingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.delBindingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -85,6 +89,34 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Дисциплины:";
             // 
+            // btbBind
+            // 
+            this.btbBind.Location = new System.Drawing.Point(230, 18);
+            this.btbBind.Name = "btbBind";
+            this.btbBind.Size = new System.Drawing.Size(75, 23);
+            this.btbBind.TabIndex = 2;
+            this.btbBind.Text = "Привязать";
+            this.btbBind.UseVisualStyleBackColor = true;
+            this.btbBind.Click += new System.EventHandler(this.btbBind_Click);
+            // 
+            // lbDisciplines
+            // 
+            this.lbDisciplines.FormattingEnabled = true;
+            this.lbDisciplines.Location = new System.Drawing.Point(7, 48);
+            this.lbDisciplines.Name = "lbDisciplines";
+            this.lbDisciplines.Size = new System.Drawing.Size(298, 186);
+            this.lbDisciplines.TabIndex = 1;
+            // 
+            // cbDisciplines
+            // 
+            this.cbDisciplines.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbDisciplines.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbDisciplines.FormattingEnabled = true;
+            this.cbDisciplines.Location = new System.Drawing.Point(7, 20);
+            this.cbDisciplines.Name = "cbDisciplines";
+            this.cbDisciplines.Size = new System.Drawing.Size(217, 21);
+            this.cbDisciplines.TabIndex = 0;
+            // 
             // btnClose
             // 
             this.btnClose.Location = new System.Drawing.Point(312, 267);
@@ -107,6 +139,8 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.привязкиToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(480, 24);
@@ -128,33 +162,26 @@
             this.statusLabel.Name = "statusLabel";
             this.statusLabel.Size = new System.Drawing.Size(0, 17);
             // 
-            // cbDisciplines
+            // привязкиToolStripMenuItem
             // 
-            this.cbDisciplines.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cbDisciplines.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cbDisciplines.FormattingEnabled = true;
-            this.cbDisciplines.Location = new System.Drawing.Point(7, 20);
-            this.cbDisciplines.Name = "cbDisciplines";
-            this.cbDisciplines.Size = new System.Drawing.Size(217, 21);
-            this.cbDisciplines.TabIndex = 0;
+            this.привязкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showAllBindingsToolStripMenuItem,
+            this.delBindingsToolStripMenuItem});
+            this.привязкиToolStripMenuItem.Name = "привязкиToolStripMenuItem";
+            this.привязкиToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
+            this.привязкиToolStripMenuItem.Text = "Привязки";
             // 
-            // lbDisciplines
+            // showAllBindingsToolStripMenuItem
             // 
-            this.lbDisciplines.FormattingEnabled = true;
-            this.lbDisciplines.Location = new System.Drawing.Point(7, 48);
-            this.lbDisciplines.Name = "lbDisciplines";
-            this.lbDisciplines.Size = new System.Drawing.Size(298, 186);
-            this.lbDisciplines.TabIndex = 1;
+            this.showAllBindingsToolStripMenuItem.Name = "showAllBindingsToolStripMenuItem";
+            this.showAllBindingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showAllBindingsToolStripMenuItem.Text = "Все привязки";
             // 
-            // btbBind
+            // delBindingsToolStripMenuItem
             // 
-            this.btbBind.Location = new System.Drawing.Point(230, 18);
-            this.btbBind.Name = "btbBind";
-            this.btbBind.Size = new System.Drawing.Size(75, 23);
-            this.btbBind.TabIndex = 2;
-            this.btbBind.Text = "Привязать";
-            this.btbBind.UseVisualStyleBackColor = true;
-            this.btbBind.Click += new System.EventHandler(this.btbBind_Click);
+            this.delBindingsToolStripMenuItem.Name = "delBindingsToolStripMenuItem";
+            this.delBindingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.delBindingsToolStripMenuItem.Text = "Удалить привязки";
             // 
             // usrSettingsForm
             // 
@@ -178,6 +205,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -199,5 +228,8 @@
         private System.Windows.Forms.Button btbBind;
         private System.Windows.Forms.ListBox lbDisciplines;
         private System.Windows.Forms.ComboBox cbDisciplines;
+        private System.Windows.Forms.ToolStripMenuItem привязкиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showAllBindingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem delBindingsToolStripMenuItem;
     }
 }

@@ -93,13 +93,13 @@
             // 
             // btnLoadFromEXCEL
             // 
-            this.btnLoadFromEXCEL.Enabled = false;
             this.btnLoadFromEXCEL.Location = new System.Drawing.Point(38, 3);
             this.btnLoadFromEXCEL.Name = "btnLoadFromEXCEL";
             this.btnLoadFromEXCEL.Size = new System.Drawing.Size(151, 23);
             this.btnLoadFromEXCEL.TabIndex = 4;
             this.btnLoadFromEXCEL.Text = "Загрузить из файла";
             this.btnLoadFromEXCEL.UseVisualStyleBackColor = true;
+            this.btnLoadFromEXCEL.Click += new System.EventHandler(this.btnLoadFromEXCEL_Click);
             // 
             // label1
             // 

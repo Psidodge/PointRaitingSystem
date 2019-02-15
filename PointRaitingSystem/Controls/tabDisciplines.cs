@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using MainLib.DBServices;
+using MainLib.Parsing;
 
 namespace PointRaitingSystem
 {
@@ -84,6 +85,12 @@ namespace PointRaitingSystem
             txtId.Text = dgvDisciplines.CurrentRow.Cells["id"].Value.ToString();
             txtName.Text = dgvDisciplines.CurrentRow.Cells["discipline_name"].Value.ToString();
             txtSemestr.Text = dgvDisciplines.CurrentRow.Cells["semestr"].Value.ToString();
+        }
+
+        private void btnLoadFromEXCEL_Click(object sender, EventArgs e)
+        {
+            admParserForm admParserForm = new admParserForm();
+            admParserForm.ShowDialog();
         }
     }
 }

@@ -19,26 +19,62 @@ namespace PointRaitingSystem
 
         private void btnAddStudents_Click(object sender, EventArgs e)
         {
-            this.tabControl.Controls.Add(new CustomTabPage(CustomTabPage.PAGE_TYPE.STUDENTS) { Text = "Студенты" });
-            this.tabControl.SelectedIndex = this.tabControl.Controls.Count - 1;
+            tabControl.Controls.Add(new CustomTabPage(CustomTabPage.PAGE_TYPE.STUDENTS)
+            {
+                Text = "Студенты",
+                ContextMenuStrip = cmsTabs
+            });
+            tabControl.SelectedIndex = tabControl.Controls.Count - 1;
         }
 
         private void btnAddTeachers_Click(object sender, EventArgs e)
         {
-            this.tabControl.Controls.Add(new CustomTabPage(CustomTabPage.PAGE_TYPE.TEACHERS) { Text = "Преподаватели" });
-            this.tabControl.SelectedIndex = this.tabControl.Controls.Count - 1;
+            tabControl.Controls.Add(new CustomTabPage(CustomTabPage.PAGE_TYPE.TEACHERS)
+            {
+                Text = "Преподаватели",
+                ContextMenuStrip = this.cmsTabs
+            });
+            tabControl.SelectedIndex = tabControl.Controls.Count - 1;
         }
 
         private void btnAddDisciplines_Click(object sender, EventArgs e)
         {
-            this.tabControl.Controls.Add(new CustomTabPage(CustomTabPage.PAGE_TYPE.DISCIPLINES) { Text = "Дисциплины" });
-            this.tabControl.SelectedIndex = this.tabControl.Controls.Count - 1;
+            tabControl.Controls.Add(new CustomTabPage(CustomTabPage.PAGE_TYPE.DISCIPLINES)
+            {
+                Text = "Дисциплины",
+                ContextMenuStrip = cmsTabs
+            });
+
+            tabControl.SelectedIndex = tabControl.Controls.Count - 1;
         }
 
         private void btnAddGroups_Click(object sender, EventArgs e)
         {
-            this.tabControl.Controls.Add(new CustomTabPage(CustomTabPage.PAGE_TYPE.GROUPS) { Text = "Группы" });
-            this.tabControl.SelectedIndex = this.tabControl.Controls.Count - 1;
+            tabControl.Controls.Add(new CustomTabPage(CustomTabPage.PAGE_TYPE.GROUPS)
+            {
+                Text = "Группы",
+                ContextMenuStrip = cmsTabs
+            });
+            tabControl.SelectedIndex = tabControl.Controls.Count - 1;
+        }
+
+        private void showUserModuleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            usrMainForm usrMainForm = new usrMainForm();
+            usrMainForm.Show();
+        }
+
+        private void closeCurrentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tabControl.TabPages.Remove(tabControl.SelectedTab);
+        }
+
+        private void closeAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach(TabPage page in tabControl.TabPages)
+            {
+                tabControl.TabPages.Remove(page);
+            }
         }
     }
 }

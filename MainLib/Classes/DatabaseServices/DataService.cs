@@ -16,7 +16,7 @@ namespace MainLib.DBServices
     {
         private static string connectionString = ConfigurationManager.ConnectionStrings["cp_dbConnectionString"].ConnectionString;
 
-
+        // SELECT
         public static List<AuthInfo> SelectAuthInfoByLogin(string userLogin)
         {
             string query = "SELECT pass_hash, salt FROM authInfo WHERE [login] = @login";
@@ -278,7 +278,7 @@ namespace MainLib.DBServices
         public static List<TeacherInfo> SelectAllTeachersInfo()
         {
             //NOTE: Если пользователь не админ, то не выполняем, нужно как-то это сообщить пользователю
-            if (!SelectTeacherById(Session.CurrentSession.GetCurrentSession().ID).isAdmin)
+            if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return null;
 
             string query = "SELECT usr.id, usr.name, ai.[login], usr.isAdmin, usr.id_of_authInfo FROM users AS usr " +
@@ -302,7 +302,7 @@ namespace MainLib.DBServices
         public static List<StudentInfo> SelectAllStudentsInfo()
         {
             //NOTE: Если пользователь не админ, то не выполняем, нужно как-то это сообщить пользователю
-            if (!SelectTeacherById(Session.CurrentSession.GetCurrentSession().ID).isAdmin)
+            if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return null;
 
             string query = "SELECT st.id, st.name, gr.group_name FROM dbo.students AS st " +
@@ -403,7 +403,7 @@ namespace MainLib.DBServices
                 return connection.QueryFirst<int>(query, parametrs);
             }
         }
-        public static bool CheckLogin(string login)
+        public static bool isLoginExist(string login)
         {
             string query = "SELECT Count(*) FROM authInfo WHERE login = @login";
 
@@ -472,7 +472,32 @@ namespace MainLib.DBServices
                 return connection.Query<Discipline>(query, parametrs).Count() != 0;
             }
         }
+        public static bool isGroupExist(out int groupId, string groupName)
+        {
+            string query = "SELECT id FROM groups " +
+                            "WHERE group_name = @grName";
 
+            var parametrs = new DynamicParameters();
+            parametrs.Add("@grName", groupName);
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                groupId = connection.QueryFirst<int>(query, parametrs);
+                if(groupId == 0)
+                    return false;
+                return true;
+            }
+        }
+
+        // INSERT
         public static int InsertIntoControlPointsTable(ControlPoint cpToIns)
         {
             string query = "INSERT INTO ControlPoints(id_of_teacher, id_of_discipline, weight, description) VALUES (@tid, @did, @weight, @desc);";
@@ -590,7 +615,7 @@ namespace MainLib.DBServices
 
         public static int InsertIntoStudentsTable(Student stToIns)
         {
-            if (!SelectTeacherById(Session.CurrentSession.GetCurrentSession().ID).isAdmin)
+            if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
             string query = "INSERT INTO students(name, id_of_group) VALUES (@sName, @grId);";
@@ -616,7 +641,7 @@ namespace MainLib.DBServices
         //NOTE: To remake, possibly works wrong
         public static int InsertIntoTeachersTable(TeacherInfo userToInsert, AuthInfoAdmin authInfo)
         {
-            if (!SelectTeacherById(Session.CurrentSession.GetCurrentSession().ID).isAdmin)
+            if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -652,7 +677,7 @@ namespace MainLib.DBServices
         }
         public static int InsertIntoGroupsTable(Group grToIns)
         {
-            if (!SelectTeacherById(Session.CurrentSession.GetCurrentSession().ID).isAdmin)
+            if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
             string query = "INSERT INTO groups(group_name, group_course) VALUES (@grName, @grCourse);";
@@ -677,7 +702,7 @@ namespace MainLib.DBServices
         }
         public static int InsertIntoDisciplinesTable(Discipline disciplineToIns)
         {
-            if (!SelectTeacherById(Session.CurrentSession.GetCurrentSession().ID).isAdmin)
+            if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
             string query = "INSERT INTO disciplines(discipline_name, semestr) VALUES (@dName, @dSem);";
@@ -701,10 +726,10 @@ namespace MainLib.DBServices
             }
         }
 
-
+        // UPDATE
         public static int UpdateStudents(Student stToUpd)
         {
-            if (!SelectTeacherById(Session.CurrentSession.GetCurrentSession().ID).isAdmin)
+            if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
             string query = "UPDATE students SET name = @sName, id_of_group = @grId WHERE id = @id;";
@@ -731,7 +756,7 @@ namespace MainLib.DBServices
         //NOTE: возможность изменять аут. данные есть, но она не используется
         public static int UpdateTeachers(TeacherInfo usrToUpdate, AuthInfoAdmin authInfo = null)
         {
-            if (!SelectTeacherById(Session.CurrentSession.GetCurrentSession().ID).isAdmin)
+            if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -771,7 +796,7 @@ namespace MainLib.DBServices
         }
         public static int UpdateGroups(Group grToUpd)
         {
-            if (!SelectTeacherById(Session.CurrentSession.GetCurrentSession().ID).isAdmin)
+            if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
             string query = "UPDATE groups SET group_name = @grName, group_course = @grCourse WHERE id = @id;";
@@ -797,7 +822,7 @@ namespace MainLib.DBServices
         }
         public static int UpdateDisciplines(Discipline disciplineToUpd)
         {
-            if (!SelectTeacherById(Session.CurrentSession.GetCurrentSession().ID).isAdmin)
+            if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
             string query = "UPDATE disciplines SET discipline_name = @dName, semestr = @dSemestr WHERE id = @id;";

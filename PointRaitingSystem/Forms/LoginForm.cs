@@ -22,7 +22,7 @@ namespace PointRaitingSystem
                 if (Auth.WasAuthenticated(txtLogin.Text, txtPassword.Text))
                 {
                     isLoggedIn = true;
-                    CurrentSession.CreateSessionInstance(this.txtLogin.Text);
+                    Session.CreateSessionInstance(this.txtLogin.Text);
                     this.Close();
                 }
             }catch(Auth.QueryResultIsNullException)

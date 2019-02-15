@@ -21,7 +21,7 @@ namespace PointRaitingSystem
         public usrSettingsForm()
         {
             InitializeComponent();
-            this.Text = string.Format("{0} - {1}", this.Text, CurrentSession.GetCurrentSession().UserName);
+            this.Text = string.Format("{0} - {1}", this.Text, Session.GetCurrentSession().UserName);
         }
         private void usrSettingsForm_Load(object sender, EventArgs e)
         {
@@ -33,7 +33,7 @@ namespace PointRaitingSystem
         {
             try
             {
-                List<Group> teacherGroups = DataService.SelectGroupsByTeacherId(CurrentSession.GetCurrentSession().ID);
+                List<Group> teacherGroups = DataService.SelectGroupsByTeacherId(Session.GetCurrentSession().ID);
                 List<GroupInfo> groupsToCheck = (from gr in clbGroupsDataSource
                                                  join tGr in teacherGroups on gr.id equals tGr.id
                                                 select gr).ToList<GroupInfo>();
@@ -56,7 +56,7 @@ namespace PointRaitingSystem
         }
         private void PrintListOfGroupDiscipline()
         {
-            List<Discipline> disciplines = DataService.SelectDisciplinesByTeacherIdAndGroupId(CurrentSession.GetCurrentSession().ID, ((GroupInfo)clbGroups.SelectedItem).id);
+            List<Discipline> disciplines = DataService.SelectDisciplinesByTeacherIdAndGroupId(Session.GetCurrentSession().ID, ((GroupInfo)clbGroups.SelectedItem).id);
             DataSetInitializer<Discipline>.lbDataSetInitialize(ref lbDisciplines, disciplines, "id", "full_name");
         }
         
@@ -86,13 +86,13 @@ namespace PointRaitingSystem
         //HACK: добавлять только не привязанные данные, сделал хаком путем сравнивания
         private void btnSave_Click(object sender, EventArgs e)
         {
-            List<Discipline> teacherDisciplines = DataService.SelectDisciplinesByTeacherID(CurrentSession.GetCurrentSession().ID);
-            List<Group> teacherGroups = DataService.SelectGroupsByTeacherId(CurrentSession.GetCurrentSession().ID);
+            List<Discipline> teacherDisciplines = DataService.SelectDisciplinesByTeacherID(Session.GetCurrentSession().ID);
+            List<Group> teacherGroups = DataService.SelectGroupsByTeacherId(Session.GetCurrentSession().ID);
 
             foreach (var checkedGroup in clbGroups.CheckedItems)
             {
                 if(!teacherGroups.Any(item => item.id == ((GroupInfo)checkedGroup).id))
-                    DataService.InsertIntoTeacherGroups(CurrentSession.GetCurrentSession().ID, ((GroupInfo)checkedGroup).id);
+                    DataService.InsertIntoTeacherGroups(Session.GetCurrentSession().ID, ((GroupInfo)checkedGroup).id);
             }
             statusLabel.Text = "Сохранено";
             InitializeDataSets();
@@ -110,8 +110,8 @@ namespace PointRaitingSystem
                     return;
 
                 DataService.InsertIntoGroupDiscipline((int)cbDisciplines.SelectedValue, ((GroupInfo)clbGroups.SelectedItem).id);
-                if (!DataService.isTeacherDiscipline((int)cbDisciplines.SelectedValue, CurrentSession.GetCurrentSession().ID))
-                    DataService.InsertIntoTeacherDisciplines(CurrentSession.GetCurrentSession().ID, (int)cbDisciplines.SelectedValue);
+                if (!DataService.isTeacherDiscipline((int)cbDisciplines.SelectedValue, Session.GetCurrentSession().ID))
+                    DataService.InsertIntoTeacherDisciplines(Session.GetCurrentSession().ID, (int)cbDisciplines.SelectedValue);
                 PrintListOfGroupDiscipline();
             }
             catch(Exception ex)

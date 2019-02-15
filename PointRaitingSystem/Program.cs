@@ -27,7 +27,7 @@ namespace PointRaitingSystem
             LoginForm loginForm = new LoginForm();
             Application.Run(loginForm);
             if (loginForm.IsLoggedIn)
-                if(CurrentSession.GetCurrentSession().isAdmin)
+                if(Session.GetCurrentSession().isAdmin)
                     Application.Run(new admMainForm());
                 else
                     Application.Run(new usrMainForm());

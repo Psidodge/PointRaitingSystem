@@ -28,13 +28,12 @@ namespace MainLib.Auth
             byte[] salt = authInfos[0].Salt,
                    passHash = authInfos[0].Pass_hash;
             if (salt == null || passHash == null)
-                throw new NullReferenceException(string.Format("Error in WasAuthenticated() where 'salt' is {0}; 'passHash' is {1}", salt, passHash));
+                throw new NullReferenceException(string.Format("Error in WasAuthenticated() where 'salt' is {0}; 'passHash' is {1}", salt, passHash)); //NOTE: Debug info need to delete before realese
 
-            byte[] enterdPassHash = GetConputedHash(password, salt);
+            byte[] enterdPassHash = GetComputedHash(password, salt);
             return enterdPassHash.SequenceEqual(passHash);
         }
-
-        private static byte[] GetConputedHash(string password, byte[] salt)
+        private static byte[] GetComputedHash(string password, byte[] salt)
         {
             byte[] saltedPass = Encoding.UTF8.GetBytes(password).Concat(salt).ToArray();
             HashAlgorithm hashProvider = new SHA512Managed();

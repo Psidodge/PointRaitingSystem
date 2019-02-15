@@ -106,6 +106,18 @@
     <Compile Include="Forms\AdminForms\admMainForm.Designer.cs">
       <DependentUpon>admMainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\AdminForms\admParserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AdminForms\admParserForm.Designer.cs">
+      <DependentUpon>admParserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AdminForms\admParserPreviweForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AdminForms\admParserPreviweForm.Designer.cs">
+      <DependentUpon>admParserPreviweForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\UserForms\usrCPAddForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -136,11 +148,11 @@
     <Compile Include="Forms\UserForms\usrMainForm.Designer.cs">
       <DependentUpon>usrMainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UserForms\usrSettingsForm.cs">
+    <Compile Include="Forms\UserForms\usrBindingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\UserForms\usrSettingsForm.Designer.cs">
-      <DependentUpon>usrSettingsForm.cs</DependentUpon>
+    <Compile Include="Forms\UserForms\usrBindingsForm.Designer.cs">
+      <DependentUpon>usrBindingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -160,6 +172,12 @@
     <EmbeddedResource Include="Forms\AdminForms\admMainForm.resx">
       <DependentUpon>admMainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AdminForms\admParserForm.resx">
+      <DependentUpon>admParserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AdminForms\admParserPreviweForm.resx">
+      <DependentUpon>admParserPreviweForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserForms\usrCPAddForm.resx">
       <DependentUpon>usrCPAddForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -175,8 +193,8 @@
     <EmbeddedResource Include="Forms\UserForms\usrMainForm.resx">
       <DependentUpon>usrMainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UserForms\usrSettingsForm.resx">
-      <DependentUpon>usrSettingsForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\UserForms\usrBindingsForm.resx">
+      <DependentUpon>usrBindingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

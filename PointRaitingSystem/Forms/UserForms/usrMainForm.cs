@@ -58,7 +58,7 @@ namespace PointRaitingSystem
             cbDiscipline.SelectedIndex = -1;
             try
             {
-                cbDiscipline.DataSource = DataService.SelectDisciplinesByTeacherIdAndGroupId(CurrentSession.GetCurrentSession().ID, (int)cbGroups.SelectedValue);
+                cbDiscipline.DataSource = DataService.SelectDisciplinesByTeacherIdAndGroupId(Session.GetCurrentSession().ID, (int)cbGroups.SelectedValue);
                 dgvStudents.DataSource = DataService.SelectStudentsByGroupId((int)cbGroups.SelectedValue);
             }
             catch(Exception ex)
@@ -145,10 +145,10 @@ namespace PointRaitingSystem
             try
             {
                 //cbGroup
-                List<Group> groups = DataService.SelectGroupsByTeacherId(CurrentSession.GetCurrentSession().ID);
+                List<Group> groups = DataService.SelectGroupsByTeacherId(Session.GetCurrentSession().ID);
                 DataSetInitializer<Group>.ComboBoxDataSetInitializer(ref cbGroups, groups, "id", "group_name");
                 //cbDiscipline
-                List<Discipline> disciplines = DataService.SelectDisciplinesByTeacherIdAndGroupId(CurrentSession.GetCurrentSession().ID, (int)cbGroups.SelectedValue);
+                List<Discipline> disciplines = DataService.SelectDisciplinesByTeacherIdAndGroupId(Session.GetCurrentSession().ID, (int)cbGroups.SelectedValue);
                 DataSetInitializer<Discipline>.ComboBoxDataSetInitializer(ref cbDiscipline, disciplines, "id", "discipline_name");
                 //dgvStudents dataset
                 List<Student> students = DataService.SelectStudentsByGroupId((int)cbGroups.SelectedValue);
@@ -159,7 +159,7 @@ namespace PointRaitingSystem
                 logger.Error(ex);
             }
             //tsslTeacherName
-            tsslTeacherName.Text = CurrentSession.GetCurrentSession().UserName;
+            tsslTeacherName.Text = Session.GetCurrentSession().UserName;
             //dgvStudentCPs
             dgvStudentCPs.AutoGenerateColumns = true;
         }
