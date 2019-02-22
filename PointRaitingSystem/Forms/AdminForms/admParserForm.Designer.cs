@@ -38,9 +38,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.btnParse = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cbWithHeaders = new System.Windows.Forms.CheckBox();
             this.btnPreview = new System.Windows.Forms.Button();
-            this.btnOk = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.menuStrip.SuspendLayout();
@@ -51,9 +50,9 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsslCurrentFile});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 224);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 181);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(294, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(332, 22);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -68,7 +67,7 @@
             this.openFileDialogToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(294, 24);
+            this.menuStrip.Size = new System.Drawing.Size(332, 24);
             this.menuStrip.TabIndex = 1;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -89,7 +88,7 @@
             "Преподаватели"});
             this.cbType.Location = new System.Drawing.Point(136, 25);
             this.cbType.Name = "cbType";
-            this.cbType.Size = new System.Drawing.Size(121, 21);
+            this.cbType.Size = new System.Drawing.Size(166, 21);
             this.cbType.TabIndex = 2;
             this.cbType.SelectedIndexChanged += new System.EventHandler(this.cbType_SelectedIndexChanged);
             // 
@@ -104,9 +103,10 @@
             // 
             // txtSheetIndex
             // 
+            this.txtSheetIndex.Enabled = false;
             this.txtSheetIndex.Location = new System.Drawing.Point(136, 52);
             this.txtSheetIndex.Name = "txtSheetIndex";
-            this.txtSheetIndex.Size = new System.Drawing.Size(91, 20);
+            this.txtSheetIndex.Size = new System.Drawing.Size(47, 20);
             this.txtSheetIndex.TabIndex = 4;
             // 
             // label2
@@ -120,7 +120,7 @@
             // 
             // btnParse
             // 
-            this.btnParse.Location = new System.Drawing.Point(6, 102);
+            this.btnParse.Location = new System.Drawing.Point(6, 78);
             this.btnParse.Name = "btnParse";
             this.btnParse.Size = new System.Drawing.Size(75, 23);
             this.btnParse.TabIndex = 6;
@@ -130,50 +130,41 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.cbWithHeaders);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.btnParse);
+            this.groupBox1.Controls.Add(this.btnPreview);
             this.groupBox1.Controls.Add(this.cbType);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtSheetIndex);
             this.groupBox1.Location = new System.Drawing.Point(12, 32);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(269, 131);
+            this.groupBox1.Size = new System.Drawing.Size(308, 113);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
-            // 
-            // cbWithHeaders
-            // 
-            this.cbWithHeaders.AutoSize = true;
-            this.cbWithHeaders.Location = new System.Drawing.Point(9, 79);
-            this.cbWithHeaders.Name = "cbWithHeaders";
-            this.cbWithHeaders.Size = new System.Drawing.Size(154, 17);
-            this.cbWithHeaders.TabIndex = 7;
-            this.cbWithHeaders.Text = "Игнорировать заголовки";
-            this.cbWithHeaders.UseVisualStyleBackColor = true;
+            this.groupBox1.Text = "Настройка файла";
             // 
             // btnPreview
             // 
-            this.btnPreview.Location = new System.Drawing.Point(12, 169);
+            this.btnPreview.Location = new System.Drawing.Point(211, 78);
             this.btnPreview.Name = "btnPreview";
             this.btnPreview.Size = new System.Drawing.Size(91, 23);
             this.btnPreview.TabIndex = 9;
             this.btnPreview.Text = "Предпросмотр";
             this.btnPreview.UseVisualStyleBackColor = true;
+            this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
             // 
-            // btnOk
+            // btnSave
             // 
-            this.btnOk.Location = new System.Drawing.Point(175, 169);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(94, 23);
-            this.btnOk.TabIndex = 10;
-            this.btnOk.Text = "Принять";
-            this.btnOk.UseVisualStyleBackColor = true;
+            this.btnSave.Location = new System.Drawing.Point(226, 151);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(94, 23);
+            this.btnSave.TabIndex = 10;
+            this.btnSave.Text = "Сохранить";
+            this.btnSave.UseVisualStyleBackColor = true;
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(175, 195);
+            this.btnCancel.Location = new System.Drawing.Point(12, 151);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(94, 23);
             this.btnCancel.TabIndex = 11;
@@ -184,10 +175,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(294, 246);
+            this.ClientSize = new System.Drawing.Size(332, 203);
             this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnOk);
-            this.Controls.Add(this.btnPreview);
+            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip);
@@ -223,8 +213,7 @@
         private System.Windows.Forms.Button btnParse;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnPreview;
-        private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.CheckBox cbWithHeaders;
     }
 }

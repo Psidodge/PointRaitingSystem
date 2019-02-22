@@ -70,6 +70,7 @@
             this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "Отмена";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // admParserPreviweForm
             // 
@@ -82,6 +83,7 @@
             this.Controls.Add(this.dgvPreviewData);
             this.Name = "admParserPreviweForm";
             this.Text = "admParserPreviweForm";
+            this.Load += new System.EventHandler(this.admParserPreviweForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPreviewData)).EndInit();
             this.ResumeLayout(false);
 

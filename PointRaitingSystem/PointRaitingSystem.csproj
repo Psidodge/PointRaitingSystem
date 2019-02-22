@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\DataSetInitializer.cs" />
+    <Compile Include="Classes\dgvFactory.cs" />
     <Compile Include="Controls\CustomPage.cs">
       <SubType>Component</SubType>
     </Compile>

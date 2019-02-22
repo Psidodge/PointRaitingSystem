@@ -274,7 +274,32 @@ namespace MainLib.DBServices
                 return connection.Query<ControlPointsOfStudents>(query, parametrs).ToList();
             }
         }
+        public static List<StudentControlPoint> SelectStudentControPointsGroupDisc(int grId, int discId)
+        {
+            string query = "SELECT stCP.id, stCP.id_of_student, stCP.id_of_cp, stCP.points, cp.description FROM cp_of_student AS stCP " +
+                            "INNER JOIN students AS st ON st.id = stCP.id_of_student " +
+                            "INNER JOIN controlPoints AS cp ON cp.id = stCP.id_of_cp " +
+                            "WHERE st.id_of_group = @grId AND cp.id_of_discipline = @dId";
 
+            var parametrs = new DynamicParameters();
+            parametrs.Add("@grId", grId);
+            parametrs.Add("@dId", discId);
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                return connection.Query<StudentControlPoint>(query, parametrs).ToList();
+            }
+        }
         public static List<TeacherInfo> SelectAllTeachersInfo()
         {
             //NOTE: Если пользователь не админ, то не выполняем, нужно как-то это сообщить пользователю

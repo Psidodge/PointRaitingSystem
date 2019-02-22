@@ -82,6 +82,30 @@ namespace MainLib.DBServices
             return this.GetType();
         }
     }
+
+
+    public class StudentControlPoint : DBTable
+    {
+        public int id { get; set; }
+        public int id_of_student { get; set; }
+        public int id_of_cp { get; set; }
+        public int points { get; set; }
+        public string description { get; set; }
+        public override Type GetTableType()
+        {
+            return this.GetType();
+        }
+    }
+    public class StudentsWithCP : DBTable
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+        public List<StudentControlPoint> studentCPs { get; set; } 
+        public override Type GetTableType()
+        {
+            return this.GetType();
+        }
+    }
     public class AuthInfo : DBTable
     {
         public byte[] Salt { get; }

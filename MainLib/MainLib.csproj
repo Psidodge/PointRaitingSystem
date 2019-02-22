@@ -55,10 +55,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\DatabaseServices\DataRepresentation.cs" />
+    <Compile Include="Classes\DatabaseServices\DBDataRepresentation.cs" />
     <Compile Include="Classes\Authentication\Authenticator.cs" />
     <Compile Include="Classes\DatabaseServices\DataService.cs" />
     <Compile Include="Classes\Parser\excelParser.cs" />
+    <Compile Include="Classes\Parser\ParserDataRepresentation.cs" />
     <Compile Include="Classes\PasswordEncryptor.cs" />
     <Compile Include="Classes\Authentication\Session.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

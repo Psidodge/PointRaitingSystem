@@ -18,7 +18,7 @@ namespace PointRaitingSystem
     public partial class admParserForm : Form
     {
         private DataType selectedType = DataType.None;
-        private List<DBTable> parsedData;
+        private List<ParsedData> parsedData;
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private string filePath;
 
@@ -77,7 +77,7 @@ namespace PointRaitingSystem
                         ExcelParser.ParseStudents(out parsedData, filePath);
                         break;
                     case DataType.Teachers:
-
+                        ExcelParser.ParseTeachers(out parsedData, filePath);
                         break;
 
                 }
@@ -86,6 +86,12 @@ namespace PointRaitingSystem
             {
                 logger.Error(ex);
             }
+        }
+
+        private void btnPreview_Click(object sender, EventArgs e)
+        {
+            admParserPreviweForm form = new admParserPreviweForm(ref parsedData);
+            form.ShowDialog();
         }
     }
 }
