@@ -131,12 +131,6 @@
     <Compile Include="Forms\UserForms\usrCPShowForm.Designer.cs">
       <DependentUpon>usrCPShowForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UserForms\childForm3.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\UserForms\childForm3.Designer.cs">
-      <DependentUpon>childForm3.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -184,9 +178,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserForms\usrCPShowForm.resx">
       <DependentUpon>usrCPShowForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UserForms\childForm3.resx">
-      <DependentUpon>childForm3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>

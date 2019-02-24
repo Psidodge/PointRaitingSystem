@@ -41,8 +41,9 @@
             this.dgvControlPoints.AllowUserToAddRows = false;
             this.dgvControlPoints.AllowUserToDeleteRows = false;
             this.dgvControlPoints.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvControlPoints.Dock = System.Windows.Forms.DockStyle.Left;
             this.dgvControlPoints.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgvControlPoints.Location = new System.Drawing.Point(13, 13);
+            this.dgvControlPoints.Location = new System.Drawing.Point(0, 0);
             this.dgvControlPoints.MultiSelect = false;
             this.dgvControlPoints.Name = "dgvControlPoints";
             this.dgvControlPoints.ReadOnly = true;
@@ -50,7 +51,7 @@
             this.dgvControlPoints.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvControlPoints.ShowCellErrors = false;
             this.dgvControlPoints.ShowRowErrors = false;
-            this.dgvControlPoints.Size = new System.Drawing.Size(408, 246);
+            this.dgvControlPoints.Size = new System.Drawing.Size(408, 272);
             this.dgvControlPoints.TabIndex = 0;
             this.dgvControlPoints.SelectionChanged += new System.EventHandler(this.dgvControlPoints_SelectionChanged);
             // 
@@ -90,7 +91,7 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "Описание:";
             // 
-            // childForm2
+            // usrCPShowForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -100,7 +101,7 @@
             this.Controls.Add(this.lblAuthor);
             this.Controls.Add(this.txtDescription);
             this.Controls.Add(this.dgvControlPoints);
-            this.Name = "childForm2";
+            this.Name = "usrCPShowForm";
             this.Text = "childForm2";
             ((System.ComponentModel.ISupportInitialize)(this.dgvControlPoints)).EndInit();
             this.ResumeLayout(false);

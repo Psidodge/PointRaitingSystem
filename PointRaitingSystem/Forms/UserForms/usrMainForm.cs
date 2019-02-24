@@ -23,18 +23,6 @@ namespace PointRaitingSystem
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private int cbGroupsPrevIndex = 0;
         private bool isCellsHiden = false;
-
-        private void tsmiDataSoruce_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-        }
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-
-        }
        
         private void cbGroups_SelectionChangeCommitted(object sender, EventArgs e)
         {
@@ -48,6 +36,7 @@ namespace PointRaitingSystem
             catch(Exception ex)
             {
                 logger.Error(ex);
+                MessageBox.Show("Произошла ошибка при перерисовки интерфейса.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void cbDiscipline_SelectionChangeCommitted(object sender, EventArgs e)
@@ -59,9 +48,9 @@ namespace PointRaitingSystem
             catch(Exception ex)
             {
                 logger.Error(ex);
+                MessageBox.Show("Произошла ошибка при перерисовки интерфейса.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        //NOTE: refactor here
         private void btnCreateCP_Click(object sender, EventArgs e)
         {
             usrCPAddForm form = new usrCPAddForm((Discipline)cbDiscipline.SelectedItem, (int)cbGroups.SelectedValue);
@@ -71,14 +60,6 @@ namespace PointRaitingSystem
         {
             usrCPShowForm form2 = new usrCPShowForm((Discipline)cbDiscipline.SelectedItem);
             form2.Show();
-        }
-        private void button3_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void dgvStudents_SelectionChanged(object sender, EventArgs e)
-        {
-
         }
         private void cbGroups_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -98,58 +79,73 @@ namespace PointRaitingSystem
                 List<Discipline> disciplines = DataService.SelectDisciplinesByTeacherIdAndGroupId(Session.GetCurrentSession().ID, (int)cbGroups.SelectedValue);
                 DataSetInitializer<Discipline>.ComboBoxDataSetInitializer(ref cbDiscipline, disciplines, "id", "discipline_name");
                 //dgvStudents dataset
-                //List<Student> students = DataService.SelectStudentsByGroupId((int)cbGroups.SelectedValue);
-                //DataSetInitializer<Student>.dgvDataSetInitializer(ref dgvStudents, students, new int[] { 0, 2 }, new string[] { "name" });
                 studentCPsDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
             }
             catch (Exception ex)
             {
                 logger.Error(ex);
+                MessageBox.Show("Произошла ошибка при инициализации набора данных.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             //tsslTeacherName
             tsslTeacherName.Text = Session.GetCurrentSession().UserName;
         }
-
         private void bindingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             usrSettingsForm usrSettingsForm = new usrSettingsForm();
             usrSettingsForm.ShowDialog();
             InitializeDataSets();
         }
-
         private void dgvStudents_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             int pointsToIns = Convert.ToInt32(dgvStudents.CurrentCell.Value),
                 id = Convert.ToInt32(dgvStudents.CurrentRow.Cells[e.ColumnIndex - 1].Value);
-            DataService.UpdateStudentCP(pointsToIns, id);
+            try
+            {
+                DataService.UpdateStudentCP(pointsToIns, id);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                MessageBox.Show("Произошла ошибка при обновлении баллов студента.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             studentCPsDataGridViewFactory.CalculateSum(ref dgvStudents);
         }
-        //HACK: продолжаю порожаться
         private void dgvStudents_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             int selectedColIndex = dgvStudents.SelectedColumns[0].Index;
-            if (!isCellsHiden)
+            try
             {
-                foreach (DataGridViewColumn column in dgvStudents.Columns)
+                if (!isCellsHiden)
                 {
-                    if (column.Index > 1 && column.Index < dgvStudents.Columns.Count - 1 && selectedColIndex > 1 && selectedColIndex < dgvStudents.Columns.Count - 1)
+                    foreach (DataGridViewColumn column in dgvStudents.Columns)
                     {
-                        if (column.Index != selectedColIndex - 1 && column.Index != selectedColIndex)
-                            column.Visible = false;
+                        if (column.Index > 1 && column.Index < dgvStudents.Columns.Count - 1 && selectedColIndex > 1 && selectedColIndex < dgvStudents.Columns.Count - 1)
+                        {
+                            if(column.Index != selectedColIndex - 1 && column.Index != selectedColIndex)
+                                column.Visible = false;
+                            if (column.Index == selectedColIndex)
+                                column.ReadOnly = false;
+                        }
                     }
+                    isCellsHiden = !isCellsHiden;
                 }
-                isCellsHiden = !isCellsHiden;
-            }
-            else
-            {
-                foreach (DataGridViewColumn column in dgvStudents.Columns)
+                else
                 {
-                    if (!column.Name.Contains("id"))
+                    foreach (DataGridViewColumn column in dgvStudents.Columns)
                     {
+                        if (!column.Name.Contains("id"))
+                        {
                             column.Visible = true;
+                            column.ReadOnly = true;
+                        }
                     }
+                    isCellsHiden = !isCellsHiden;
                 }
-                isCellsHiden = !isCellsHiden;
+            }
+            catch(Exception ex)
+            {
+                logger.Error(ex);
+                MessageBox.Show("Произошла ошибка при перерисовки интерфейса.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

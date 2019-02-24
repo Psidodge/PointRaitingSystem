@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MainLib.DBServices;
 
@@ -11,14 +9,18 @@ namespace PointRaitingSystem
     //TODO: Здесь не отлавливаются исключения. Добавить
     public static class studentCPsDataGridViewFactory
     {
-        //HACK: Здесь, я превзошел самого себя, не перестаю этому удивляться. Срочно переделать.
         public static void CreateStudentCPsDataGridView(ref DataGridView dgv, int groupId, int disciplineId)
         {
             dgv.Columns.Clear();
             int cpIter = 0, 
                 sum = 0;
             List<StudentsWithCP> studentsCPs = GetStudentsCPs(groupId, disciplineId);
-            dgv.Columns.AddRange(CreateColumns(ref dgv, studentsCPs));
+            DataGridViewColumn[] columns = CreateColumns(ref dgv, studentsCPs);
+
+            if(columns == null)
+                return;
+
+            dgv.Columns.AddRange(columns);
             dgv.Rows.Add(studentsCPs.Count - 1);
 
             for (int i = 0; i < studentsCPs.Count - 1; i++)
@@ -53,7 +55,10 @@ namespace PointRaitingSystem
         }
         private static DataGridViewColumn[] CreateColumns(ref DataGridView dgv, List<StudentsWithCP> stCPs)
         {
-            DataGridViewColumn[] columns = new DataGridViewTextBoxColumn[stCPs[0].studentCPs.Count * 2 + 3];
+            if (stCPs.Count == 0)
+                return null;
+
+            DataGridViewColumn[] columns = new DataGridViewTextBoxColumn[(stCPs[0].studentCPs.Count * 2) + 3];
             columns[0] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "id", HeaderText = "id", ReadOnly = true, Visible = false };
             columns[1] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "Name", HeaderText = "ФИО", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells };
             int iter = 0, colIter = 2;
@@ -71,7 +76,8 @@ namespace PointRaitingSystem
                 {
                     SortMode = DataGridViewColumnSortMode.NotSortable,
                     Name = string.Format("cpName{0}", iter),
-                    HeaderText = row.description
+                    HeaderText = string.Format("КТ {0}", iter + 1),
+                    ReadOnly = true
                 };
                 colIter++;
                 iter++;

@@ -2,12 +2,6 @@
 using MainLib.Session;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PointRaitingSystem
@@ -39,6 +33,7 @@ namespace PointRaitingSystem
             catch (Exception ex)
             {
                 logger.Error(ex);
+                MessageBox.Show("Произошла ошибка при инициализации набора данных.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             if (selectedDiscipline != null)
@@ -61,11 +56,13 @@ namespace PointRaitingSystem
             catch(Exception ex)
             {
                 logger.Error(ex);
+                MessageBox.Show("Произошла ошибка при создании контрольной точки.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             createStudentsControlPoints();
             this.Close();
         }
+        //NOTE: Здесь, возможно, нужно использовать транзакцию.
         private void createStudentsControlPoints()
         {
             try
@@ -79,6 +76,7 @@ namespace PointRaitingSystem
             catch (Exception ex)
             {
                 logger.Error(ex);
+                MessageBox.Show("Произошла ошибка при привязки контрольной точки студенту.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

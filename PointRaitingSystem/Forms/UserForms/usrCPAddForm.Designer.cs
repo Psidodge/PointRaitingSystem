@@ -33,13 +33,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtCPWeight = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.txtDescription = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsslAmountOfPoints = new System.Windows.Forms.ToolStripStatusLabel();
             this.cbDiscipline = new System.Windows.Forms.ComboBox();
-            this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.btnSave = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bsStudents)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -70,18 +68,9 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "Вес КТ";
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(4, 61);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(96, 13);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Дата проведения";
-            // 
             // txtDescription
             // 
-            this.txtDescription.Location = new System.Drawing.Point(106, 84);
+            this.txtDescription.Location = new System.Drawing.Point(106, 57);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.Size = new System.Drawing.Size(183, 90);
@@ -90,7 +79,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(4, 87);
+            this.label5.Location = new System.Drawing.Point(4, 60);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(57, 13);
             this.label5.TabIndex = 8;
@@ -100,7 +89,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsslAmountOfPoints});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 210);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 188);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(301, 22);
             this.statusStrip1.TabIndex = 10;
@@ -120,16 +109,9 @@
             this.cbDiscipline.Size = new System.Drawing.Size(183, 21);
             this.cbDiscipline.TabIndex = 11;
             // 
-            // dateTimePicker
-            // 
-            this.dateTimePicker.Location = new System.Drawing.Point(106, 58);
-            this.dateTimePicker.Name = "dateTimePicker";
-            this.dateTimePicker.Size = new System.Drawing.Size(121, 20);
-            this.dateTimePicker.TabIndex = 12;
-            // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(214, 180);
+            this.btnSave.Location = new System.Drawing.Point(214, 153);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 13;
@@ -137,23 +119,21 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // childForm
+            // usrCPAddForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(301, 232);
+            this.ClientSize = new System.Drawing.Size(301, 210);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.dateTimePicker);
             this.Controls.Add(this.cbDiscipline);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.txtDescription);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.txtCPWeight);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "childForm";
+            this.Name = "usrCPAddForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "childForm";
             ((System.ComponentModel.ISupportInitialize)(this.bsStudents)).EndInit();
@@ -169,13 +149,11 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtCPWeight;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtDescription;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel tsslAmountOfPoints;
         private System.Windows.Forms.ComboBox cbDiscipline;
-        private System.Windows.Forms.DateTimePicker dateTimePicker;
         private System.Windows.Forms.Button btnSave;
     }
 }

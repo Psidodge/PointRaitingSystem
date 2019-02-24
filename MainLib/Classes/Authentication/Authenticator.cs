@@ -17,9 +17,9 @@ namespace MainLib.Auth
             {
                 authInfos = DataService.SelectAuthInfoByLogin(login);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                throw new DataBaseConnetionException("Cannot reach the database", e);
             }
 
             if (authInfos.Count == 0)
@@ -50,6 +50,16 @@ namespace MainLib.Auth
             public QueryResultIsNullException(string message) : base(message) { }
             public QueryResultIsNullException(string message, Exception inner) : base(message, inner) { }
             protected QueryResultIsNullException(
+              System.Runtime.Serialization.SerializationInfo info,
+              System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+        }
+        [Serializable]
+        public class DataBaseConnetionException : Exception
+        {
+            public DataBaseConnetionException() { }
+            public DataBaseConnetionException(string message) : base(message) { }
+            public DataBaseConnetionException(string message, Exception inner) : base(message, inner) { }
+            protected DataBaseConnetionException(
               System.Runtime.Serialization.SerializationInfo info,
               System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
         }

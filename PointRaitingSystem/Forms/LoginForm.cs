@@ -25,9 +25,15 @@ namespace PointRaitingSystem
                     Session.CreateSessionInstance(this.txtLogin.Text);
                     this.Close();
                 }
-            }catch(Auth.QueryResultIsNullException)
+            }
+            catch (Auth.QueryResultIsNullException)
             {
                 tsslInfo.Text = "Неверное имя пользователя или пароль";
+            }
+            catch(Auth.DataBaseConnetionException dbEx)
+            {
+                logger.Error(dbEx);
+                MessageBox.Show("Не удается подкючиться к базе данных.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch(Exception ex)
             {

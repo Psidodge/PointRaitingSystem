@@ -32,7 +32,6 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.bindingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuPanel = new System.Windows.Forms.Panel();
-            this.button3 = new System.Windows.Forms.Button();
             this.btnCreateCP = new System.Windows.Forms.Button();
             this.btnShowCP = new System.Windows.Forms.Button();
             this.cbDiscipline = new System.Windows.Forms.ComboBox();
@@ -76,7 +75,6 @@
             this.menuPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.menuPanel.Controls.Add(this.button3);
             this.menuPanel.Controls.Add(this.btnCreateCP);
             this.menuPanel.Controls.Add(this.btnShowCP);
             this.menuPanel.Controls.Add(this.cbDiscipline);
@@ -88,16 +86,6 @@
             this.menuPanel.Name = "menuPanel";
             this.menuPanel.Size = new System.Drawing.Size(284, 556);
             this.menuPanel.TabIndex = 2;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(9, 161);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 8;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // btnCreateCP
             // 
@@ -212,7 +200,6 @@
             this.dgvStudents.TabIndex = 4;
             this.dgvStudents.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStudents_CellEndEdit);
             this.dgvStudents.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvStudents_ColumnHeaderMouseClick);
-            this.dgvStudents.SelectionChanged += new System.EventHandler(this.dgvStudents_SelectionChanged);
             // 
             // usrMainForm
             // 
@@ -228,8 +215,6 @@
             this.Name = "usrMainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Меню";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.menuPanel.ResumeLayout(false);
@@ -258,7 +243,6 @@
         private System.Windows.Forms.ToolStripMenuItem bindingsToolStripMenuItem;
         private System.Windows.Forms.DataGridView dgvStudents;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button btnCreateCP;
         private System.Windows.Forms.Button btnShowCP;
     }
