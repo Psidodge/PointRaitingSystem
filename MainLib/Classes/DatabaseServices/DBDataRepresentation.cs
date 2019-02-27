@@ -131,6 +131,10 @@ namespace MainLib.DBServices
         public int id { get; set; }
         public string Name { get; set; }
         public bool isAdmin { get; set; }
+        //NOTE: Test getter
+        public string ShortName { get => string.Format("{0} {1}.{2}", Name.Split(' ')[0], 
+                                                                         Name.Split(' ')[1].Substring(0,1), 
+                                                                         Name.Split(' ')[2].Substring(0,1)); }
         public override Type GetTableType()
         {
             return this.GetType();
@@ -178,5 +182,12 @@ namespace MainLib.DBServices
         {
             return this.GetType();
         }
+    }
+    public class ControlPointInfo
+    {
+        public string name { get; }
+        public string discipline_name { get; }
+        public int weight { get; }
+        public string description { get; }
     }
 }

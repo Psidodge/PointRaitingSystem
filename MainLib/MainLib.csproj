@@ -58,7 +58,6 @@
     <Compile Include="Classes\DatabaseServices\DBDataRepresentation.cs" />
     <Compile Include="Classes\Authentication\Authenticator.cs" />
     <Compile Include="Classes\DatabaseServices\DataService.cs" />
-    <Compile Include="Classes\DatabaseServices\DB_AsynWrapper.cs" />
     <Compile Include="Classes\Parser\excelParser.cs" />
     <Compile Include="Classes\Parser\ParserDataRepresentation.cs" />
     <Compile Include="Classes\PasswordEncryptor.cs" />

@@ -36,6 +36,7 @@
             this.txtLogin = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsslInfo = new System.Windows.Forms.ToolStripStatusLabel();
+            this.cbLogin = new System.Windows.Forms.ComboBox();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -108,7 +109,7 @@
             this.tsslInfo});
             this.statusStrip1.Location = new System.Drawing.Point(0, 95);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(272, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(447, 22);
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -117,11 +118,22 @@
             this.tsslInfo.Name = "tsslInfo";
             this.tsslInfo.Size = new System.Drawing.Size(0, 17);
             // 
+            // cbLogin
+            // 
+            this.cbLogin.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbLogin.FormattingEnabled = true;
+            this.cbLogin.Location = new System.Drawing.Point(257, 8);
+            this.cbLogin.Name = "cbLogin";
+            this.cbLogin.Size = new System.Drawing.Size(121, 21);
+            this.cbLogin.Sorted = true;
+            this.cbLogin.TabIndex = 5;
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(272, 117);
+            this.ClientSize = new System.Drawing.Size(447, 117);
+            this.Controls.Add(this.cbLogin);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.txtLogin);
             this.Controls.Add(this.btnEnter);
@@ -151,5 +163,6 @@
         private System.Windows.Forms.TextBox txtLogin;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel tsslInfo;
+        private System.Windows.Forms.ComboBox cbLogin;
     }
 }

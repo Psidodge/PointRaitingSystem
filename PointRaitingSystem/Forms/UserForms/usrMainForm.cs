@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MainLib.DBServices;
 using MainLib.Session;
@@ -44,6 +38,8 @@ namespace PointRaitingSystem
             try
             {
                 studentCPsDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
+                FillControlPointInfo();
+                isCellsHiden = false;
             }
             catch(Exception ex)
             {
@@ -63,6 +59,8 @@ namespace PointRaitingSystem
         }
         private void cbGroups_SelectedIndexChanged(object sender, EventArgs e)
         {
+            FillControlPointInfo();
+            isCellsHiden = false;
             cbGroupsPrevIndex = cbGroups.SelectedIndex;
         }
 
@@ -88,6 +86,27 @@ namespace PointRaitingSystem
             }
             //tsslTeacherName
             tsslTeacherName.Text = Session.GetCurrentSession().UserName;
+        }
+        private void FillControlPointInfo(bool isVisible = false)
+        {
+            gbCPInfo.Visible = isVisible;
+            if (!isVisible)
+                return;
+
+            ControlPointInfo cpInfo = null;
+            try
+            {
+                int id = (int)dgvStudents.CurrentRow.Cells[dgvStudents.SelectedColumns[0].Index - 1].Value;
+                cpInfo = DataService.SelectControlPointInfo(id);
+            }
+            catch(Exception ex)
+            {
+                logger.Error(ex);
+            }
+            lblAuthor.Text = cpInfo.name;
+            lblDiscipline.Text = cpInfo.discipline_name;
+            lblWeight.Text = cpInfo.weight.ToString();
+            txtDescription.Text = cpInfo.description;
         }
         private void bindingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -115,6 +134,13 @@ namespace PointRaitingSystem
             int selectedColIndex = dgvStudents.SelectedColumns[0].Index;
             try
             {
+                if (selectedColIndex <= 1 || selectedColIndex >= dgvStudents.Columns.Count - 1)
+                {
+                    FillControlPointInfo();
+                    isCellsHiden = false;
+                    return;
+                }
+
                 if (!isCellsHiden)
                 {
                     foreach (DataGridViewColumn column in dgvStudents.Columns)
@@ -127,7 +153,8 @@ namespace PointRaitingSystem
                                 column.ReadOnly = false;
                         }
                     }
-                    isCellsHiden = !isCellsHiden;
+                    isCellsHiden = true;
+                    FillControlPointInfo(true);
                 }
                 else
                 {
@@ -139,7 +166,8 @@ namespace PointRaitingSystem
                             column.ReadOnly = true;
                         }
                     }
-                    isCellsHiden = !isCellsHiden;
+                    isCellsHiden = false;
+                    FillControlPointInfo();
                 }
             }
             catch(Exception ex)

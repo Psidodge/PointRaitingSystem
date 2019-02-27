@@ -82,6 +82,26 @@ namespace MainLib.DBServices
                 return connection.QueryFirst<UserInfo>(query, parametrs);
             }
         }
+        //NOTE: Test method
+        public static List<UserInfo> SelectUsers()
+        {
+            string query = "SELECT id, [name] FROM users";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                return connection.Query<UserInfo>(query).ToList();
+            }
+        }
         public static List<Group> SelectGroupsByTeacherId(int userId)
         {
             string query = "SELECT gr.* from groups as gr " +
@@ -384,6 +404,31 @@ namespace MainLib.DBServices
                 }
 
                 return connection.Query<GroupInfo>(query).ToList();
+            }
+        }
+        public static ControlPointInfo SelectControlPointInfo(int id)
+        {
+            string query =  "SELECT usr.name, dis.discipline_name, cp.weight, cp.description FROM controlPoints as cp " +
+                            "INNER JOIN users as usr on cp.id_of_teacher = usr.id " +
+                            "INNER JOIN disciplines as dis on cp.id_of_discipline = dis.id " +
+                            "WHERE cp.id = (SELECT stCP.id_of_cp FROM cp_of_student as stCP WHERE stCP.id = @id)";
+
+            var parametrs = new DynamicParameters();
+            parametrs.Add("@id", id);
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                return connection.QueryFirst<ControlPointInfo>(query, parametrs);
             }
         }
 

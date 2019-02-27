@@ -32,6 +32,15 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.bindingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuPanel = new System.Windows.Forms.Panel();
+            this.gbCPInfo = new System.Windows.Forms.GroupBox();
+            this.lblWeight = new System.Windows.Forms.Label();
+            this.lblDiscipline = new System.Windows.Forms.Label();
+            this.lblAuthor = new System.Windows.Forms.Label();
+            this.txtDescription = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.btnCreateCP = new System.Windows.Forms.Button();
             this.btnShowCP = new System.Windows.Forms.Button();
             this.cbDiscipline = new System.Windows.Forms.ComboBox();
@@ -47,6 +56,7 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.menuStrip1.SuspendLayout();
             this.menuPanel.SuspendLayout();
+            this.gbCPInfo.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStudents)).BeginInit();
             this.SuspendLayout();
@@ -75,6 +85,7 @@
             this.menuPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.menuPanel.Controls.Add(this.gbCPInfo);
             this.menuPanel.Controls.Add(this.btnCreateCP);
             this.menuPanel.Controls.Add(this.btnShowCP);
             this.menuPanel.Controls.Add(this.cbDiscipline);
@@ -86,6 +97,93 @@
             this.menuPanel.Name = "menuPanel";
             this.menuPanel.Size = new System.Drawing.Size(284, 556);
             this.menuPanel.TabIndex = 2;
+            // 
+            // gbCPInfo
+            // 
+            this.gbCPInfo.Controls.Add(this.lblWeight);
+            this.gbCPInfo.Controls.Add(this.lblDiscipline);
+            this.gbCPInfo.Controls.Add(this.lblAuthor);
+            this.gbCPInfo.Controls.Add(this.txtDescription);
+            this.gbCPInfo.Controls.Add(this.label6);
+            this.gbCPInfo.Controls.Add(this.label5);
+            this.gbCPInfo.Controls.Add(this.label3);
+            this.gbCPInfo.Controls.Add(this.label2);
+            this.gbCPInfo.Location = new System.Drawing.Point(4, 362);
+            this.gbCPInfo.Name = "gbCPInfo";
+            this.gbCPInfo.Size = new System.Drawing.Size(277, 169);
+            this.gbCPInfo.TabIndex = 8;
+            this.gbCPInfo.TabStop = false;
+            this.gbCPInfo.Text = "Описание КТ:";
+            this.gbCPInfo.Visible = false;
+            // 
+            // lblWeight
+            // 
+            this.lblWeight.AutoSize = true;
+            this.lblWeight.Location = new System.Drawing.Point(94, 80);
+            this.lblWeight.Name = "lblWeight";
+            this.lblWeight.Size = new System.Drawing.Size(0, 13);
+            this.lblWeight.TabIndex = 7;
+            // 
+            // lblDiscipline
+            // 
+            this.lblDiscipline.AutoSize = true;
+            this.lblDiscipline.Location = new System.Drawing.Point(94, 55);
+            this.lblDiscipline.Name = "lblDiscipline";
+            this.lblDiscipline.Size = new System.Drawing.Size(0, 13);
+            this.lblDiscipline.TabIndex = 6;
+            // 
+            // lblAuthor
+            // 
+            this.lblAuthor.AutoSize = true;
+            this.lblAuthor.Location = new System.Drawing.Point(94, 29);
+            this.lblAuthor.Name = "lblAuthor";
+            this.lblAuthor.Size = new System.Drawing.Size(0, 13);
+            this.lblAuthor.TabIndex = 5;
+            // 
+            // txtDescription
+            // 
+            this.txtDescription.Location = new System.Drawing.Point(97, 105);
+            this.txtDescription.Multiline = true;
+            this.txtDescription.Name = "txtDescription";
+            this.txtDescription.ReadOnly = true;
+            this.txtDescription.Size = new System.Drawing.Size(174, 58);
+            this.txtDescription.TabIndex = 4;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(9, 105);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(57, 13);
+            this.label6.TabIndex = 3;
+            this.label6.Text = "Описание";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(9, 80);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(26, 13);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "Вес";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(9, 55);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(70, 13);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Дисциплина";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(9, 29);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(50, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Создана";
             // 
             // btnCreateCP
             // 
@@ -99,6 +197,7 @@
             // 
             // btnShowCP
             // 
+            this.btnShowCP.Enabled = false;
             this.btnShowCP.Location = new System.Drawing.Point(9, 103);
             this.btnShowCP.Name = "btnShowCP";
             this.btnShowCP.Size = new System.Drawing.Size(107, 23);
@@ -109,6 +208,7 @@
             // 
             // cbDiscipline
             // 
+            this.cbDiscipline.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbDiscipline.FormattingEnabled = true;
             this.cbDiscipline.Location = new System.Drawing.Point(11, 77);
             this.cbDiscipline.Margin = new System.Windows.Forms.Padding(2);
@@ -129,6 +229,7 @@
             // 
             // cbGroups
             // 
+            this.cbGroups.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbGroups.FormattingEnabled = true;
             this.cbGroups.Location = new System.Drawing.Point(11, 27);
             this.cbGroups.Margin = new System.Windows.Forms.Padding(2);
@@ -219,6 +320,8 @@
             this.menuStrip1.PerformLayout();
             this.menuPanel.ResumeLayout(false);
             this.menuPanel.PerformLayout();
+            this.gbCPInfo.ResumeLayout(false);
+            this.gbCPInfo.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStudents)).EndInit();
@@ -245,6 +348,15 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Button btnCreateCP;
         private System.Windows.Forms.Button btnShowCP;
+        private System.Windows.Forms.GroupBox gbCPInfo;
+        private System.Windows.Forms.TextBox txtDescription;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblWeight;
+        private System.Windows.Forms.Label lblDiscipline;
+        private System.Windows.Forms.Label lblAuthor;
     }
 }
 

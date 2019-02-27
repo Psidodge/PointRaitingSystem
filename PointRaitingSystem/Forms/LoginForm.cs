@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using MainLib.DBServices;
 using MainLib.Auth;
 using MainLib.Session;
 
@@ -10,6 +11,8 @@ namespace PointRaitingSystem
         public LoginForm()
         {
             InitializeComponent();
+            //NOTE: test
+            DataSetInitializer<UserInfo>.ComboBoxDataSetInitializer(ref cbLogin, DataService.SelectUsers(), "id", "ShortName");
         }
 
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
