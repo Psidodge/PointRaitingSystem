@@ -38,11 +38,11 @@
             this.btnClose = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.привязкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showAllBindingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.delBindingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -147,6 +147,29 @@
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
+            // привязкиToolStripMenuItem
+            // 
+            this.привязкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showAllBindingsToolStripMenuItem,
+            this.delBindingsToolStripMenuItem});
+            this.привязкиToolStripMenuItem.Name = "привязкиToolStripMenuItem";
+            this.привязкиToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
+            this.привязкиToolStripMenuItem.Text = "Привязки";
+            // 
+            // showAllBindingsToolStripMenuItem
+            // 
+            this.showAllBindingsToolStripMenuItem.Enabled = false;
+            this.showAllBindingsToolStripMenuItem.Name = "showAllBindingsToolStripMenuItem";
+            this.showAllBindingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showAllBindingsToolStripMenuItem.Text = "Все привязки";
+            // 
+            // delBindingsToolStripMenuItem
+            // 
+            this.delBindingsToolStripMenuItem.Enabled = false;
+            this.delBindingsToolStripMenuItem.Name = "delBindingsToolStripMenuItem";
+            this.delBindingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.delBindingsToolStripMenuItem.Text = "Удалить привязки";
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -161,27 +184,6 @@
             // 
             this.statusLabel.Name = "statusLabel";
             this.statusLabel.Size = new System.Drawing.Size(0, 17);
-            // 
-            // привязкиToolStripMenuItem
-            // 
-            this.привязкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showAllBindingsToolStripMenuItem,
-            this.delBindingsToolStripMenuItem});
-            this.привязкиToolStripMenuItem.Name = "привязкиToolStripMenuItem";
-            this.привязкиToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
-            this.привязкиToolStripMenuItem.Text = "Привязки";
-            // 
-            // showAllBindingsToolStripMenuItem
-            // 
-            this.showAllBindingsToolStripMenuItem.Name = "showAllBindingsToolStripMenuItem";
-            this.showAllBindingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.showAllBindingsToolStripMenuItem.Text = "Все привязки";
-            // 
-            // delBindingsToolStripMenuItem
-            // 
-            this.delBindingsToolStripMenuItem.Name = "delBindingsToolStripMenuItem";
-            this.delBindingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.delBindingsToolStripMenuItem.Text = "Удалить привязки";
             // 
             // usrSettingsForm
             // 

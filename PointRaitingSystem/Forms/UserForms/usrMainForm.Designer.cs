@@ -213,7 +213,7 @@
             this.cbDiscipline.Location = new System.Drawing.Point(11, 77);
             this.cbDiscipline.Margin = new System.Windows.Forms.Padding(2);
             this.cbDiscipline.Name = "cbDiscipline";
-            this.cbDiscipline.Size = new System.Drawing.Size(173, 21);
+            this.cbDiscipline.Size = new System.Drawing.Size(219, 21);
             this.cbDiscipline.TabIndex = 5;
             this.cbDiscipline.SelectionChangeCommitted += new System.EventHandler(this.cbDiscipline_SelectionChangeCommitted);
             // 

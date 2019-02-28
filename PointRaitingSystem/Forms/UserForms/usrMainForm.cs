@@ -51,6 +51,7 @@ namespace PointRaitingSystem
         {
             usrCPAddForm form = new usrCPAddForm((Discipline)cbDiscipline.SelectedItem, (int)cbGroups.SelectedValue);
             form.ShowDialog();
+            studentCPsDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
         }
         private void btnShowCP_Click(object sender, EventArgs e)
         {
@@ -72,17 +73,17 @@ namespace PointRaitingSystem
             {
                 //cbGroup
                 List<Group> groups = DataService.SelectGroupsByTeacherId(Session.GetCurrentSession().ID);
-                DataSetInitializer<Group>.ComboBoxDataSetInitializer(ref cbGroups, groups, "id", "group_name");
+                DataSetInitializer<Group>.ComboBoxDataSetInitializer(ref cbGroups, groups, "id", "name");
                 //cbDiscipline
                 List<Discipline> disciplines = DataService.SelectDisciplinesByTeacherIdAndGroupId(Session.GetCurrentSession().ID, (int)cbGroups.SelectedValue);
-                DataSetInitializer<Discipline>.ComboBoxDataSetInitializer(ref cbDiscipline, disciplines, "id", "discipline_name");
+                DataSetInitializer<Discipline>.ComboBoxDataSetInitializer(ref cbDiscipline, disciplines, "id", "name");
                 //dgvStudents dataset
                 studentCPsDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
             }
             catch (Exception ex)
             {
                 logger.Error(ex);
-                MessageBox.Show("Произошла ошибка при инициализации набора данных.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show("Произошла ошибка при инициализации набора данных.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             //tsslTeacherName
             tsslTeacherName.Text = Session.GetCurrentSession().UserName;

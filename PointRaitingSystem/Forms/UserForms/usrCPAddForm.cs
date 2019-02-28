@@ -28,7 +28,7 @@ namespace PointRaitingSystem
             try
             {
                 List<Discipline> disciplines = DataService.SelectDisciplinesByTeacherID(Session.GetCurrentSession().ID);
-                DataSetInitializer<Discipline>.ComboBoxDataSetInitializer(ref cbDiscipline, disciplines, "id", "discipline_name");
+                DataSetInitializer<Discipline>.ComboBoxDataSetInitializer(ref cbDiscipline, disciplines, "id", "name");
             }
             catch (Exception ex)
             {
@@ -70,7 +70,11 @@ namespace PointRaitingSystem
                 int indexOfCP = DataService.GetIndexOfLastControlPoint();
                 foreach (Student student in DataService.SelectStudentsByGroupId(groupId))
                 {
-                    DataService.InsertIntoStudentCPTable(new ControlPointsOfStudents{ id_of_controlPoint = indexOfCP, id_of_student = student.id, points = 0});
+                    DataService.InsertIntoStudentCPTable(new ControlPointsOfStudents{
+                        id_of_controlPoint = indexOfCP,
+                        id_of_student = student.id,
+                        points = 0
+                    });
                 }
             }
             catch (Exception ex)

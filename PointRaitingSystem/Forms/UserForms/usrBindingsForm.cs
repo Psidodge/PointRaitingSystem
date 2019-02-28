@@ -65,11 +65,11 @@ namespace PointRaitingSystem
             try
             {
                 clbGroupsDataSource = DataService.SelectAllGroupsInfo();
-                DataSetInitializer<GroupInfo>.clbDataSetInitialize(ref clbGroups, clbGroupsDataSource, "id", "group_name");
+                DataSetInitializer<GroupInfo>.clbDataSetInitialize(ref clbGroups, clbGroupsDataSource, "id", "name");
                 CheckAlreadyAttachedGroups(clbGroupsDataSource);
 
                 List<DisciplineInfo> disciplinesInfo = DataService.SelectAllDisciplinesInfo();
-                DataSetInitializer<DisciplineInfo>.ComboBoxDataSetInitializer(ref cbDisciplines, disciplinesInfo, "id", "full_name");
+                DataSetInitializer<DisciplineInfo>.ComboBoxDataSetInitializer(ref cbDisciplines, disciplinesInfo, "id", "disciplineFullName");
             }
             catch (Exception ex)
             {
@@ -123,7 +123,7 @@ namespace PointRaitingSystem
         //HACK: придумать что-нибудь получше
         private void txtGroupsFilter_TextChanged(object sender, EventArgs e)
         {
-            DataSetInitializer<GroupInfo>.clbDataSetInitialize(ref clbGroups, clbGroupsDataSource, "id", "group_name");
+            DataSetInitializer<GroupInfo>.clbDataSetInitialize(ref clbGroups, clbGroupsDataSource, "id", "name");
             CheckAlreadyAttachedGroups(clbGroupsDataSource);
             List<GroupInfo> groups = new List<GroupInfo>();
 
@@ -132,7 +132,7 @@ namespace PointRaitingSystem
                 if (item.name.Contains(txtGroupsFilter.Text))
                     groups.Add(item);
             }
-            DataSetInitializer<GroupInfo>.clbDataSetInitialize(ref clbGroups, groups, "id", "group_name");
+            DataSetInitializer<GroupInfo>.clbDataSetInitialize(ref clbGroups, groups, "id", "name");
             CheckAlreadyAttachedGroups(groups);
         }
     }

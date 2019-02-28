@@ -4,8 +4,6 @@ using System.Data.SqlClient;
 using System.Configuration;
 using Dapper;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 
 namespace MainLib.DBServices
@@ -935,7 +933,7 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                connection.Execute("UpdateStudentControlPoints", commandType: CommandType.StoredProcedure);
+                connection.Execute("UpdateStudentControlPoints", parameters, commandType: CommandType.StoredProcedure);
                 return parameters.Get<int>("@returnValue");
             }
         }
