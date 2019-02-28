@@ -2,19 +2,10 @@
 using MainLib.Parsing;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PointRaitingSystem
 {
-    public enum DataType { None = -1, Disciplines = 0, Groups = 1, Students = 2, Teachers = 3 };
-
-
     public partial class admParserForm : Form
     {
         private DataType selectedType = DataType.None;
@@ -31,7 +22,6 @@ namespace PointRaitingSystem
         private void admParserForm_FormClosing(object sender, FormClosingEventArgs e)
         {
         }
-
         private void cbType_SelectedIndexChanged(object sender, EventArgs e)
         {
             selectedType = (DataType)cbType.SelectedIndex;
@@ -46,7 +36,7 @@ namespace PointRaitingSystem
             if (openFileDialog.ShowDialog() == DialogResult.Cancel)
                 return;
 
-            tsslCurrentFile.Text = openFileDialog.FileName;
+            tsslInfo.Text = openFileDialog.FileName;
 
             try
             {
@@ -55,12 +45,18 @@ namespace PointRaitingSystem
             catch(Exception ex)
             {
                 logger.Error(ex);
-                MessageBox.Show("Error occurred! See log for more details."); //NOTE: write normal error msg here
+                MessageBox.Show("Error occurred! See log for more details."); 
             }
 
         }
         private void btnParse_Click(object sender, EventArgs e)
         {
+            if (filePath == null)
+            {
+                tsslInfo.Text = "Файл не выбран.";
+                return;
+            }
+
             try
             {
                 switch (selectedType)
@@ -70,9 +66,6 @@ namespace PointRaitingSystem
                     case DataType.Disciplines:
                         ExcelParser.ParseDisciplines(out parsedData, filePath);
                         break;
-                    case DataType.Groups:
-                        ExcelParser.ParseGroups(out parsedData, filePath);
-                        break;
                     case DataType.Students:
                         ExcelParser.ParseStudents(out parsedData, filePath);
                         break;
@@ -81,17 +74,40 @@ namespace PointRaitingSystem
                         break;
 
                 }
+                tsslInfo.Text = "Файл прочитан.";
             }
             catch (Exception ex)
             {
                 logger.Error(ex);
             }
         }
-
         private void btnPreview_Click(object sender, EventArgs e)
         {
+            if(parsedData == null || parsedData.Count == 0)
+            {
+                tsslInfo.Text = "Данные не были выгружены.";
+            }
             admParserPreviweForm form = new admParserPreviweForm(ref parsedData);
             form.ShowDialog();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            if (parsedData == null || parsedData.Count == 0)
+            {
+                tsslInfo.Text = "Данные не были выгружены.";
+            }
+
+            try
+            {
+                FillDataBase.Fill(selectedType, parsedData);
+                tsslInfo.Text = "Сохранено.";
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                tsslInfo.Text = "Данные не сохранены.";
+            }
         }
     }
 }

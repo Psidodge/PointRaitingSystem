@@ -12,23 +12,23 @@ namespace MainLib.Auth
     {
         public static bool WasAuthenticated(string login, string password)
         {
-            List<AuthInfo> authInfos;
+            AuthInfo authInfo;
             try
             {
-                authInfos = DataService.SelectAuthInfoByLogin(login);
+                authInfo = DataService.SelectAuthInfoByLogin(login);
             }
             catch (Exception e)
             {
                 throw new DataBaseConnetionException("Cannot reach the database", e);
             }
 
-            if (authInfos.Count == 0)
+            if (authInfo == null)
                 throw new QueryResultIsNullException();
 
-            byte[] salt = authInfos[0].Salt,
-                   passHash = authInfos[0].Pass_hash;
+            byte[] salt = authInfo.salt,
+                   passHash = authInfo.hash;
             if (salt == null || passHash == null)
-                throw new NullReferenceException(string.Format("Error in WasAuthenticated() where 'salt' is {0}; 'passHash' is {1}", salt, passHash)); //NOTE: Debug info need to delete before realese
+                throw new NullReferenceException();
 
             byte[] enterdPassHash = GetComputedHash(password, salt);
             return enterdPassHash.SequenceEqual(passHash);

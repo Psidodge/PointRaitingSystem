@@ -15,12 +15,14 @@ namespace PointRaitingSystem
     {
 
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
+
         private void InitializeDataSets()
         {
             try
             {
                 List<GroupInfo> groupsInfo = DataService.SelectAllGroupsInfo();
-                DataSetInitializer<GroupInfo>.dgvDataSetInitializer(ref dgvGroups, groupsInfo, new int[] { 1 }, new string[] { "group_name" });
+                DataSetInitializer<GroupInfo>.dgvDataSetInitializer(ref dgvGroups, groupsInfo, new int[] { 0 }, new string[] { "name" });
             }
             catch (Exception ex)
             {
@@ -37,22 +39,23 @@ namespace PointRaitingSystem
         {
             InitializeDataSets();
         }
-
         private void dgvGroups_SelectionChanged(object sender, EventArgs e)
         {
-            txtId.Text = dgvGroups.CurrentRow.Cells["id"].Value.ToString();
-            txtName.Text = dgvGroups.CurrentRow.Cells["group_name"].Value.ToString();
-            txtCourse.Text = dgvGroups.CurrentRow.Cells["group_course"].Value.ToString();
-        }
+            if (dgvGroups.CurrentRow == null)
+                return;
 
+            txtId.Text = dgvGroups.CurrentRow.Cells["id"].Value.ToString();
+            txtName.Text = dgvGroups.CurrentRow.Cells["name"].Value.ToString();
+            txtCourse.Text = dgvGroups.CurrentRow.Cells["course"].Value.ToString();
+        }
         private void btnAdd_Click(object sender, EventArgs e)
         {
             try
             {
                 Group group = new Group
                 {
-                    group_name = txtName.Text,
-                    group_course = int.Parse(txtCourse.Text)
+                    name = txtName.Text,
+                    course = int.Parse(txtCourse.Text)
                 };
 
                 int recAffected = DataService.InsertIntoGroupsTable(group);
@@ -75,8 +78,8 @@ namespace PointRaitingSystem
                 Group group = new Group
                 {
                     id = int.Parse(txtId.Text),
-                    group_name = txtName.Text,
-                    group_course = int.Parse(txtCourse.Text)
+                    name = txtName.Text,
+                    course = int.Parse(txtCourse.Text)
                 };
 
                 int recAffected = DataService.UpdateGroups(group);
@@ -91,11 +94,6 @@ namespace PointRaitingSystem
             {
                 logger.Error(ex);
             }
-        }
-
-        private void btnLoadFromEXCEL_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

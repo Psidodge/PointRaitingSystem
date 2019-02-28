@@ -29,10 +29,8 @@
         private void InitializeComponent()
         {
             this.dgvDisciplines = new System.Windows.Forms.DataGridView();
-            this.isNew = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
-            this.btnLoadFromEXCEL = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtId = new System.Windows.Forms.TextBox();
@@ -49,8 +47,6 @@
             this.dgvDisciplines.AllowUserToAddRows = false;
             this.dgvDisciplines.AllowUserToDeleteRows = false;
             this.dgvDisciplines.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDisciplines.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.isNew});
             this.dgvDisciplines.Dock = System.Windows.Forms.DockStyle.Right;
             this.dgvDisciplines.Location = new System.Drawing.Point(228, 0);
             this.dgvDisciplines.MultiSelect = false;
@@ -58,18 +54,9 @@
             this.dgvDisciplines.ReadOnly = true;
             this.dgvDisciplines.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.dgvDisciplines.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvDisciplines.Size = new System.Drawing.Size(410, 484);
+            this.dgvDisciplines.Size = new System.Drawing.Size(441, 484);
             this.dgvDisciplines.TabIndex = 2;
             this.dgvDisciplines.SelectionChanged += new System.EventHandler(this.dgvDisciplines_SelectionChanged);
-            // 
-            // isNew
-            // 
-            this.isNew.HeaderText = "Новая";
-            this.isNew.Name = "isNew";
-            this.isNew.ReadOnly = true;
-            this.isNew.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.isNew.ToolTipText = "Показывает новые записи";
-            this.isNew.Width = 45;
             // 
             // btnUpdate
             // 
@@ -90,16 +77,6 @@
             this.btnAdd.Text = "Добавить";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-            // 
-            // btnLoadFromEXCEL
-            // 
-            this.btnLoadFromEXCEL.Location = new System.Drawing.Point(38, 3);
-            this.btnLoadFromEXCEL.Name = "btnLoadFromEXCEL";
-            this.btnLoadFromEXCEL.Size = new System.Drawing.Size(151, 23);
-            this.btnLoadFromEXCEL.TabIndex = 4;
-            this.btnLoadFromEXCEL.Text = "Загрузить из файла";
-            this.btnLoadFromEXCEL.UseVisualStyleBackColor = true;
-            this.btnLoadFromEXCEL.Click += new System.EventHandler(this.btnLoadFromEXCEL_Click);
             // 
             // label1
             // 
@@ -160,7 +137,7 @@
             this.groupBox1.Controls.Add(this.txtSemestr);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtId);
-            this.groupBox1.Location = new System.Drawing.Point(3, 43);
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(219, 163);
             this.groupBox1.TabIndex = 13;
@@ -172,10 +149,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.btnLoadFromEXCEL);
             this.Controls.Add(this.dgvDisciplines);
             this.Name = "tabDisciplines";
-            this.Size = new System.Drawing.Size(638, 484);
+            this.Size = new System.Drawing.Size(669, 484);
             this.Load += new System.EventHandler(this.tabDisciplines_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvDisciplines)).EndInit();
             this.groupBox1.ResumeLayout(false);
@@ -187,10 +163,8 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgvDisciplines;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn isNew;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnAdd;
-        private System.Windows.Forms.Button btnLoadFromEXCEL;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtId;

@@ -37,9 +37,9 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.cmsTabs = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.closeAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeCurrentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showUserModuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.parseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.cmsTabs.SuspendLayout();
@@ -113,7 +113,7 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showUserModuleToolStripMenuItem});
+            this.parseToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(948, 24);
@@ -126,28 +126,28 @@
             this.closeCurrentToolStripMenuItem,
             this.closeAllToolStripMenuItem});
             this.cmsTabs.Name = "cmsTabs";
-            this.cmsTabs.Size = new System.Drawing.Size(181, 70);
-            // 
-            // closeAllToolStripMenuItem
-            // 
-            this.closeAllToolStripMenuItem.Name = "closeAllToolStripMenuItem";
-            this.closeAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.closeAllToolStripMenuItem.Text = "Закрыть все";
-            this.closeAllToolStripMenuItem.Click += new System.EventHandler(this.closeAllToolStripMenuItem_Click);
+            this.cmsTabs.Size = new System.Drawing.Size(142, 48);
             // 
             // closeCurrentToolStripMenuItem
             // 
             this.closeCurrentToolStripMenuItem.Name = "closeCurrentToolStripMenuItem";
-            this.closeCurrentToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.closeCurrentToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.closeCurrentToolStripMenuItem.Text = "Закрыть";
             this.closeCurrentToolStripMenuItem.Click += new System.EventHandler(this.closeCurrentToolStripMenuItem_Click);
             // 
-            // showUserModuleToolStripMenuItem
+            // closeAllToolStripMenuItem
             // 
-            this.showUserModuleToolStripMenuItem.Name = "showUserModuleToolStripMenuItem";
-            this.showUserModuleToolStripMenuItem.Size = new System.Drawing.Size(188, 20);
-            this.showUserModuleToolStripMenuItem.Text = "Открыть модуль пользователя";
-            this.showUserModuleToolStripMenuItem.Click += new System.EventHandler(this.showUserModuleToolStripMenuItem_Click);
+            this.closeAllToolStripMenuItem.Name = "closeAllToolStripMenuItem";
+            this.closeAllToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.closeAllToolStripMenuItem.Text = "Закрыть все";
+            this.closeAllToolStripMenuItem.Click += new System.EventHandler(this.closeAllToolStripMenuItem_Click);
+            // 
+            // parseToolStripMenuItem
+            // 
+            this.parseToolStripMenuItem.Name = "parseToolStripMenuItem";
+            this.parseToolStripMenuItem.Size = new System.Drawing.Size(126, 20);
+            this.parseToolStripMenuItem.Text = "Загрузить из файла";
+            this.parseToolStripMenuItem.Click += new System.EventHandler(this.parseToolStripMenuItem_Click);
             // 
             // admMainForm
             // 
@@ -180,9 +180,9 @@
         private System.Windows.Forms.Button btnAddTeachers;
         private System.Windows.Forms.Button btnAddGroups;
         private System.Windows.Forms.Button btnAddDisciplines;
-        private System.Windows.Forms.ToolStripMenuItem showUserModuleToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip cmsTabs;
         private System.Windows.Forms.ToolStripMenuItem closeCurrentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem parseToolStripMenuItem;
     }
 }

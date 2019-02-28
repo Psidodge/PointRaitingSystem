@@ -43,7 +43,7 @@ namespace PointRaitingSystem
         {
             ControlPoint cp = new ControlPoint
             {
-                id_of_teacher = Session.GetCurrentSession().ID,
+                id_of_user = Session.GetCurrentSession().ID,
                 id_of_discipline = (int)cbDiscipline.SelectedValue,
                 weight = int.Parse(txtCPWeight.Text),
                 Description = txtDescription.Text
@@ -70,7 +70,7 @@ namespace PointRaitingSystem
                 int indexOfCP = DataService.GetIndexOfLastControlPoint();
                 foreach (Student student in DataService.SelectStudentsByGroupId(groupId))
                 {
-                    DataService.InsertIntoStudentCPTable(new ControlPointsOfStudents{ id_of_cp = indexOfCP, id_of_student = student.id, points = 0});
+                    DataService.InsertIntoStudentCPTable(new ControlPointsOfStudents{ id_of_controlPoint = indexOfCP, id_of_student = student.id, points = 0});
                 }
             }
             catch (Exception ex)

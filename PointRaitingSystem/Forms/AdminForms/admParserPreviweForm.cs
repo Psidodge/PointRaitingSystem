@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MainLib.Parsing;
 
@@ -33,7 +28,6 @@ namespace PointRaitingSystem
             var @switch = new Dictionary<Type, Action>
             {
                 { typeof(ParsedDiscipline), () => DataSetInitializer<ParsedDiscipline>.dgvDataSetInitializer(ref dgvPreviewData, cpyParsedData.OfType<ParsedDiscipline>().ToList()) },
-                { typeof(ParsedGroup), () => DataSetInitializer<ParsedGroup>.dgvDataSetInitializer(ref dgvPreviewData, cpyParsedData.OfType<ParsedGroup>().ToList()) },
                 { typeof(ParsedStudent), () => DataSetInitializer<ParsedStudent>.dgvDataSetInitializer(ref dgvPreviewData, cpyParsedData.OfType<ParsedStudent>().ToList()) },
                 { typeof(ParsedTeacher), () => DataSetInitializer<ParsedTeacher>.dgvDataSetInitializer(ref dgvPreviewData, cpyParsedData.OfType<ParsedTeacher>().ToList()) },
             };

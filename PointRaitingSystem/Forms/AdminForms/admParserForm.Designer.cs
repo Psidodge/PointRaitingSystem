@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.tsslCurrentFile = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tsslInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.openFileDialogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cbType = new System.Windows.Forms.ComboBox();
@@ -49,7 +49,7 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsslCurrentFile});
+            this.tsslInfo});
             this.statusStrip1.Location = new System.Drawing.Point(0, 181);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(332, 22);
@@ -58,8 +58,8 @@
             // 
             // tsslCurrentFile
             // 
-            this.tsslCurrentFile.Name = "tsslCurrentFile";
-            this.tsslCurrentFile.Size = new System.Drawing.Size(0, 17);
+            this.tsslInfo.Name = "tsslCurrentFile";
+            this.tsslInfo.Size = new System.Drawing.Size(0, 17);
             // 
             // menuStrip
             // 
@@ -83,7 +83,6 @@
             this.cbType.FormattingEnabled = true;
             this.cbType.Items.AddRange(new object[] {
             "Дисциплины",
-            "Группы",
             "Студенты",
             "Преподаватели"});
             this.cbType.Location = new System.Drawing.Point(136, 25);
@@ -161,6 +160,7 @@
             this.btnSave.TabIndex = 10;
             this.btnSave.Text = "Сохранить";
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnCancel
             // 
@@ -204,7 +204,7 @@
 
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.MenuStrip menuStrip;
-        private System.Windows.Forms.ToolStripStatusLabel tsslCurrentFile;
+        private System.Windows.Forms.ToolStripStatusLabel tsslInfo;
         private System.Windows.Forms.ToolStripMenuItem openFileDialogToolStripMenuItem;
         private System.Windows.Forms.ComboBox cbType;
         private System.Windows.Forms.Label label1;

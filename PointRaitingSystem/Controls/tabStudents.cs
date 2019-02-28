@@ -20,7 +20,7 @@ namespace PointRaitingSystem
             try
             {
                 List<StudentInfo> students = DataService.SelectAllStudentsInfo();
-                DataSetInitializer<StudentInfo>.dgvDataSetInitializer(ref dgvStudents, students, new int[] { 1 }, new string[] { "name" });
+                DataSetInitializer<StudentInfo>.dgvDataSetInitializer(ref dgvStudents, students, new int[] { 0 }, new string[] { "name" });
 
                 List<GroupInfo> groups = DataService.SelectAllGroupsInfo();
                 DataSetInitializer<GroupInfo>.ComboBoxDataSetInitializer(ref cbGroup, groups, "id", "group_name");
@@ -30,12 +30,10 @@ namespace PointRaitingSystem
                 logger.Error(ex);
             }
         }
-
         private void tabStudents_Load(object sender, EventArgs e)
         {
             InitializeDataSets();
         }
-
         private void btnAdd_Click(object sender, EventArgs e)
         {
             try
@@ -59,7 +57,6 @@ namespace PointRaitingSystem
                 logger.Error(ex);
             }
         }
-
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             try
@@ -84,7 +81,7 @@ namespace PointRaitingSystem
                 logger.Error(ex);
             }
         }
-        //NOTE: mapper here
+        //NOTE: parser here
         private void btnLoadFromEXCEL_Click(object sender, EventArgs e)
         {
 
@@ -92,6 +89,8 @@ namespace PointRaitingSystem
 
         private void dgvStudents_SelectionChanged(object sender, EventArgs e)
         {
+            if (dgvStudents.CurrentRow == null)
+                return;
             //NOTE: add exception handler here
             txtStId.Text = dgvStudents.CurrentRow.Cells["id"].Value.ToString();
             txtName.Text = dgvStudents.CurrentRow.Cells["name"].Value.ToString();

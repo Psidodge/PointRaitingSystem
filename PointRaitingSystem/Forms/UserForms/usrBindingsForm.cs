@@ -21,7 +21,7 @@ namespace PointRaitingSystem
         public usrSettingsForm()
         {
             InitializeComponent();
-            this.Text = string.Format("{0} - {1}", this.Text, Session.GetCurrentSession().UserName);
+            this.Text = Session.GetCurrentSession().UserName;
         }
         private void usrSettingsForm_Load(object sender, EventArgs e)
         {
@@ -36,7 +36,7 @@ namespace PointRaitingSystem
                 List<Group> teacherGroups = DataService.SelectGroupsByTeacherId(Session.GetCurrentSession().ID);
                 List<GroupInfo> groupsToCheck = (from gr in clbGroupsDataSource
                                                  join tGr in teacherGroups on gr.id equals tGr.id
-                                                select gr).ToList<GroupInfo>();
+                                                 select gr).ToList<GroupInfo>();
                 foreach(int index in clbGroups.CheckedIndices)
                 {
                     clbGroups.SetItemChecked(index, false);
@@ -129,7 +129,7 @@ namespace PointRaitingSystem
 
             foreach(GroupInfo item in clbGroups.Items)
             {
-                if (item.group_name.Contains(txtGroupsFilter.Text))
+                if (item.name.Contains(txtGroupsFilter.Text))
                     groups.Add(item);
             }
             DataSetInitializer<GroupInfo>.clbDataSetInitialize(ref clbGroups, groups, "id", "group_name");

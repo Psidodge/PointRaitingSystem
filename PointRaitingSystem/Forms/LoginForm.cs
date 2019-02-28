@@ -11,8 +11,6 @@ namespace PointRaitingSystem
         public LoginForm()
         {
             InitializeComponent();
-            //NOTE: test
-            DataSetInitializer<UserInfo>.ComboBoxDataSetInitializer(ref cbLogin, DataService.SelectUsers(), "id", "ShortName");
         }
 
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
@@ -22,12 +20,17 @@ namespace PointRaitingSystem
         {
             try
             {
-                if (Auth.WasAuthenticated(txtLogin.Text, txtPassword.Text))
+                if (this.cbLogin.SelectedValue == null)
+                    return;
+
+                if (Auth.WasAuthenticated(this.cbLogin.SelectedValue.ToString(), txtPassword.Text))
                 {
                     isLoggedIn = true;
-                    Session.CreateSessionInstance(this.txtLogin.Text);
+                    Session.CreateSessionInstance(this.cbLogin.SelectedValue.ToString());
                     this.Close();
                 }
+                else
+                    tsslInfo.Text = "Неверное имя пользователя или пароль";
             }
             catch (Auth.QueryResultIsNullException)
             {
@@ -50,11 +53,32 @@ namespace PointRaitingSystem
         }
 
         public bool IsLoggedIn { get => isLoggedIn; }
-
         private void txtKeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
                 btnEnter_Click(this, e);
+        }
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+            //NOTE: test
+            try
+            {
+                DataSetInitializer<UserFullInfo>.ComboBoxDataSetInitializer(ref cbLogin, DataService.SelectUsersFullInfo(), "login", "ShortName");
+            }
+            catch (Auth.QueryResultIsNullException)
+            {
+                tsslInfo.Text = "В базе данных нет информации об пользователях.";
+            }
+            catch (Auth.DataBaseConnetionException dbEx)
+            {
+                logger.Error(dbEx);
+                MessageBox.Show("Не удается подкючиться к базе данных.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                MessageBox.Show("Необработанная ошибка", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

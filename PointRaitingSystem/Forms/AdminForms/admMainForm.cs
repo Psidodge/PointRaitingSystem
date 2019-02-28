@@ -26,7 +26,6 @@ namespace PointRaitingSystem
             });
             tabControl.SelectedIndex = tabControl.Controls.Count - 1;
         }
-
         private void btnAddTeachers_Click(object sender, EventArgs e)
         {
             tabControl.Controls.Add(new CustomTabPage(CustomTabPage.PAGE_TYPE.TEACHERS)
@@ -36,7 +35,6 @@ namespace PointRaitingSystem
             });
             tabControl.SelectedIndex = tabControl.Controls.Count - 1;
         }
-
         private void btnAddDisciplines_Click(object sender, EventArgs e)
         {
             tabControl.Controls.Add(new CustomTabPage(CustomTabPage.PAGE_TYPE.DISCIPLINES)
@@ -47,7 +45,6 @@ namespace PointRaitingSystem
 
             tabControl.SelectedIndex = tabControl.Controls.Count - 1;
         }
-
         private void btnAddGroups_Click(object sender, EventArgs e)
         {
             tabControl.Controls.Add(new CustomTabPage(CustomTabPage.PAGE_TYPE.GROUPS)
@@ -57,24 +54,21 @@ namespace PointRaitingSystem
             });
             tabControl.SelectedIndex = tabControl.Controls.Count - 1;
         }
-
-        private void showUserModuleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            usrMainForm usrMainForm = new usrMainForm();
-            usrMainForm.Show();
-        }
-
         private void closeCurrentToolStripMenuItem_Click(object sender, EventArgs e)
         {
             tabControl.TabPages.Remove(tabControl.SelectedTab);
         }
-
         private void closeAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach(TabPage page in tabControl.TabPages)
             {
                 tabControl.TabPages.Remove(page);
             }
+        }
+        private void parseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            admParserForm admParserForm = new admParserForm();
+            admParserForm.ShowDialog();
         }
     }
 }

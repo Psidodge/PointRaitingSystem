@@ -28,9 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnLoadFromEXCEL = new System.Windows.Forms.Button();
             this.dgvStudents = new System.Windows.Forms.DataGridView();
-            this.isNew = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -44,24 +42,11 @@
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // btnLoadFromEXCEL
-            // 
-            this.btnLoadFromEXCEL.Enabled = false;
-            this.btnLoadFromEXCEL.Location = new System.Drawing.Point(31, 171);
-            this.btnLoadFromEXCEL.Name = "btnLoadFromEXCEL";
-            this.btnLoadFromEXCEL.Size = new System.Drawing.Size(151, 23);
-            this.btnLoadFromEXCEL.TabIndex = 0;
-            this.btnLoadFromEXCEL.Text = "Загрузить из файла";
-            this.btnLoadFromEXCEL.UseVisualStyleBackColor = true;
-            this.btnLoadFromEXCEL.Click += new System.EventHandler(this.btnLoadFromEXCEL_Click);
-            // 
             // dgvStudents
             // 
             this.dgvStudents.AllowUserToAddRows = false;
             this.dgvStudents.AllowUserToDeleteRows = false;
             this.dgvStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvStudents.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.isNew});
             this.dgvStudents.Dock = System.Windows.Forms.DockStyle.Right;
             this.dgvStudents.Location = new System.Drawing.Point(215, 0);
             this.dgvStudents.MultiSelect = false;
@@ -72,15 +57,6 @@
             this.dgvStudents.Size = new System.Drawing.Size(494, 484);
             this.dgvStudents.TabIndex = 1;
             this.dgvStudents.SelectionChanged += new System.EventHandler(this.dgvStudents_SelectionChanged);
-            // 
-            // isNew
-            // 
-            this.isNew.HeaderText = "Новая";
-            this.isNew.Name = "isNew";
-            this.isNew.ReadOnly = true;
-            this.isNew.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.isNew.ToolTipText = "Показывает новые записи";
-            this.isNew.Width = 45;
             // 
             // btnAdd
             // 
@@ -176,7 +152,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgvStudents);
-            this.Controls.Add(this.btnLoadFromEXCEL);
             this.Name = "tabStudents";
             this.Size = new System.Drawing.Size(709, 484);
             this.Load += new System.EventHandler(this.tabStudents_Load);
@@ -188,10 +163,7 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btnLoadFromEXCEL;
         private System.Windows.Forms.DataGridView dgvStudents;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn isNew;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.GroupBox groupBox1;

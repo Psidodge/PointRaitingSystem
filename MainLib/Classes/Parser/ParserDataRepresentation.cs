@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MainLib.DBServices;
 
 namespace MainLib.Parsing
 {
+    public enum DataType { None = -1, Disciplines = 0, Students = 1, Teachers = 2 };
+
     public abstract class ParsedData
     {
         public abstract Type GetTypeOfData();
@@ -15,17 +18,14 @@ namespace MainLib.Parsing
     {
         public string Name { get; set; }
         public int Sem { get; set; }
-
-        public override Type GetTypeOfData()
+        public Discipline ConvertToDataBaseRep()
         {
-            return this.GetType();
+            return new Discipline()
+            {
+                name = Name,
+                semestr = Sem
+            };
         }
-    }
-    public class ParsedGroup : ParsedData
-    {
-        public string Name { get; set; }
-        public int Course { get; set; }
-
         public override Type GetTypeOfData()
         {
             return this.GetType();
@@ -34,15 +34,32 @@ namespace MainLib.Parsing
     public class ParsedStudent : ParsedData
     {
         public string Name { get; set; }
-        public ParsedGroup group { get; set; }
+        public string group { get; set; }
+        public Student ConvertToDataBaseRep()
+        {
+            Func<int> func = () => { return DataService.GetIdOfGroupByGroupName(Name); };
+
+            return new Student()
+            {
+                name = Name,
+                id_of_group = func()
+            };
+        }
         public override Type GetTypeOfData()
         {
             return this.GetType();
-        }
+        } 
     }
     public class ParsedTeacher : ParsedData
     {
         public string Name { get; set; }
+        public UserInfo ConvertToDataBaseRep()
+        {
+            return new UserInfo()
+            {
+                Name = this.Name
+            };
+        }
         public override Type GetTypeOfData()
         {
             return this.GetType();

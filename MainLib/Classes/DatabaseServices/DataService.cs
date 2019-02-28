@@ -14,13 +14,11 @@ namespace MainLib.DBServices
     //TODO: Catch exception from caller
     public static class DataService
     {
-        private static string connectionString = ConfigurationManager.ConnectionStrings["cp_dbConnectionString"].ConnectionString;
+        private static string connectionString = ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
 
         // SELECT
-        public static List<AuthInfo> SelectAuthInfoByLogin(string userLogin)
+        public static AuthInfo SelectAuthInfoByLogin(string userLogin)
         {
-            string query = "SELECT pass_hash, salt FROM authInfo WHERE [login] = @login";
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -33,18 +31,34 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.Query<AuthInfo>(query, new { login = userLogin }).ToList();
+                var parameters = new DynamicParameters();
+                parameters.Add("@login", userLogin);
+
+                return connection.QueryFirst<AuthInfo>("SelectAuthInfoByLogin", parameters, commandType: CommandType.StoredProcedure, commandTimeout: 20);
+            }
+        }
+        public static AuthInfoAdmin SelectAuthInfoByID(int usrID)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@usrID", usrID);
+
+                return connection.QueryFirst<AuthInfoAdmin>("SelectAuthInfoByID", parameters, commandType: CommandType.StoredProcedure, commandTimeout: 20);
             }
         }
         public static UserInfo SelectLoggedTeacher(string userLogin)
         {
-            string query = "SELECT t.id, t.[name], t.isAdmin FROM users as t " +
-                            "INNER JOIN authInfo AS ai ON t.id_of_authInfo = ai.id " +
-                            "WHERE ai.login = @login";
-
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@login", userLogin);
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -57,16 +71,14 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.QueryFirst<UserInfo>(query, parametrs);
+                var parameters = new DynamicParameters();
+                parameters.Add("@login", userLogin);
+
+                return connection.QueryFirst<UserInfo>("SelectLoggedUser", parameters, commandType: CommandType.StoredProcedure);
             }
         }
         public static UserInfo SelectTeacherById(int userId)
         {
-            string query = "SELECT id, [name], isAdmin FROM users WHERE id = @id";
-
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@id", userId);
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -79,156 +91,14 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.QueryFirst<UserInfo>(query, parametrs);
-            }
-        }
-        //NOTE: Test method
-        public static List<UserInfo> SelectUsers()
-        {
-            string query = "SELECT id, [name] FROM users";
+                var parameters = new DynamicParameters();
+                parameters.Add("@id", userId);
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    if (connection.State != ConnectionState.Open)
-                        connection.Open();
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-
-                return connection.Query<UserInfo>(query).ToList();
-            }
-        }
-        public static List<Group> SelectGroupsByTeacherId(int userId)
-        {
-            string query = "SELECT gr.* from groups as gr " +
-                           "INNER JOIN teacher_groups as tgr on gr.id = tgr.id_of_group " +
-                           "INNER JOIN users as t on tgr.id_of_teacher = t.id " +
-                           "WHERE t.id = @id";
-
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@id", userId);
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    if (connection.State != ConnectionState.Open)
-                        connection.Open();
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-
-                return connection.Query<Group>(query, parametrs).ToList();
-            }
-        }
-        public static List<Discipline> SelectDisciplinesByTeacherIdAndGroupId(int teacherId, int groupId)
-        {
-            string query = "SELECT d.* from disciplines as d " +
-                           "INNER JOIN group_disciplines as grd on grd.id_of_discipline = d.id " +
-                           "INNER JOIN teacher_disciplines as td on td.id_of_discipline = d.id " +
-                           "WHERE grd.id_of_group = @groupId AND td.id_of_teacher = @teacherId";
-
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@teacherId", teacherId);
-            parametrs.Add("@groupId", groupId);
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    if (connection.State != ConnectionState.Open)
-                        connection.Open();
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-
-                return connection.Query<Discipline>(query, parametrs).ToList();
-            }
-        }
-        public static List<Discipline> SelectDisciplinesByTeacherID(int id)
-        {
-            string query = "SELECT d.* from disciplines as d " +
-                           "INNER JOIN teacher_disciplines as td on td.id_of_discipline = d.id " +
-                           "WHERE td.id_of_teacher = @id";
-
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@id", id);
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    if (connection.State != ConnectionState.Open)
-                        connection.Open();
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-
-                return connection.Query<Discipline>(query, parametrs).ToList();
-            }
-        }
-        public static List<Student> SelectStudentsByGroupId(int groupId)
-        {
-            string query = "SELECT * FROM students WHERE id_of_group = @groupId";
-
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@groupId", groupId);
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    if (connection.State != ConnectionState.Open)
-                        connection.Open();
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-
-                return connection.Query<Student>(query, parametrs).ToList();
-            }
-        }
-        public static List<ControlPoint> SelectControlPointsByDisciplineId(int id)
-        {
-            string query = "SELECT * FROM controlPoints WHERE id_of_discipline = @id";
-
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@id", id);
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    if (connection.State != ConnectionState.Open)
-                        connection.Open();
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-
-                return connection.Query<ControlPoint>(query, parametrs).ToList();
+                return connection.QueryFirst<UserInfo>("SelectUser", parameters, commandType: CommandType.StoredProcedure);
             }
         }
         public static ControlPoint SelectControlPointsInfoByStIdAndCpIndex(int studentId, int disciplineId, int cpIndex)
         {
-            string query =  "SELECT CP.* FROM dbo.controlPoints as CP " +
-                            "INNER JOIN dbo.cp_of_student as CPS on cps.id_of_cp = cp.id " +
-                            "WHERE cps.id_of_student = @sId AND cp.id_of_discipline = @dId";
-
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@sId", studentId);
-            parametrs.Add("@dId", disciplineId);
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -241,19 +111,18 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                List<ControlPoint> cps = connection.Query<ControlPoint>(query, parametrs).ToList();
-                if(cps.Count == 0)
+                var parameters = new DynamicParameters();
+                parameters.Add("@stID", studentId);
+                parameters.Add("@dID", disciplineId);
+
+                List<ControlPoint> cps = connection.Query<ControlPoint>("SelectControlPoint", parameters, commandType: CommandType.StoredProcedure).ToList();
+                if (cps.Count == 0)
                     return null;
                 return cps[cpIndex];
             }
         }
         public static Discipline SelectDisciplineById(int id)
         {
-            string query = "SELECT * FROM disciplines WHERE id = @id";
-
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@id", id);
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -266,19 +135,133 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.QueryFirst<Discipline>(query, parametrs);
+                var parameters = new DynamicParameters();
+                parameters.Add("@dID", id);
+
+                return connection.QueryFirst<Discipline>("SelectDiscipline", commandType: CommandType.StoredProcedure);
+            }
+        }
+        //NOTE: Test method
+        public static List<UserFullInfo> SelectUsersFullInfo()
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                return connection.Query<UserFullInfo>("SelectUsersFullInfo", commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+        public static List<Group> SelectGroupsByTeacherId(int userId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@id", userId);
+
+                return connection.Query<Group>("SelectUserGroups", parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+        public static List<Discipline> SelectDisciplinesByTeacherIdAndGroupId(int teacherId, int groupId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@usrID", teacherId);
+                parameters.Add("@grID", groupId);
+
+                return connection.Query<Discipline>("SelectGroupDisciplines", parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+        public static List<Discipline> SelectDisciplinesByTeacherID(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@usrID", id);
+
+                return connection.Query<Discipline>("SelectUserDisciplines", parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+        public static List<Student> SelectStudentsByGroupId(int groupId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@grID", groupId);
+
+                return connection.Query<Student>("SelectGroupStudents", parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+        public static List<ControlPoint> SelectControlPointsByDisciplineId(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@dID", id);
+
+                return connection.Query<ControlPoint>("SelectDisciplineControlPoints", parameters, commandType: CommandType.StoredProcedure).ToList();
             }
         }
         public static List<ControlPointsOfStudents> SelectStudentControPoints(int stId, int cpId)
         {
-            string query =  "SELECT scp.* FROM cp_of_student AS scp " +
-                            "INNER JOIN controlPoints AS cp ON cp.id = scp.id_of_cp " +
-                            "WHERE scp.id_of_student = @sid AND cp.id_of_discipline = @cid";
-
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@sid", stId);
-            parametrs.Add("@cid", cpId);
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -291,20 +274,15 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.Query<ControlPointsOfStudents>(query, parametrs).ToList();
+                var parameters = new DynamicParameters();
+                parameters.Add("@stID", stId);
+                parameters.Add("@dID", cpId);
+
+                return connection.Query<ControlPointsOfStudents>("SelectStudentControlPoints", parameters, commandType: CommandType.StoredProcedure).ToList();
             }
         }
         public static List<StudentControlPoint> SelectStudentControPointsGroupDisc(int grId, int discId)
         {
-            string query = "SELECT stCP.id, stCP.id_of_student, stCP.id_of_cp, stCP.points, cp.description FROM cp_of_student AS stCP " +
-                            "INNER JOIN students AS st ON st.id = stCP.id_of_student " +
-                            "INNER JOIN controlPoints AS cp ON cp.id = stCP.id_of_cp " +
-                            "WHERE st.id_of_group = @grId AND cp.id_of_discipline = @dId";
-
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@grId", grId);
-            parametrs.Add("@dId", discId);
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -317,18 +295,20 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.Query<StudentControlPoint>(query, parametrs).ToList();
+                var parameters = new DynamicParameters();
+                parameters.Add("@grId", grId);
+                parameters.Add("@dId", discId);
+
+                return connection.Query<StudentControlPoint>("SelectStudentControlPointsInfos", parameters, commandType: CommandType.StoredProcedure).ToList();
             }
         }
-        public static List<TeacherInfo> SelectAllTeachersInfo()
+
+        public static List<UserInfo> SelectAllUsers()
         {
             //NOTE: Если пользователь не админ, то не выполняем, нужно как-то это сообщить пользователю
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return null;
 
-            string query = "SELECT usr.id, usr.name, ai.[login], usr.isAdmin, usr.id_of_authInfo FROM users AS usr " +
-                           "INNER JOIN authInfo AS ai ON ai.id = usr.id_of_authInfo";
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -341,7 +321,7 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.Query<TeacherInfo>(query).ToList();
+                return connection.Query<UserInfo>("SelectUsersInfo", commandType: CommandType.StoredProcedure).ToList();
             }
         }
         public static List<StudentInfo> SelectAllStudentsInfo()
@@ -350,9 +330,6 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return null;
 
-            string query = "SELECT st.id, st.name, gr.group_name FROM dbo.students AS st " +
-                           "INNER JOIN dbo.groups AS gr ON gr.id = st.id_of_group";
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -365,13 +342,11 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.Query<StudentInfo>(query).ToList();
+                return connection.Query<StudentInfo>("SelectStudentsInfo", commandType: CommandType.StoredProcedure).ToList();
             }
         }
         public static List<DisciplineInfo> SelectAllDisciplinesInfo()
         {
-            string query = "SELECT id, discipline_name, semestr FROM disciplines";
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -384,13 +359,11 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.Query<DisciplineInfo>(query).ToList();
+                return connection.Query<DisciplineInfo>("SelectDisciplinesInfo", commandType: CommandType.StoredProcedure).ToList();
             }
         }
         public static List<GroupInfo> SelectAllGroupsInfo()
         {
-            string query = "SELECT id, group_name, group_course FROM groups";
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -403,19 +376,11 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.Query<GroupInfo>(query).ToList();
+                return connection.Query<GroupInfo>("SelectGroupsInfo", commandType: CommandType.StoredProcedure).ToList();
             }
         }
         public static ControlPointInfo SelectControlPointInfo(int id)
         {
-            string query =  "SELECT usr.name, dis.discipline_name, cp.weight, cp.description FROM controlPoints as cp " +
-                            "INNER JOIN users as usr on cp.id_of_teacher = usr.id " +
-                            "INNER JOIN disciplines as dis on cp.id_of_discipline = dis.id " +
-                            "WHERE cp.id = (SELECT stCP.id_of_cp FROM cp_of_student as stCP WHERE stCP.id = @id)";
-
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@id", id);
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -428,14 +393,15 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.QueryFirst<ControlPointInfo>(query, parametrs);
+                var parameters = new DynamicParameters();
+                parameters.Add("@cpID", id);
+
+                return connection.QueryFirst<ControlPointInfo>("SelectControlPointInfo", parameters, commandType: CommandType.StoredProcedure);
             }
         }
 
         public static int GetIndexOfLastControlPoint()
         {
-            string query = "SELECT MAX(id) FROM controlPoints";
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -448,16 +414,11 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.QueryFirst<int>(query);
+                return connection.QueryFirst<int>("IdOfLastCP", commandType: CommandType.StoredProcedure);
             }
         }
         public static int GetIdOfGroupByGroupName(string groupName)
         {
-            string query = "SELECT id FROM groups WHERE group_name = @grName";
-
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@grName", groupName);
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -470,16 +431,21 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.QueryFirst<int>(query, parametrs);
+                var parameters = new DynamicParameters();
+                parameters.Add("@groupName", groupName);
+
+                try
+                {
+                    return connection.QueryFirst<int>("IdOfGroupByGroupName", commandType: CommandType.StoredProcedure);
+                }
+                catch (Exception)
+                {
+                    return 0;
+                }
             }
         }
         public static bool isLoginExist(string login)
         {
-            string query = "SELECT Count(*) FROM authInfo WHERE login = @login";
-
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@login", login);
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -492,18 +458,14 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return (connection.QueryFirst<int>(query, parametrs) > 0 ? true : false);
+                var parameters = new DynamicParameters();
+                parameters.Add("@login", login);
+
+                return connection.QueryFirst<bool>("IsLoginExists", parameters, commandType: CommandType.StoredProcedure);
             }
         }
         public static bool isTeacherDiscipline(int disciplineId, int teacherId)
         {
-            string query =  "SELECT d.* from disciplines as d " +
-                            "INNER JOIN teacher_disciplines as td on td.id_of_discipline = d.id " +
-                            "WHERE td.id_of_teacher = @tId AND d.id = @dId";
-
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@tId", teacherId);
-            parametrs.Add("@dId", disciplineId);
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -516,17 +478,15 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.Query<Discipline>(query, parametrs).Count() != 0;
+                var parameters = new DynamicParameters();
+                parameters.Add("@userID", teacherId);
+                parameters.Add("@dID", disciplineId);
+
+                return connection.QueryFirst<bool>("IsTeacherDiscipline", parameters, commandType: CommandType.StoredProcedure);
             }
         }
         public static bool isGroupDiscipline(int disciplineId, int groupId)
         {
-            string query =  "SELECT * FROM group_disciplines " +
-                            "WHERE id_of_discipline = @dId AND id_of_group = @grId";
-
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@dId", disciplineId);
-            parametrs.Add("@grId", groupId);
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -539,16 +499,15 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.Query<Discipline>(query, parametrs).Count() != 0;
+                var parameters = new DynamicParameters();
+                parameters.Add("@dID", disciplineId);
+                parameters.Add("@groupID", groupId);
+
+                return connection.QueryFirst<bool>("IsGroupDiscipline", parameters, commandType: CommandType.StoredProcedure);
             }
         }
         public static bool isGroupExist(out int groupId, string groupName)
         {
-            string query = "SELECT id FROM groups " +
-                            "WHERE group_name = @grName";
-
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@grName", groupName);
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -560,8 +519,13 @@ namespace MainLib.DBServices
                 {
                     throw e;
                 }
-                groupId = connection.QueryFirst<int>(query, parametrs);
-                if(groupId == 0)
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@groupName", groupName);
+
+                groupId = connection.QueryFirst<int>("IsGroupExists", parameters, commandType: CommandType.StoredProcedure);
+
+                if(groupId == -1)
                     return false;
                 return true;
             }
@@ -570,13 +534,12 @@ namespace MainLib.DBServices
         // INSERT
         public static int InsertIntoControlPointsTable(ControlPoint cpToIns)
         {
-            string query = "INSERT INTO ControlPoints(id_of_teacher, id_of_discipline, weight, description) VALUES (@tid, @did, @weight, @desc);";
-
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@tid", cpToIns.id_of_teacher);
-            parametrs.Add("@did", cpToIns.id_of_discipline);
-            parametrs.Add("@weight", cpToIns.weight);
-            parametrs.Add("@desc", cpToIns.Description);
+            var parameters = new DynamicParameters();
+            parameters.Add("@userID", cpToIns.id_of_user);
+            parameters.Add("@disID", cpToIns.id_of_discipline);
+            parameters.Add("@weight", cpToIns.weight);
+            parameters.Add("@desc", cpToIns.Description);
+            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -590,16 +553,17 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.Execute(query, parametrs);
+                connection.Execute("InsertIntoControlPoints", parameters, commandType: CommandType.StoredProcedure);
+                return parameters.Get<int>("@returnValue");
             }
         }
         public static int InsertIntoStudentCPTable(ControlPointsOfStudents cpToIns)
         {
-            string query = "INSERT INTO cp_of_student(id_of_student, id_of_cp, points) VALUES (@sid, @cid, @points);";
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@sid", cpToIns.id_of_student);
-            parametrs.Add("@cid", cpToIns.id_of_cp);
-            parametrs.Add("@points", cpToIns.points);
+            var parameters = new DynamicParameters();
+            parameters.Add("@stID", cpToIns.id_of_student);
+            parameters.Add("@cpID", cpToIns.id_of_controlPoint);
+            parameters.Add("@points", cpToIns.points);
+            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -613,15 +577,16 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.Execute(query, parametrs);
+                connection.Execute("InsertIntoStudentsControlPoints", parameters, commandType: CommandType.StoredProcedure);
+                return parameters.Get<int>("@returnValue");
             }
         }
         public static int InsertIntoTeacherDisciplines(int teacherId, int disciplineId)
         {
-            string query = "INSERT INTO teacher_disciplines(id_of_teacher, id_of_discipline) VALUES (@tID, @disID)";
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@tID", teacherId);
-            parametrs.Add("@disID", disciplineId);
+            var parameters = new DynamicParameters();
+            parameters.Add("@userID", teacherId);
+            parameters.Add("@disID", disciplineId);
+            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -635,15 +600,16 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.Execute(query, parametrs);
+                connection.Execute("InsertIntoUserDisciplines", parameters, commandType: CommandType.StoredProcedure);
+                return parameters.Get<int>("@returnValue");
             }
         }
         public static int InsertIntoTeacherGroups(int teacherId, int groupId)
         {
-            string query = "INSERT INTO teacher_groups(id_of_teacher, id_of_group) VALUES (@tID, @grID)";
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@tID", teacherId);
-            parametrs.Add("@grID", groupId);
+            var parameters = new DynamicParameters();
+            parameters.Add("@userID", teacherId);
+            parameters.Add("@groupID", groupId);
+            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -657,15 +623,16 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.Execute(query, parametrs);
+                connection.Execute("InsertIntoUserGroups", parameters, commandType: CommandType.StoredProcedure);
+                return parameters.Get<int>("@returnValue");
             }
         }
         public static int InsertIntoGroupDiscipline(int disciplineId, int groupId)
         {
-            string query = "INSERT INTO group_disciplines(id_of_discipline, id_of_group) VALUES (@dID, @grID)";
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@dID", disciplineId);
-            parametrs.Add("@grID", groupId);
+            var parameters = new DynamicParameters();
+            parameters.Add("@dID", disciplineId);
+            parameters.Add("@groupID", groupId);
+            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -679,19 +646,44 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.Execute(query, parametrs);
+                connection.Execute("InsertIntoGroupDiscipline", parameters, commandType: CommandType.StoredProcedure);
+                return parameters.Get<int>("@returnValue");
             }
         }
 
+        public static int InsertIntoAuthInfo(AuthInfoAdmin authInfo)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@login", authInfo.login);
+            parameters.Add("@hash", authInfo.hash);
+            parameters.Add("@salt", authInfo.salt);
+            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                connection.Execute("InsertIntoAuthInfo", parameters, commandType: CommandType.StoredProcedure);
+                return parameters.Get<int>("@returnValue");
+            }
+        }
         public static int InsertIntoStudentsTable(Student stToIns)
         {
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
-            string query = "INSERT INTO students(name, id_of_group) VALUES (@sName, @grId);";
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@sName", stToIns.name);
-            parametrs.Add("@grId", stToIns.id_of_group);
+            var parameters = new DynamicParameters();
+            parameters.Add("@stName", stToIns.name);
+            parameters.Add("@groupID", stToIns.id_of_group);
+            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -705,11 +697,11 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.Execute(query, parametrs);
+                connection.Execute("InsertIntoStudents", parameters, commandType: CommandType.StoredProcedure);
+                return parameters.Get<int>("@returnValue");
             }
         }
-        //NOTE: To remake, possibly works wrong
-        public static int InsertIntoTeachersTable(TeacherInfo userToInsert, AuthInfoAdmin authInfo)
+        public static int InsertIntoTeachersTable(UserInfo teacher)
         {
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
@@ -725,24 +717,14 @@ namespace MainLib.DBServices
                 {
                     throw e;
                 }
-                string query =  "INSERT INTO authInfo(login, pass_hash, salt) VALUES (@login, @hash, @salt)";
-                var parametrs = new DynamicParameters();
-                parametrs.Add("@login", authInfo.login);
-                parametrs.Add("@hash", authInfo.Pass_hash);
-                parametrs.Add("@salt", authInfo.Salt);
 
-                connection.Execute(query, parametrs);
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@usrName", teacher.Name);
+                parameters.Add("@usrPrivileges", teacher.isAdmin);
+                parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
-                int authInfoId = connection.QueryFirst<int>("SELECT MAX(id) FROM authInfo");
-
-                query = "INSERT INTO users(name, id_of_authInfo, isAdmin) VALUES (@tName, @aiId, @isAdm);";
-                parametrs = new DynamicParameters();
-                parametrs.Add("@tName", userToInsert.Name);
-                parametrs.Add("@aiId", authInfoId);
-                parametrs.Add("@isAdm", userToInsert.isAdmin);
-
-
-                return connection.Execute(query, parametrs);
+                connection.Execute("InsertIntoUsers", parameters, commandType: CommandType.StoredProcedure);
+                return parameters.Get<int>("@returnValue");
             }
         }
         public static int InsertIntoGroupsTable(Group grToIns)
@@ -750,10 +732,10 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
-            string query = "INSERT INTO groups(group_name, group_course) VALUES (@grName, @grCourse);";
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@grName", grToIns.group_name);
-            parametrs.Add("@grCourse", grToIns.group_course);
+            var parameters = new DynamicParameters();
+            parameters.Add("@grName", grToIns.name);
+            parameters.Add("@grCourse", grToIns.course);
+            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -766,8 +748,8 @@ namespace MainLib.DBServices
                 {
                     throw e;
                 }
-
-                return connection.Execute(query, parametrs);
+                connection.Execute("InsertIntoGroups", parameters, commandType: CommandType.StoredProcedure);
+                return parameters.Get<int>("@returnValue");
             }
         }
         public static int InsertIntoDisciplinesTable(Discipline disciplineToIns)
@@ -775,10 +757,10 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
-            string query = "INSERT INTO disciplines(discipline_name, semestr) VALUES (@dName, @dSem);";
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@dName", disciplineToIns.discipline_name);
-            parametrs.Add("@dSem", disciplineToIns.semestr);
+            var parameters = new DynamicParameters();
+            parameters.Add("@dName", disciplineToIns.name);
+            parameters.Add("@dSem", disciplineToIns.semestr);
+            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -792,21 +774,22 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.Execute(query, parametrs);
+                connection.Execute("InsertIntoDisciplines", parameters, commandType: CommandType.StoredProcedure);
+                return parameters.Get<int>("@returnValue");
             }
         }
 
         // UPDATE
-        public static int UpdateStudents(Student stToUpd)
+        public static int UpdateAuthInfo(AuthInfoAdmin authInfo)
         {
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
-            string query = "UPDATE students SET name = @sName, id_of_group = @grId WHERE id = @id;";
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@id", stToUpd.id);
-            parametrs.Add("@sName", stToUpd.name);
-            parametrs.Add("@grId", stToUpd.id_of_group);
+            var parameters = new DynamicParameters();
+            parameters.Add("@id", authInfo.id);
+            parameters.Add("@hash", authInfo.hash);
+            parameters.Add("@salt", authInfo.salt);
+            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -820,14 +803,20 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.Execute(query, parametrs);
+                connection.Execute("UpdateAuthInfo", parameters, commandType: CommandType.StoredProcedure);
+                return parameters.Get<int>("@returnValue");
             }
         }
-        //NOTE: возможность изменять аут. данные есть, но она не используется
-        public static int UpdateTeachers(TeacherInfo usrToUpdate, AuthInfoAdmin authInfo = null)
+        public static int UpdateStudents(Student student)
         {
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
+
+            var parameters = new DynamicParameters();
+            parameters.Add("@stID", student.id);
+            parameters.Add("@stName", student.name);
+            parameters.Add("@stGroupID", student.id_of_group);
+            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -841,39 +830,14 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                string query;
-                var parametrs = new DynamicParameters();
-
-                if (authInfo != null && usrToUpdate.id_of_authInfo != 0)
-                {
-                    query = "UPDATE authInfo SET login = @login, pass_hash = @hash, salt = @salt WHERE id = @id;";
-                    parametrs.Add("@login", authInfo.login);
-                    parametrs.Add("@hash", authInfo.Pass_hash);
-                    parametrs.Add("@salt", authInfo.Salt);
-                    parametrs.Add("@id", usrToUpdate.id_of_authInfo);
-                    connection.Execute(query, parametrs);
-                }
-
-                query = "UPDATE users SET name = @tName, isAdmin = @isAdm, id_of_authInfo = @authId WHERE id = @id";
-                parametrs = new DynamicParameters();
-                parametrs.Add("@id", usrToUpdate.id);
-                parametrs.Add("@tName", usrToUpdate.Name);
-                parametrs.Add("@isAdm", usrToUpdate.isAdmin);
-                parametrs.Add("@authId", usrToUpdate.id_of_authInfo);
-
-                return connection.Execute(query, parametrs);
+                connection.Execute("UpdateStudents", parameters, commandType: CommandType.StoredProcedure);
+                return parameters.Get<int>("@returnValue");
             }
         }
-        public static int UpdateGroups(Group grToUpd)
+        public static int UpdateTeachers(UserInfo teacher)
         {
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
-
-            string query = "UPDATE groups SET group_name = @grName, group_course = @grCourse WHERE id = @id;";
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@id", grToUpd.id);
-            parametrs.Add("@grName", grToUpd.group_name);
-            parametrs.Add("@grCourse", grToUpd.group_course);
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -887,19 +851,27 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.Execute(query, parametrs);
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@usrID", teacher.id);
+                parameters.Add("@authID", teacher.authID);
+                parameters.Add("@usrName", teacher.Name);
+                parameters.Add("@usrPrivileges", teacher.isAdmin);
+                parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
+
+                connection.Execute("UpdateUsers", parameters, commandType: CommandType.StoredProcedure);
+                return parameters.Get<int>("@returnValue");
             }
         }
-        public static int UpdateDisciplines(Discipline disciplineToUpd)
+        public static int UpdateGroups(Group group)
         {
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
-            string query = "UPDATE disciplines SET discipline_name = @dName, semestr = @dSemestr WHERE id = @id;";
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@id", disciplineToUpd.id);
-            parametrs.Add("@dName", disciplineToUpd.discipline_name);
-            parametrs.Add("@dSemestr", disciplineToUpd.semestr);
+            var parameters = new DynamicParameters();
+            parameters.Add("@grID", group.id);
+            parameters.Add("@grName", group.name);
+            parameters.Add("@grCourse", group.course);
+            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -913,15 +885,43 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.Execute(query, parametrs);
+                connection.Execute("UpdateGroups", parameters, commandType: CommandType.StoredProcedure);
+                return parameters.Get<int>("@returnValue");
+            }
+        }
+        public static int UpdateDisciplines(Discipline discipline)
+        {
+            if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
+                return -1;
+
+            var parameters = new DynamicParameters();
+            parameters.Add("@dID", discipline.id);
+            parameters.Add("@dName", discipline.name);
+            parameters.Add("@dSemestr", discipline.semestr);
+            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                connection.Execute("UpdateDisciplines", parameters, commandType: CommandType.StoredProcedure);
+                return parameters.Get<int>("@returnValue");
             }
         }
         public static int UpdateStudentCP(int points, int cpId)
         {
-            string query = "UPDATE cp_of_student SET points = @points WHERE id = @id;";
-            var parametrs = new DynamicParameters();
-            parametrs.Add("@points", points);
-            parametrs.Add("@id", cpId);
+            var parameters = new DynamicParameters();
+            parameters.Add("@points", points);
+            parameters.Add("@cpID", cpId);
+            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -935,7 +935,8 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.Execute(query, parametrs);
+                connection.Execute("UpdateStudentControlPoints", commandType: CommandType.StoredProcedure);
+                return parameters.Get<int>("@returnValue");
             }
         }
     }

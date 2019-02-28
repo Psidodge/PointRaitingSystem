@@ -41,7 +41,7 @@
             this.dgvPreviewData.Dock = System.Windows.Forms.DockStyle.Top;
             this.dgvPreviewData.Location = new System.Drawing.Point(0, 0);
             this.dgvPreviewData.Name = "dgvPreviewData";
-            this.dgvPreviewData.Size = new System.Drawing.Size(800, 346);
+            this.dgvPreviewData.Size = new System.Drawing.Size(819, 346);
             this.dgvPreviewData.TabIndex = 0;
             // 
             // btnChange
@@ -55,7 +55,7 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(674, 352);
+            this.btnOk.Location = new System.Drawing.Point(693, 356);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(114, 23);
             this.btnOk.TabIndex = 2;
@@ -64,7 +64,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(674, 381);
+            this.btnCancel.Location = new System.Drawing.Point(693, 385);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(114, 23);
             this.btnCancel.TabIndex = 3;
@@ -76,7 +76,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 419);
+            this.ClientSize = new System.Drawing.Size(819, 420);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.btnChange);

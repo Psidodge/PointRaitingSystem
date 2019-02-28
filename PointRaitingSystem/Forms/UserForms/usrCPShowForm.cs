@@ -40,8 +40,8 @@ namespace PointRaitingSystem
         private void dgvControlPoints_SelectionChanged(object sender, EventArgs e)
         {
             ControlPoint currentRowsCP = ((List<ControlPoint>)dgvControlPoints.DataSource)[dgvControlPoints.CurrentRow.Index];
-            lblAuthor.Text = string.Format("Преподаватель:{0}{1}", Environment.NewLine, DataService.SelectTeacherById(currentRowsCP.id_of_teacher).Name);
-            lblDiscipline.Text = string.Format("Дисциплина:{0}{1}", Environment.NewLine, DataService.SelectDisciplineById(currentRowsCP.id_of_discipline).discipline_name);
+            lblAuthor.Text = string.Format("Преподаватель:{0}{1}", Environment.NewLine, DataService.SelectTeacherById(currentRowsCP.id_of_user).Name);
+            lblDiscipline.Text = string.Format("Дисциплина:{0}{1}", Environment.NewLine, DataService.SelectDisciplineById(currentRowsCP.id_of_discipline).name);
             txtDescription.Text = currentRowsCP.Description;
         }
     }

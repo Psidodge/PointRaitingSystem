@@ -29,24 +29,6 @@ namespace MainLib.Parsing
                 }
             }
         }
-        public static void ParseGroups(out List<ParsedData> outData, string filePath)
-        {
-            outData = new List<ParsedData>();
-            using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
-            {
-                using (var reader = ExcelReaderFactory.CreateReader(stream))
-                {
-                    while (reader.Read())
-                    {
-                        outData.Add(new ParsedGroup()
-                        {
-                            Name = reader.GetValue(0).ToString(),
-                            Course = Convert.ToInt32(reader.GetValue(1))
-                        });
-                    }
-                }
-            }
-        }
         public static void ParseStudents(out List<ParsedData> outData, string filePath)
         {
             outData = new List<ParsedData>();
@@ -59,10 +41,7 @@ namespace MainLib.Parsing
                         outData.Add(new ParsedStudent()
                         {
                             Name = reader.GetValue(0).ToString(),
-                            group = new ParsedGroup()
-                            {
-                                Name = reader.GetValue(1).ToString()
-                            }
+                            group = reader.GetValue(1).ToString()
                         });
                     }
                 }

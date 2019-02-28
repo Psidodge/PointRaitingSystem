@@ -9,12 +9,13 @@ namespace PointRaitingSystem
     public partial class tabDisciplines : UserControl
     {
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
         private void InitializeDataSets()
         {
             try
             {
                 List<DisciplineInfo> disciplines = DataService.SelectAllDisciplinesInfo();
-                DataSetInitializer<DisciplineInfo>.dgvDataSetInitializer(ref dgvDisciplines, disciplines, new int[] { 1 }, new string[] { "discipline_name" });
+                DataSetInitializer<DisciplineInfo>.dgvDataSetInitializer(ref dgvDisciplines, disciplines, new int[] { 0 }, new string[] { "name" });
             }
             catch (Exception ex)
             {
@@ -38,7 +39,7 @@ namespace PointRaitingSystem
             {
                 Discipline discipline = new Discipline
                 {
-                    discipline_name = txtName.Text,
+                    name = txtName.Text,
                     semestr = int.Parse(txtSemestr.Text)
                 };
 
@@ -62,7 +63,7 @@ namespace PointRaitingSystem
                 Discipline discipline = new Discipline
                 {
                     id = int.Parse(txtId.Text),
-                    discipline_name = txtName.Text,
+                    name = txtName.Text,
                     semestr = int.Parse(txtSemestr.Text)
                 };
 
@@ -79,18 +80,14 @@ namespace PointRaitingSystem
                 logger.Error(ex);
             }
         }
-
         private void dgvDisciplines_SelectionChanged(object sender, EventArgs e)
         {
-            txtId.Text = dgvDisciplines.CurrentRow.Cells["id"].Value.ToString();
-            txtName.Text = dgvDisciplines.CurrentRow.Cells["discipline_name"].Value.ToString();
-            txtSemestr.Text = dgvDisciplines.CurrentRow.Cells["semestr"].Value.ToString();
-        }
+            if (dgvDisciplines.CurrentRow == null)
+                return;
 
-        private void btnLoadFromEXCEL_Click(object sender, EventArgs e)
-        {
-            admParserForm admParserForm = new admParserForm();
-            admParserForm.ShowDialog();
+            txtId.Text = dgvDisciplines.CurrentRow.Cells["id"].Value.ToString();
+            txtName.Text = dgvDisciplines.CurrentRow.Cells["name"].Value.ToString();
+            txtSemestr.Text = dgvDisciplines.CurrentRow.Cells["semestr"].Value.ToString();
         }
     }
 }

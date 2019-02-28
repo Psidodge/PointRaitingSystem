@@ -25,14 +25,13 @@ namespace PointRaitingSystem
             txtName.Clear();
             txtPass.Clear();
         }
-
         private void InitializeDataSets()
         {
             Clear();
             try
             {
-                List<TeacherInfo> teacherInfos = DataService.SelectAllTeachersInfo();
-                DataSetInitializer<TeacherInfo>.dgvDataSetInitializer(ref dgvTeachers, teacherInfos, new int[] { 1, 5 }, new string[] { "Name" });
+                List<UserInfo> teacherInfos = DataService.SelectAllUsers();
+                DataSetInitializer<UserInfo>.dgvDataSetInitializer(ref dgvTeachers, teacherInfos, new int[] { 0, 3 }, new string[] { "Name" });
             }
             catch (Exception ex)
             {
@@ -46,50 +45,54 @@ namespace PointRaitingSystem
             InitializeComponent();
         }
 
+
         private void tabTeachers_Load(object sender, EventArgs e)
         {
             InitializeDataSets();
         }
-
         private void dgvTeachers_SelectionChanged(object sender, EventArgs e)
         {
+            if (dgvTeachers.CurrentRow == null)
+                return;
+
             //NOTE: dont catch exceptions here
+            lblInfo.Text = string.Empty;
+
             txtId.Text = dgvTeachers.CurrentRow.Cells["id"].Value.ToString();
             txtName.Text = dgvTeachers.CurrentRow.Cells["name"].Value.ToString();
-            txtLogin.Text = dgvTeachers.CurrentRow.Cells["login"].Value.ToString();
-            txtAuthID.Text = dgvTeachers.CurrentRow.Cells["id_of_authInfo"].Value.ToString();
             checkBoxIsAdmin.Checked = (bool)dgvTeachers.CurrentRow.Cells["isAdmin"].Value;
-        }
 
-        private void btnAdd_Click(object sender, EventArgs e)
+            AuthInfoAdmin auth = null;
+
+            try
+            {
+                auth = DataService.SelectAuthInfoByID(int.Parse(txtId.Text));
+            }
+            catch (Exception)
+            {
+                lblInfo.Text = "Данные авторизации отсутствуют";
+                txtLogin.Text = string.Empty;
+                txtAuthID.Text = string.Empty;
+                return;
+            }
+
+            txtLogin.Text = auth.login;
+            txtAuthID.Text = auth.id.ToString();
+        }
+        private void btnAddUser_Click(object sender, EventArgs e)
         {
             try
             {
-                //NOTE: check filling
-                if ((!loginValdiationComplete && txtLogin.TextLength != 0) || (!passValidationComplete && txtPass.TextLength != 0))
-                    return;
-
-                byte[] salt;
-
-                //NOTE: check for filling next filds: txtName
-                TeacherInfo userInfo = new TeacherInfo
+                UserInfo userInfo = new UserInfo
                 {
                     Name = txtName.Text,
                     isAdmin = checkBoxIsAdmin.Checked
                 };
 
-                AuthInfoAdmin authInfo = new AuthInfoAdmin
-                {
-                    login = txtLogin.Text,
-                    Pass_hash = PasswordEncryptor.GetHashedPassword(txtPass.Text, out salt),
-                    Salt = salt
-                };
+                int recordId = DataService.InsertIntoTeachersTable(userInfo);
 
-                int recAffected = DataService.InsertIntoTeachersTable(userInfo, authInfo);
-
-                if (recAffected > 0)
+                if (recordId > 0)
                 {
-                    //NOTE: добавить пометку новых записей
                     InitializeDataSets();
                 }
             }
@@ -98,17 +101,15 @@ namespace PointRaitingSystem
                 logger.Error(ex);
             }
         }
-
-        private void btnUpdate_Click(object sender, EventArgs e)
+        private void btnUpdateUser_Click(object sender, EventArgs e)
         {
             try
             {
-                TeacherInfo userInfo = new TeacherInfo
+                UserInfo userInfo = new UserInfo
                 {
                     id = (int)dgvTeachers.CurrentRow.Cells["id"].Value,
                     Name = txtName.Text,
-                    isAdmin = checkBoxIsAdmin.Checked,
-                    id_of_authInfo = (int)dgvTeachers.CurrentRow.Cells["id_of_authInfo"].Value
+                    isAdmin = checkBoxIsAdmin.Checked
                 };
 
                 int recAffected = DataService.UpdateTeachers(userInfo);
@@ -123,17 +124,55 @@ namespace PointRaitingSystem
                 logger.Error(ex);
             }
         }
-        //NOTE: mapper here
-        private void btnLoadFromEXCEL_Click(object sender, EventArgs e)
-        {
+        
 
+        private void btnUpdateAuth_Click(object sender, EventArgs e)
+        {
+            
         }
 
+        private void btnAddAuth_Click(object sender, EventArgs e)
+        {
+            if(!passValidationComplete && !loginValdiationComplete)
+            {
+                lblInfo.Text = "Данные не прошли валидацию.";
+            }
+
+            byte[] genSalt;
+
+            AuthInfoAdmin auth = new AuthInfoAdmin()
+            {
+                login = txtLogin.Text,
+                hash = PasswordEncryptor.GetHashedPassword(txtPass.Text, out genSalt),
+                salt = genSalt
+            };
+
+            try
+            {
+                UserInfo userInfo = new UserInfo
+                {
+                    id      =   int.Parse(txtId.Text),
+                    Name    =   txtName.Text,
+                    isAdmin =   checkBoxIsAdmin.Checked,
+                    authID  =   DataService.InsertIntoAuthInfo(auth)
+                };
+
+                if(DataService.UpdateTeachers(userInfo) > 0)
+                {
+                    lblInfo.Text = "Данные сохранены.";
+                }
+            }
+            catch (Exception ex)
+            {
+                lblInfo.Text = string.Format("Произошла ошибка.{0}Запись не сохранена.", Environment.NewLine);
+                logger.Error(ex);
+            }
+        }
 
         private void txtLogin_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Regex regex = new Regex("^(?=.{5,25}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$");
-           
+
             if (regex.IsMatch(txtLogin.Text) && !DataService.isLoginExist(txtLogin.Text))
             {
                 txtLogin.ForeColor = Color.Green;
@@ -147,7 +186,7 @@ namespace PointRaitingSystem
         }
         private void txtPass_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Regex regex = new Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,15}$");
+            Regex regex = new Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{5,15}$");
 
             if (regex.IsMatch(txtPass.Text) && loginValdiationComplete)
             {
