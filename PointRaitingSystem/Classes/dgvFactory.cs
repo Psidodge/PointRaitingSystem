@@ -12,8 +12,8 @@ namespace PointRaitingSystem
         public static void CreateStudentCPsDataGridView(ref DataGridView dgv, int groupId, int disciplineId)
         {
             dgv.Columns.Clear();
-            int cpIter = 0, 
-                sum = 0;
+            int cpIter = 0; 
+            double sum = 0;
             List<StudentsWithCP> studentsCPs = GetStudentsCPs(groupId, disciplineId);
             DataGridViewColumn[] columns = CreateColumns(ref dgv, studentsCPs);
 
@@ -34,7 +34,8 @@ namespace PointRaitingSystem
                     sum += studentsCPs[i].studentCPs[cpIter].points;
                 }
                 dgv.Rows[i].Cells[dgv.Columns.Count - 1].Value = sum;
-                cpIter = sum = 0;
+                cpIter = 0;
+                sum = 0;
             }
         }
         public static void CalculateSum(ref DataGridView dgv)

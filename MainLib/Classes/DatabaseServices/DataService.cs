@@ -5,6 +5,8 @@ using System.Configuration;
 using Dapper;
 using System.Linq;
 using System.Data;
+using MySql.Data.MySqlClient;
+
 
 namespace MainLib.DBServices
 {
@@ -14,10 +16,15 @@ namespace MainLib.DBServices
     {
         private static string connectionString = ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
 
+        private static MySqlConnection OpenConnection()
+        {
+            return new MySqlConnection(connectionString);
+        }
+
         // SELECT
         public static AuthInfo SelectAuthInfoByLogin(string userLogin)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -30,14 +37,14 @@ namespace MainLib.DBServices
                 }
 
                 var parameters = new DynamicParameters();
-                parameters.Add("@login", userLogin);
+                parameters.Add("@usrLogin", userLogin);
 
                 return connection.QueryFirst<AuthInfo>("SelectAuthInfoByLogin", parameters, commandType: CommandType.StoredProcedure, commandTimeout: 20);
             }
         }
-        public static AuthInfoAdmin SelectAuthInfoByID(int usrID)
+        public static double GetSumOfPointsUsed(int groupID)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -50,14 +57,34 @@ namespace MainLib.DBServices
                 }
 
                 var parameters = new DynamicParameters();
-                parameters.Add("@usrID", usrID);
+                parameters.Add("@groupID", groupID);
+
+                return connection.ExecuteScalar<double>("SelectSumOfGroupWeight", parameters, commandType: CommandType.StoredProcedure, commandTimeout: 20);
+            }
+        }
+        public static AuthInfoAdmin SelectAuthInfoByUserID(int usrID)
+        {
+            using (MySqlConnection connection = OpenConnection())
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@userID", usrID);
 
                 return connection.QueryFirst<AuthInfoAdmin>("SelectAuthInfoByID", parameters, commandType: CommandType.StoredProcedure, commandTimeout: 20);
             }
         }
         public static UserInfo SelectLoggedTeacher(string userLogin)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -77,7 +104,7 @@ namespace MainLib.DBServices
         }
         public static UserInfo SelectTeacherById(int userId)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -97,7 +124,7 @@ namespace MainLib.DBServices
         }
         public static ControlPoint SelectControlPointsInfoByStIdAndCpIndex(int studentId, int disciplineId, int cpIndex)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -121,7 +148,7 @@ namespace MainLib.DBServices
         }
         public static Discipline SelectDisciplineById(int id)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -142,7 +169,7 @@ namespace MainLib.DBServices
         //NOTE: Test method
         public static List<UserFullInfo> SelectUsersFullInfo()
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -159,7 +186,7 @@ namespace MainLib.DBServices
         }
         public static List<Group> SelectGroupsByTeacherId(int userId)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -179,7 +206,7 @@ namespace MainLib.DBServices
         }
         public static List<Discipline> SelectDisciplinesByTeacherIdAndGroupId(int teacherId, int groupId)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -200,7 +227,7 @@ namespace MainLib.DBServices
         }
         public static List<Discipline> SelectDisciplinesByTeacherID(int id)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -220,7 +247,7 @@ namespace MainLib.DBServices
         }
         public static List<Student> SelectStudentsByGroupId(int groupId)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -240,7 +267,7 @@ namespace MainLib.DBServices
         }
         public static List<ControlPoint> SelectControlPointsByDisciplineId(int id)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -260,7 +287,7 @@ namespace MainLib.DBServices
         }
         public static List<ControlPointsOfStudents> SelectStudentControPoints(int stId, int cpId)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -281,7 +308,7 @@ namespace MainLib.DBServices
         }
         public static List<StudentControlPoint> SelectStudentControPointsGroupDisc(int grId, int discId)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -307,7 +334,7 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return null;
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -328,7 +355,7 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return null;
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -345,7 +372,7 @@ namespace MainLib.DBServices
         }
         public static List<DisciplineInfo> SelectAllDisciplinesInfo()
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -362,7 +389,7 @@ namespace MainLib.DBServices
         }
         public static List<GroupInfo> SelectAllGroupsInfo()
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -379,7 +406,7 @@ namespace MainLib.DBServices
         }
         public static ControlPointInfo SelectControlPointInfo(int id)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -400,7 +427,7 @@ namespace MainLib.DBServices
 
         public static int GetIndexOfLastControlPoint()
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -417,7 +444,7 @@ namespace MainLib.DBServices
         }
         public static int GetIdOfGroupByGroupName(string groupName)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -434,7 +461,7 @@ namespace MainLib.DBServices
 
                 try
                 {
-                    return connection.QueryFirst<int>("IdOfGroupByGroupName", commandType: CommandType.StoredProcedure);
+                    return connection.QueryFirst<int>("IdOfGroupByGroupName", parameters, commandType: CommandType.StoredProcedure);
                 }
                 catch (Exception)
                 {
@@ -444,7 +471,7 @@ namespace MainLib.DBServices
         }
         public static bool isLoginExist(string login)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -464,7 +491,7 @@ namespace MainLib.DBServices
         }
         public static bool isTeacherDiscipline(int disciplineId, int teacherId)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -485,7 +512,7 @@ namespace MainLib.DBServices
         }
         public static bool isGroupDiscipline(int disciplineId, int groupId)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -506,7 +533,7 @@ namespace MainLib.DBServices
         }
         public static bool isGroupExist(out int groupId, string groupName)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -532,14 +559,7 @@ namespace MainLib.DBServices
         // INSERT
         public static int InsertIntoControlPointsTable(ControlPoint cpToIns)
         {
-            var parameters = new DynamicParameters();
-            parameters.Add("@userID", cpToIns.id_of_user);
-            parameters.Add("@disID", cpToIns.id_of_discipline);
-            parameters.Add("@weight", cpToIns.weight);
-            parameters.Add("@desc", cpToIns.Description);
-            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -551,19 +571,18 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                connection.Execute("InsertIntoControlPoints", parameters, commandType: CommandType.StoredProcedure);
-                return parameters.Get<int>("@returnValue");
+                var parameters = new DynamicParameters();
+                parameters.Add("@userID", cpToIns.id_of_user);
+                parameters.Add("@disID", cpToIns.id_of_discipline);
+                parameters.Add("@weight", cpToIns.weight);
+                parameters.Add("@description", cpToIns.Description);
+
+                return connection.ExecuteScalar<int>("InsertIntoControlPoints", parameters, commandType: CommandType.StoredProcedure);
             }
         }
         public static int InsertIntoStudentCPTable(ControlPointsOfStudents cpToIns)
         {
-            var parameters = new DynamicParameters();
-            parameters.Add("@stID", cpToIns.id_of_student);
-            parameters.Add("@cpID", cpToIns.id_of_controlPoint);
-            parameters.Add("@points", cpToIns.points);
-            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -575,18 +594,18 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                connection.Execute("InsertIntoStudentsControlPoints", parameters, commandType: CommandType.StoredProcedure);
-                return parameters.Get<int>("@returnValue");
+                var parameters = new DynamicParameters();
+                parameters.Add("@stID", cpToIns.id_of_student);
+                parameters.Add("@cpID", cpToIns.id_of_controlPoint);
+                parameters.Add("@points", cpToIns.points);
+                //parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
+
+                return connection.ExecuteScalar<int>("InsertIntoStudentsControlPoints", parameters, commandType: CommandType.StoredProcedure);
             }
         }
         public static int InsertIntoTeacherDisciplines(int teacherId, int disciplineId)
         {
-            var parameters = new DynamicParameters();
-            parameters.Add("@userID", teacherId);
-            parameters.Add("@disID", disciplineId);
-            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -598,18 +617,17 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                connection.Execute("InsertIntoUserDisciplines", parameters, commandType: CommandType.StoredProcedure);
-                return parameters.Get<int>("@returnValue");
+                var parameters = new DynamicParameters();
+                parameters.Add("@userID", teacherId);
+                parameters.Add("@disID", disciplineId);
+                //parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
+
+                return connection.ExecuteScalar<int>("InsertIntoUserDisciplines", parameters, commandType: CommandType.StoredProcedure);
             }
         }
         public static int InsertIntoTeacherGroups(int teacherId, int groupId)
         {
-            var parameters = new DynamicParameters();
-            parameters.Add("@userID", teacherId);
-            parameters.Add("@groupID", groupId);
-            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -621,18 +639,16 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                connection.Execute("InsertIntoUserGroups", parameters, commandType: CommandType.StoredProcedure);
-                return parameters.Get<int>("@returnValue");
+                var parameters = new DynamicParameters();
+                parameters.Add("@userID", teacherId);
+                parameters.Add("@groupID", groupId);
+
+                return connection.ExecuteScalar<int>("InsertIntoUserGroups", parameters, commandType: CommandType.StoredProcedure);
             }
         }
         public static int InsertIntoGroupDiscipline(int disciplineId, int groupId)
         {
-            var parameters = new DynamicParameters();
-            parameters.Add("@dID", disciplineId);
-            parameters.Add("@groupID", groupId);
-            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -644,20 +660,17 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                connection.Execute("InsertIntoGroupDiscipline", parameters, commandType: CommandType.StoredProcedure);
-                return parameters.Get<int>("@returnValue");
+                var parameters = new DynamicParameters();
+                parameters.Add("@dID", disciplineId);
+                parameters.Add("@groupID", groupId);
+
+                return connection.ExecuteScalar<int>("InsertIntoGroupDiscipline", parameters,  commandType: CommandType.StoredProcedure);
             }
         }
 
         public static int InsertIntoAuthInfo(AuthInfoAdmin authInfo)
         {
-            var parameters = new DynamicParameters();
-            parameters.Add("@login", authInfo.login);
-            parameters.Add("@hash", authInfo.hash);
-            parameters.Add("@salt", authInfo.salt);
-            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -669,8 +682,12 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                connection.Execute("InsertIntoAuthInfo", parameters, commandType: CommandType.StoredProcedure);
-                return parameters.Get<int>("@returnValue");
+                var parameters = new DynamicParameters();
+                parameters.Add("@login", authInfo.login);
+                parameters.Add("@passhash", authInfo.hash);
+                parameters.Add("@salt", authInfo.salt);
+
+                return connection.ExecuteScalar<int>("InsertIntoAuthInfo", parameters, commandType: CommandType.StoredProcedure);
             }
         }
         public static int InsertIntoStudentsTable(Student stToIns)
@@ -678,12 +695,7 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
-            var parameters = new DynamicParameters();
-            parameters.Add("@stName", stToIns.name);
-            parameters.Add("@groupID", stToIns.id_of_group);
-            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -695,8 +707,12 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                connection.Execute("InsertIntoStudents", parameters, commandType: CommandType.StoredProcedure);
-                return parameters.Get<int>("@returnValue");
+                var parameters = new DynamicParameters();
+                parameters.Add("@stName", stToIns.name);
+                parameters.Add("@groupID", stToIns.id_of_group);
+                //parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
+
+                return connection.ExecuteScalar<int>("InsertIntoStudents", parameters, commandType: CommandType.StoredProcedure);
             }
         }
         public static int InsertIntoTeachersTable(UserInfo teacher)
@@ -704,7 +720,7 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -719,10 +735,8 @@ namespace MainLib.DBServices
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@usrName", teacher.Name);
                 parameters.Add("@usrPrivileges", teacher.isAdmin);
-                parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
-                connection.Execute("InsertIntoUsers", parameters, commandType: CommandType.StoredProcedure);
-                return parameters.Get<int>("@returnValue");
+                return connection.ExecuteScalar<int>("InsertIntoUsers", parameters, commandType: CommandType.StoredProcedure);
             }
         }
         public static int InsertIntoGroupsTable(Group grToIns)
@@ -730,12 +744,8 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
-            var parameters = new DynamicParameters();
-            parameters.Add("@grName", grToIns.name);
-            parameters.Add("@grCourse", grToIns.course);
-            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -746,8 +756,12 @@ namespace MainLib.DBServices
                 {
                     throw e;
                 }
-                connection.Execute("InsertIntoGroups", parameters, commandType: CommandType.StoredProcedure);
-                return parameters.Get<int>("@returnValue");
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@grName", grToIns.name);
+                parameters.Add("@grCourse", grToIns.course);
+
+                return connection.ExecuteScalar<int>("InsertIntoGroups", parameters, commandType: CommandType.StoredProcedure);
             }
         }
         public static int InsertIntoDisciplinesTable(Discipline disciplineToIns)
@@ -755,12 +769,7 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
-            var parameters = new DynamicParameters();
-            parameters.Add("@dName", disciplineToIns.name);
-            parameters.Add("@dSem", disciplineToIns.semestr);
-            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -772,8 +781,12 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                connection.Execute("InsertIntoDisciplines", parameters, commandType: CommandType.StoredProcedure);
-                return parameters.Get<int>("@returnValue");
+                var parameters = new DynamicParameters();
+                parameters.Add("@dName", disciplineToIns.name);
+                parameters.Add("@dSem", disciplineToIns.semestr);
+                //parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
+
+                return connection.ExecuteScalar<int>("InsertIntoDisciplines", parameters, commandType: CommandType.StoredProcedure);
             }
         }
 
@@ -783,13 +796,7 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
-            var parameters = new DynamicParameters();
-            parameters.Add("@id", authInfo.id);
-            parameters.Add("@hash", authInfo.hash);
-            parameters.Add("@salt", authInfo.salt);
-            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -801,8 +808,12 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                connection.Execute("UpdateAuthInfo", parameters, commandType: CommandType.StoredProcedure);
-                return parameters.Get<int>("@returnValue");
+                var parameters = new DynamicParameters();
+                parameters.Add("@id", authInfo.id);
+                parameters.Add("@hash", authInfo.hash);
+                parameters.Add("@salt", authInfo.salt);
+
+                return connection.ExecuteScalar<int>("UpdateAuthInfo", parameters,  commandType: CommandType.StoredProcedure);
             }
         }
         public static int UpdateStudents(Student student)
@@ -810,13 +821,7 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
-            var parameters = new DynamicParameters();
-            parameters.Add("@stID", student.id);
-            parameters.Add("@stName", student.name);
-            parameters.Add("@stGroupID", student.id_of_group);
-            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -828,8 +833,12 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                connection.Execute("UpdateStudents", parameters, commandType: CommandType.StoredProcedure);
-                return parameters.Get<int>("@returnValue");
+                var parameters = new DynamicParameters();
+                parameters.Add("@stID", student.id);
+                parameters.Add("@stName", student.name);
+                parameters.Add("@stGroupID", student.id_of_group);
+
+                return connection.ExecuteScalar<int>("UpdateStudents", parameters, commandType: CommandType.StoredProcedure);
             }
         }
         public static int UpdateTeachers(UserInfo teacher)
@@ -837,7 +846,7 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -854,10 +863,8 @@ namespace MainLib.DBServices
                 parameters.Add("@authID", teacher.authID);
                 parameters.Add("@usrName", teacher.Name);
                 parameters.Add("@usrPrivileges", teacher.isAdmin);
-                parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
-                connection.Execute("UpdateUsers", parameters, commandType: CommandType.StoredProcedure);
-                return parameters.Get<int>("@returnValue");
+                return connection.ExecuteScalar<int>("UpdateUsers", parameters, commandType: CommandType.StoredProcedure);
             }
         }
         public static int UpdateGroups(Group group)
@@ -865,13 +872,7 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
-            var parameters = new DynamicParameters();
-            parameters.Add("@grID", group.id);
-            parameters.Add("@grName", group.name);
-            parameters.Add("@grCourse", group.course);
-            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -883,8 +884,12 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                connection.Execute("UpdateGroups", parameters, commandType: CommandType.StoredProcedure);
-                return parameters.Get<int>("@returnValue");
+                var parameters = new DynamicParameters();
+                parameters.Add("@grID", group.id);
+                parameters.Add("@grName", group.name);
+                parameters.Add("@grCourse", group.course);
+
+                return connection.ExecuteScalar<int>("UpdateGroups", parameters, commandType: CommandType.StoredProcedure);
             }
         }
         public static int UpdateDisciplines(Discipline discipline)
@@ -892,13 +897,7 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
-            var parameters = new DynamicParameters();
-            parameters.Add("@dID", discipline.id);
-            parameters.Add("@dName", discipline.name);
-            parameters.Add("@dSemestr", discipline.semestr);
-            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -910,18 +909,18 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                connection.Execute("UpdateDisciplines", parameters, commandType: CommandType.StoredProcedure);
-                return parameters.Get<int>("@returnValue");
+                var parameters = new DynamicParameters();
+                parameters.Add("@dID", discipline.id);
+                parameters.Add("@dName", discipline.name);
+                parameters.Add("@dSemestr", discipline.semestr);
+
+                return connection.ExecuteScalar<int>("UpdateDisciplines", parameters, commandType: CommandType.StoredProcedure);
+
             }
         }
         public static int UpdateStudentCP(int points, int cpId)
         {
-            var parameters = new DynamicParameters();
-            parameters.Add("@points", points);
-            parameters.Add("@cpID", cpId);
-            parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (MySqlConnection connection = OpenConnection())
             {
                 try
                 {
@@ -933,8 +932,11 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                connection.Execute("UpdateStudentControlPoints", parameters, commandType: CommandType.StoredProcedure);
-                return parameters.Get<int>("@returnValue");
+                var parameters = new DynamicParameters();
+                parameters.Add("@points", points);
+                parameters.Add("@cpID", cpId);
+
+                return connection.ExecuteScalar<int>("UpdateStudentControlPoints", parameters, commandType: CommandType.StoredProcedure);
             }
         }
     }

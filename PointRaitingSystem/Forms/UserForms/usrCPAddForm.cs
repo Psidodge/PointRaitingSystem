@@ -15,11 +15,13 @@ namespace PointRaitingSystem
         public usrCPAddForm(Discipline selectedDiscipline, int SelectedGroupId)
         {
             InitializeComponent();
-            InitializeDataSets(selectedDiscipline);
             groupId = SelectedGroupId;
+            InitializeDataSets(selectedDiscipline);
         }
 
         private int groupId;
+        private double sumOfUsedPoints,
+                       maxSumOfCPs = 80;
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
 
@@ -27,8 +29,11 @@ namespace PointRaitingSystem
         {
             try
             {
-                List<Discipline> disciplines = DataService.SelectDisciplinesByTeacherID(Session.GetCurrentSession().ID);
-                DataSetInitializer<Discipline>.ComboBoxDataSetInitializer(ref cbDiscipline, disciplines, "id", "name");
+                List<Discipline> disciplines = DataService.SelectDisciplinesByTeacherIdAndGroupId(Session.GetCurrentSession().ID, groupId);
+                DataSetInitializer<Discipline>.ComboBoxDataSetInitializer(ref cbDiscipline, disciplines, "id", "full_name");
+                sumOfUsedPoints = DataService.GetSumOfPointsUsed(groupId);
+                tsslPointsLeft.Text = string.Format("{0} {1} баллов", tsslPointsLeft.Text, sumOfUsedPoints.ToString());
+
             }
             catch (Exception ex)
             {
@@ -82,6 +87,34 @@ namespace PointRaitingSystem
                 logger.Error(ex);
                 MessageBox.Show("Произошла ошибка при привязки контрольной точки студенту.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void txtCPWeight_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            double weight = 0;
+
+            if (!double.TryParse(txtCPWeight.Text.Replace('.', ','), out weight))
+            {
+                txtCPWeight.Text = string.Empty;
+                lblValidationInfo.Text = "Неверный формат.";
+                return;
+            }
+
+            if((maxSumOfCPs - (sumOfUsedPoints + weight)) < 0)
+            {
+                txtCPWeight.Text = string.Empty;
+                lblValidationInfo.Text = "Вводимый вес КТ превышает 80 баллов.";
+                return;
+            }
+        }
+
+        private void txtCPWeight_TextChanged(object sender, EventArgs e)
+        {
+            double weight = 0;
+            if (!double.TryParse(txtCPWeight.Text.Replace('.','.'), out weight))
+                return;//NOTE: генерить исключение
+
+            tsslPointsRemain.Text = string.Format("Останется: {0} баллов", (maxSumOfCPs - (sumOfUsedPoints + weight)).ToString());
         }
     }
 }

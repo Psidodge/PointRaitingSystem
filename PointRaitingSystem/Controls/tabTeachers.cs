@@ -8,7 +8,7 @@ using MainLib.Cryptography;
 
 namespace PointRaitingSystem
 {
-    //NOTE: Как либо реализовать создание без автаризационной информации
+    //NOTE: Как либо реализовать создание без автoризационной информации
     //      Авт. информации создавать и привязывать отдельно
     //UNDONE: Смотри выше, работает не так, лучше спросить у заказчика
     public partial class tabTeachers : UserControl
@@ -66,7 +66,7 @@ namespace PointRaitingSystem
 
             try
             {
-                auth = DataService.SelectAuthInfoByID(int.Parse(txtId.Text));
+                auth = DataService.SelectAuthInfoByUserID(int.Parse(txtId.Text));
             }
             catch (Exception)
             {
@@ -184,6 +184,12 @@ namespace PointRaitingSystem
                 loginValdiationComplete = false;
             }
         }
+
+        private void dgvTeachers_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
+        {
+            e.Column.SortMode = DataGridViewColumnSortMode.NotSortable;
+        }
+
         private void txtPass_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Regex regex = new Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{5,15}$");

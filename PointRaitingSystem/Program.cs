@@ -1,5 +1,6 @@
 ﻿#define LOGINLESS
-#undef LOGINLESS
+#define USR
+//#define ADM
 using MainLib.Session;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,13 @@ namespace PointRaitingSystem
             Application.SetCompatibleTextRenderingDefault(false);
 
 #if LOGINLESS
-            Application.Run(new MainForm("sidor"));
+#if ADM
+            Session.CreateSessionInstance("admin");
+            Application.Run(new admMainForm());
+#elif USR
+            Session.CreateSessionInstance("cep.av");
+            Application.Run(new usrMainForm());
+#endif
 #else
             //Login form runs first
             LoginForm loginForm = new LoginForm();

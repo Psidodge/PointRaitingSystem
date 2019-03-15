@@ -12,6 +12,7 @@ namespace PointRaitingSystem
         {
             InitializeComponent();
             InitializeDataSets();
+            tsslCurrentDate.Text = DateTime.Now.ToShortDateString();
         }
 
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
@@ -76,7 +77,7 @@ namespace PointRaitingSystem
                 DataSetInitializer<Group>.ComboBoxDataSetInitializer(ref cbGroups, groups, "id", "name");
                 //cbDiscipline
                 List<Discipline> disciplines = DataService.SelectDisciplinesByTeacherIdAndGroupId(Session.GetCurrentSession().ID, (int)cbGroups.SelectedValue);
-                DataSetInitializer<Discipline>.ComboBoxDataSetInitializer(ref cbDiscipline, disciplines, "id", "name");
+                DataSetInitializer<Discipline>.ComboBoxDataSetInitializer(ref cbDiscipline, disciplines, "id", "full_name");
                 //dgvStudents dataset
                 studentCPsDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
             }
@@ -176,6 +177,12 @@ namespace PointRaitingSystem
                 logger.Error(ex);
                 MessageBox.Show("Произошла ошибка при перерисовки интерфейса.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void btnCertification_Click(object sender, EventArgs e)
+        {
+            usrCertificationAddForm form = new usrCertificationAddForm(((Group)cbGroups.SelectedItem).name, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
+            form.ShowDialog();
         }
     }
 }

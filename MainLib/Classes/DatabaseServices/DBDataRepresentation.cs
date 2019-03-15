@@ -14,7 +14,7 @@ namespace MainLib.DBServices
         public int id { get; set; }
         public int id_of_user { get; set; }
         public int id_of_discipline { get; set; }
-        public int weight { get; set; }
+        public double weight { get; set; }
         public string Description { get; set; }
         public override Type GetTableType()
         {
@@ -26,7 +26,7 @@ namespace MainLib.DBServices
         public int id { get; set; }
         public int id_of_student { get; set; }
         public int id_of_controlPoint { get; set; }
-        public int points { get; set; }
+        public double points { get; set; }
         public bool readOnly { get; set; }
         public override Type GetTableType()
         {
@@ -84,7 +84,7 @@ namespace MainLib.DBServices
         public int id { get; set; }
         public int id_of_student { get; set; }
         public int id_of_controlPoint { get; set; }
-        public int points { get; set; }
+        public double points { get; set; }
         public string description { get; set; }
         public override Type GetTableType()
         {

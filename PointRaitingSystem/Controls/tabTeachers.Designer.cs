@@ -38,6 +38,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lblInfo = new System.Windows.Forms.Label();
+            this.btnUpdateAuth = new System.Windows.Forms.Button();
             this.txtPass = new System.Windows.Forms.TextBox();
             this.btnAddAuth = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
@@ -45,8 +47,6 @@
             this.txtAuthID = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.btnUpdateAuth = new System.Windows.Forms.Button();
-            this.lblInfo = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTeachers)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -82,10 +82,11 @@
             this.dgvTeachers.MultiSelect = false;
             this.dgvTeachers.Name = "dgvTeachers";
             this.dgvTeachers.ReadOnly = true;
-            this.dgvTeachers.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+            this.dgvTeachers.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dgvTeachers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvTeachers.Size = new System.Drawing.Size(507, 484);
             this.dgvTeachers.TabIndex = 7;
+            this.dgvTeachers.ColumnAdded += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dgvTeachers_ColumnAdded);
             this.dgvTeachers.SelectionChanged += new System.EventHandler(this.dgvTeachers_SelectionChanged);
             // 
             // groupBox1
@@ -167,6 +168,24 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Данные авторизации";
             // 
+            // lblInfo
+            // 
+            this.lblInfo.AutoSize = true;
+            this.lblInfo.Location = new System.Drawing.Point(6, 173);
+            this.lblInfo.Name = "lblInfo";
+            this.lblInfo.Size = new System.Drawing.Size(0, 13);
+            this.lblInfo.TabIndex = 15;
+            // 
+            // btnUpdateAuth
+            // 
+            this.btnUpdateAuth.Location = new System.Drawing.Point(6, 137);
+            this.btnUpdateAuth.Name = "btnUpdateAuth";
+            this.btnUpdateAuth.Size = new System.Drawing.Size(192, 28);
+            this.btnUpdateAuth.TabIndex = 7;
+            this.btnUpdateAuth.Text = "Изменить";
+            this.btnUpdateAuth.UseVisualStyleBackColor = true;
+            this.btnUpdateAuth.Click += new System.EventHandler(this.btnUpdateAuth_Click);
+            // 
             // txtPass
             // 
             this.txtPass.Location = new System.Drawing.Point(57, 77);
@@ -229,24 +248,6 @@
             this.label3.Size = new System.Drawing.Size(18, 13);
             this.label3.TabIndex = 0;
             this.label3.Text = "ID";
-            // 
-            // btnUpdateAuth
-            // 
-            this.btnUpdateAuth.Location = new System.Drawing.Point(6, 137);
-            this.btnUpdateAuth.Name = "btnUpdateAuth";
-            this.btnUpdateAuth.Size = new System.Drawing.Size(192, 28);
-            this.btnUpdateAuth.TabIndex = 7;
-            this.btnUpdateAuth.Text = "Изменить";
-            this.btnUpdateAuth.UseVisualStyleBackColor = true;
-            this.btnUpdateAuth.Click += new System.EventHandler(this.btnUpdateAuth_Click);
-            // 
-            // lblInfo
-            // 
-            this.lblInfo.AutoSize = true;
-            this.lblInfo.Location = new System.Drawing.Point(6, 173);
-            this.lblInfo.Name = "lblInfo";
-            this.lblInfo.Size = new System.Drawing.Size(0, 13);
-            this.lblInfo.TabIndex = 15;
             // 
             // tabTeachers
             // 
