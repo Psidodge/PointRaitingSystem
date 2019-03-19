@@ -22,30 +22,67 @@ namespace PointRaitingSystem
             InitializeComponent();
             txtGroupName.Text = groupName;
             dataSetInitializer(groupID, disciplineID);
+            this.groupID = groupID;
+            this.disciplineID = disciplineID;
         }
 
-        //private List<StudentControlPoint> controlPoints;
+        private int groupID,
+                    disciplineID;
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
+
 
         private void dataSetInitializer(int groupID, int disciplineID)
         {
             try
             {
-                //List<StudentControlPoint> controlPoints = DataService.SelectStudentControPointsGroupDisc(groupID, disciplineID).Distinct();
-                //DataSetInitializer<StudentControlPoint>.ComboBoxDataSetInitializer(ref cbPrevCP, controlPoints, "id", "description");
+                List<StudentControlPoint> controlPoints = DataService.SelectStudentControPointsGroupDisc(groupID, disciplineID)
+                                                        .GroupBy(g => g.id_of_controlPoint)
+                                                        .Select(s => s.First())
+                                                        .ToList();
+
+                DataSetInitializer.ComboBoxDataSetInitializer<StudentControlPoint>(ref cbPrevCP, controlPoints, "id_of_controlPoint", "description");
             }
             catch(Exception ex)
             {
                 logger.Error(ex);
             }
-            //DataSetInitializer<ControlPoint>
         }
-
         private void btnSave_Click(object sender, EventArgs e)
         {
+            List<Student> students = null;
 
+            try
+            {
+                students = DataService.SelectStudentsByGroupId(groupID);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                tsslInfo.Text = "Ошибка при подключении к базе данных";
+            }
+
+            foreach (Student student in students)
+            {
+                var certification = new StudentCertification()
+                                    {
+                                        id_of_student = student.id,
+                                        id_of_prev_cp = (int)cbPrevCP.SelectedValue,
+                                        id_of_discipline = disciplineID,
+                                        date = dtpDate.Value.Date
+                                    };
+                try
+                {
+                    certification.CountGrade(disciplineID, (int)cbPrevCP.SelectedValue);
+                    DataService.InsertIntoStudentCertification(certification);
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex);
+                    tsslInfo.Text = "Ошибка при добавлении записи";
+                }
+            }
         }
-
         private void btnCancel_Click(object sender, EventArgs e)
         {
 

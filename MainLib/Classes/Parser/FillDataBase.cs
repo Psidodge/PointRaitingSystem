@@ -9,7 +9,7 @@ namespace MainLib.Parsing
 {
     public static class FillDataBase
     {
-        public static void Fill(DataType type, ParsedData obj)
+        public static void Fill(DataType type, ParserEntity obj)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace MainLib.Parsing
             }
         }
 
-        public static void Fill(DataType type, List<ParsedData> obj) 
+        public static void Fill(DataType type, List<ParserEntity> obj) 
         {
             try
             {
@@ -72,7 +72,7 @@ namespace MainLib.Parsing
             }
         }
 
-        private static void FillStudents(Student student, ParsedData obj)
+        private static void FillStudents(Student student, ParserEntity obj)
         {
             if (student.id_of_group == 0)
                 student.id_of_group = DataService.InsertIntoGroupsTable(new Group()
@@ -83,7 +83,7 @@ namespace MainLib.Parsing
 
             DataService.InsertIntoStudentsTable(student);
         }
-        private static void FillStudents(List<Student> students, List<ParsedData> obj)
+        private static void FillStudents(List<Student> students, List<ParserEntity> obj)
         {
             int objIter = 0,
                 groupID = 0;

@@ -172,7 +172,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "usrCPAddForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "childForm";
+            this.Text = "Добавления контрольных точек";
             ((System.ComponentModel.ISupportInitialize)(this.bsStudents)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();

@@ -32,6 +32,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.bindingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuPanel = new System.Windows.Forms.Panel();
+            this.btnCertification = new System.Windows.Forms.Button();
             this.gbCPInfo = new System.Windows.Forms.GroupBox();
             this.lblWeight = new System.Windows.Forms.Label();
             this.lblDiscipline = new System.Windows.Forms.Label();
@@ -51,10 +52,9 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsslTeacherName = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tsslCurrentDate = new System.Windows.Forms.ToolStripStatusLabel();
             this.dgvStudents = new System.Windows.Forms.DataGridView();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.tsslCurrentDate = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnCertification = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.menuPanel.SuspendLayout();
             this.gbCPInfo.SuspendLayout();
@@ -69,15 +69,15 @@
             this.bindingsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1395, 28);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(1046, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "mainMenuBar";
             // 
             // bindingsToolStripMenuItem
             // 
             this.bindingsToolStripMenuItem.Name = "bindingsToolStripMenuItem";
-            this.bindingsToolStripMenuItem.Size = new System.Drawing.Size(89, 24);
+            this.bindingsToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.bindingsToolStripMenuItem.Text = "Привязки";
             this.bindingsToolStripMenuItem.Click += new System.EventHandler(this.bindingsToolStripMenuItem_Click);
             // 
@@ -94,11 +94,21 @@
             this.menuPanel.Controls.Add(this.label4);
             this.menuPanel.Controls.Add(this.cbGroups);
             this.menuPanel.Controls.Add(this.label1);
-            this.menuPanel.Location = new System.Drawing.Point(0, 30);
-            this.menuPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.menuPanel.Location = new System.Drawing.Point(0, 24);
+            this.menuPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.menuPanel.Name = "menuPanel";
-            this.menuPanel.Size = new System.Drawing.Size(379, 684);
+            this.menuPanel.Size = new System.Drawing.Size(284, 556);
             this.menuPanel.TabIndex = 2;
+            // 
+            // btnCertification
+            // 
+            this.btnCertification.Location = new System.Drawing.Point(138, 111);
+            this.btnCertification.Name = "btnCertification";
+            this.btnCertification.Size = new System.Drawing.Size(121, 23);
+            this.btnCertification.TabIndex = 9;
+            this.btnCertification.Text = "Создать аттестацию";
+            this.btnCertification.UseVisualStyleBackColor = true;
+            this.btnCertification.Click += new System.EventHandler(this.btnCertification_Click);
             // 
             // gbCPInfo
             // 
@@ -110,11 +120,9 @@
             this.gbCPInfo.Controls.Add(this.label5);
             this.gbCPInfo.Controls.Add(this.label3);
             this.gbCPInfo.Controls.Add(this.label2);
-            this.gbCPInfo.Location = new System.Drawing.Point(5, 446);
-            this.gbCPInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbCPInfo.Location = new System.Drawing.Point(4, 362);
             this.gbCPInfo.Name = "gbCPInfo";
-            this.gbCPInfo.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.gbCPInfo.Size = new System.Drawing.Size(369, 208);
+            this.gbCPInfo.Size = new System.Drawing.Size(277, 169);
             this.gbCPInfo.TabIndex = 8;
             this.gbCPInfo.TabStop = false;
             this.gbCPInfo.Text = "Описание КТ:";
@@ -123,86 +131,77 @@
             // lblWeight
             // 
             this.lblWeight.AutoSize = true;
-            this.lblWeight.Location = new System.Drawing.Point(125, 98);
-            this.lblWeight.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblWeight.Location = new System.Drawing.Point(94, 80);
             this.lblWeight.Name = "lblWeight";
-            this.lblWeight.Size = new System.Drawing.Size(0, 17);
+            this.lblWeight.Size = new System.Drawing.Size(0, 13);
             this.lblWeight.TabIndex = 7;
             // 
             // lblDiscipline
             // 
             this.lblDiscipline.AutoSize = true;
-            this.lblDiscipline.Location = new System.Drawing.Point(125, 68);
-            this.lblDiscipline.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDiscipline.Location = new System.Drawing.Point(94, 55);
             this.lblDiscipline.Name = "lblDiscipline";
-            this.lblDiscipline.Size = new System.Drawing.Size(0, 17);
+            this.lblDiscipline.Size = new System.Drawing.Size(0, 13);
             this.lblDiscipline.TabIndex = 6;
             // 
             // lblAuthor
             // 
             this.lblAuthor.AutoSize = true;
-            this.lblAuthor.Location = new System.Drawing.Point(125, 36);
-            this.lblAuthor.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblAuthor.Location = new System.Drawing.Point(94, 29);
             this.lblAuthor.Name = "lblAuthor";
-            this.lblAuthor.Size = new System.Drawing.Size(0, 17);
+            this.lblAuthor.Size = new System.Drawing.Size(0, 13);
             this.lblAuthor.TabIndex = 5;
             // 
             // txtDescription
             // 
-            this.txtDescription.Location = new System.Drawing.Point(129, 129);
-            this.txtDescription.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtDescription.Location = new System.Drawing.Point(97, 105);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.ReadOnly = true;
-            this.txtDescription.Size = new System.Drawing.Size(231, 70);
+            this.txtDescription.Size = new System.Drawing.Size(174, 58);
             this.txtDescription.TabIndex = 4;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 129);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Location = new System.Drawing.Point(9, 105);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(74, 17);
+            this.label6.Size = new System.Drawing.Size(57, 13);
             this.label6.TabIndex = 3;
             this.label6.Text = "Описание";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 98);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Location = new System.Drawing.Point(9, 80);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(32, 17);
+            this.label5.Size = new System.Drawing.Size(26, 13);
             this.label5.TabIndex = 2;
             this.label5.Text = "Вес";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 68);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(9, 55);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(90, 17);
+            this.label3.Size = new System.Drawing.Size(70, 13);
             this.label3.TabIndex = 1;
             this.label3.Text = "Дисциплина";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 36);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(9, 29);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(64, 17);
+            this.label2.Size = new System.Drawing.Size(50, 13);
             this.label2.TabIndex = 0;
             this.label2.Text = "Создана";
             // 
             // btnCreateCP
             // 
-            this.btnCreateCP.Location = new System.Drawing.Point(184, 137);
-            this.btnCreateCP.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCreateCP.Location = new System.Drawing.Point(11, 111);
             this.btnCreateCP.Name = "btnCreateCP";
-            this.btnCreateCP.Size = new System.Drawing.Size(100, 28);
+            this.btnCreateCP.Size = new System.Drawing.Size(107, 23);
             this.btnCreateCP.TabIndex = 7;
             this.btnCreateCP.Text = "Создать КТ";
             this.btnCreateCP.UseVisualStyleBackColor = true;
@@ -211,10 +210,9 @@
             // btnShowCP
             // 
             this.btnShowCP.Enabled = false;
-            this.btnShowCP.Location = new System.Drawing.Point(15, 173);
-            this.btnShowCP.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnShowCP.Location = new System.Drawing.Point(11, 141);
             this.btnShowCP.Name = "btnShowCP";
-            this.btnShowCP.Size = new System.Drawing.Size(143, 28);
+            this.btnShowCP.Size = new System.Drawing.Size(107, 23);
             this.btnShowCP.TabIndex = 6;
             this.btnShowCP.Text = "Просмотреть КТ";
             this.btnShowCP.UseVisualStyleBackColor = true;
@@ -224,19 +222,20 @@
             // 
             this.cbDiscipline.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbDiscipline.FormattingEnabled = true;
-            this.cbDiscipline.Location = new System.Drawing.Point(15, 95);
-            this.cbDiscipline.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cbDiscipline.Location = new System.Drawing.Point(11, 77);
+            this.cbDiscipline.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbDiscipline.Name = "cbDiscipline";
-            this.cbDiscipline.Size = new System.Drawing.Size(291, 24);
+            this.cbDiscipline.Size = new System.Drawing.Size(219, 21);
             this.cbDiscipline.TabIndex = 5;
             this.cbDiscipline.SelectionChangeCommitted += new System.EventHandler(this.cbDiscipline_SelectionChangeCommitted);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(15, 74);
+            this.label4.Location = new System.Drawing.Point(11, 60);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(90, 17);
+            this.label4.Size = new System.Drawing.Size(70, 13);
             this.label4.TabIndex = 4;
             this.label4.Text = "Дисциплина";
             // 
@@ -244,10 +243,10 @@
             // 
             this.cbGroups.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbGroups.FormattingEnabled = true;
-            this.cbGroups.Location = new System.Drawing.Point(15, 33);
-            this.cbGroups.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cbGroups.Location = new System.Drawing.Point(11, 27);
+            this.cbGroups.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbGroups.Name = "cbGroups";
-            this.cbGroups.Size = new System.Drawing.Size(131, 24);
+            this.cbGroups.Size = new System.Drawing.Size(99, 21);
             this.cbGroups.TabIndex = 1;
             this.cbGroups.SelectedIndexChanged += new System.EventHandler(this.cbGroups_SelectedIndexChanged);
             this.cbGroups.SelectionChangeCommitted += new System.EventHandler(this.cbGroups_SelectionChangeCommitted);
@@ -255,9 +254,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 12);
+            this.label1.Location = new System.Drawing.Point(11, 10);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(55, 17);
+            this.label1.Size = new System.Drawing.Size(42, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Группа";
             // 
@@ -273,25 +273,31 @@
             this.tsslTeacherName,
             this.toolStripStatusLabel1,
             this.tsslCurrentDate});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 689);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 558);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 13, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1395, 25);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 10, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(1046, 22);
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // tsslTeacherName
             // 
             this.tsslTeacherName.Name = "tsslTeacherName";
-            this.tsslTeacherName.Size = new System.Drawing.Size(54, 20);
+            this.tsslTeacherName.Size = new System.Drawing.Size(43, 17);
             this.tsslTeacherName.Text = "tName";
             // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(1286, 20);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(961, 17);
             this.toolStripStatusLabel1.Spring = true;
+            // 
+            // tsslCurrentDate
+            // 
+            this.tsslCurrentDate.Name = "tsslCurrentDate";
+            this.tsslCurrentDate.Size = new System.Drawing.Size(31, 17);
+            this.tsslCurrentDate.Text = "Date";
             // 
             // dgvStudents
             // 
@@ -299,44 +305,26 @@
             this.dgvStudents.AllowUserToDeleteRows = false;
             this.dgvStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvStudents.Dock = System.Windows.Forms.DockStyle.Right;
-            this.dgvStudents.Location = new System.Drawing.Point(386, 28);
-            this.dgvStudents.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvStudents.Location = new System.Drawing.Point(289, 24);
             this.dgvStudents.Name = "dgvStudents";
             this.dgvStudents.RowHeadersVisible = false;
             this.dgvStudents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.ColumnHeaderSelect;
-            this.dgvStudents.Size = new System.Drawing.Size(1009, 661);
+            this.dgvStudents.Size = new System.Drawing.Size(757, 534);
             this.dgvStudents.TabIndex = 4;
             this.dgvStudents.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStudents_CellEndEdit);
             this.dgvStudents.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvStudents_ColumnHeaderMouseClick);
             // 
-            // tsslCurrentDate
-            // 
-            this.tsslCurrentDate.Name = "tsslCurrentDate";
-            this.tsslCurrentDate.Size = new System.Drawing.Size(41, 20);
-            this.tsslCurrentDate.Text = "Date";
-            // 
-            // btnCertification
-            // 
-            this.btnCertification.Location = new System.Drawing.Point(15, 137);
-            this.btnCertification.Margin = new System.Windows.Forms.Padding(4);
-            this.btnCertification.Name = "btnCertification";
-            this.btnCertification.Size = new System.Drawing.Size(161, 28);
-            this.btnCertification.TabIndex = 9;
-            this.btnCertification.Text = "Создать Аттестацию";
-            this.btnCertification.UseVisualStyleBackColor = true;
-            this.btnCertification.Click += new System.EventHandler(this.btnCertification_Click);
-            // 
             // usrMainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1395, 714);
+            this.ClientSize = new System.Drawing.Size(1046, 580);
             this.Controls.Add(this.dgvStudents);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuPanel);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "usrMainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Меню";

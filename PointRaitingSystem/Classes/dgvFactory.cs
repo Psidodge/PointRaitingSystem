@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using MainLib.DBServices;
@@ -12,8 +13,10 @@ namespace PointRaitingSystem
         public static void CreateStudentCPsDataGridView(ref DataGridView dgv, int groupId, int disciplineId)
         {
             dgv.Columns.Clear();
+
             int cpIter = 0; 
             double sum = 0;
+
             List<StudentsWithCP> studentsCPs = GetStudentsCPs(groupId, disciplineId);
             DataGridViewColumn[] columns = CreateColumns(ref dgv, studentsCPs);
 
@@ -21,9 +24,9 @@ namespace PointRaitingSystem
                 return;
 
             dgv.Columns.AddRange(columns);
-            dgv.Rows.Add(studentsCPs.Count - 1);
+            dgv.Rows.Add(studentsCPs.Count);
 
-            for (int i = 0; i < studentsCPs.Count - 1; i++)
+            for (int i = 0; i < studentsCPs.Count; i++)
             {
                 dgv.Rows[i].Cells[0].Value = studentsCPs[i].id;
                 dgv.Rows[i].Cells[1].Value = studentsCPs[i].name;
@@ -38,20 +41,104 @@ namespace PointRaitingSystem
                 sum = 0;
             }
         }
+        public static void InsertCertifications(ref DataGridView dgv, int groupId, int disciplineId, out int[] certificationIndexes)
+        {
+            List<StudentCertification> studentCertifications;
+            List<StudentCertification> distinctStudentCertifications;
+            List<StudentControlPoint> studentsControlPoints;
+            try
+            {
+                studentCertifications = DataService.SelectStudentsCertifications(groupId, disciplineId);
+                studentsControlPoints = DataService.SelectStudentControPointsGroupDisc(groupId, disciplineId);
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+
+            // indexes of certification
+            distinctStudentCertifications = studentCertifications.GroupBy(x => x.id_of_prev_cp).Select(item => item.First()).ToList();
+
+            int amountOfCert = distinctStudentCertifications.Count(),
+                certIter = 0;
+            certificationIndexes = new int[amountOfCert];
+
+            foreach(StudentCertification certification in distinctStudentCertifications)
+            {
+                int idOfSCP = (from scp in studentsControlPoints
+                              where scp.id_of_controlPoint == certification.id_of_prev_cp
+                              select scp.id).First();
+
+                /* (dgv.Columns.Count - 3); -3 - потому что, первые 2 это id, и ФИО + последняя Всего */
+                for (int i = 0; i < (dgv.Columns.Count - 3) / 2; i++)
+                {
+                    if ((int)dgv.Rows[0].Cells[string.Format("idOfCP{0}", i)].Value == idOfSCP)
+                    {
+                        certificationIndexes[certIter] = dgv.Columns[string.Format("idOfCP{0}", i)].Index + 2;
+
+                        dgv.Columns.Insert(certificationIndexes[certIter],
+                            new DataGridViewTextBoxColumn() {
+                                SortMode = DataGridViewColumnSortMode.NotSortable,
+                                Name = string.Format("certification{0}", certIter),
+                                HeaderText = string.Format("Аттестация {0}", certIter + 1),
+                                ReadOnly = true,
+                                Visible = true,
+                                AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                            });
+
+                        dgv.Columns[certificationIndexes[certIter]].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                        break;
+                    }
+                }
+                certIter++;
+            }
+            FillStudentsCertificationsCells(ref dgv, ref studentCertifications, ref certificationIndexes);
+        }
         public static void CalculateSum(ref DataGridView dgv)
         {
-            int sum = 0;
+            double sum = 0;
             foreach(DataGridViewRow row in dgv.Rows)
             {
                 foreach(DataGridViewCell cell in row.Cells)
                 {
-                    if (cell.ColumnIndex > 1 && cell.ColumnIndex < dgv.Columns.Count - 1 && !cell.OwningColumn.Name.Contains("id"))
+                    if (cell.ColumnIndex > 1 && cell.ColumnIndex < dgv.Columns.Count - 1 && !cell.OwningColumn.Name.Contains("id") && !cell.OwningColumn.Name.Contains("certification"))
                     {
-                        sum += Convert.ToInt32(cell.Value);
+                        sum += Convert.ToDouble(cell.Value.ToString().Replace('.',','));
                     }
                 }
                 row.Cells["sum"].Value = sum;
                 sum = 0;
+            }
+        }
+
+        private static void FillStudentsCertificationsCells(ref DataGridView dgv, ref List<StudentCertification> certifications, ref int[] columnIndexes)
+        {
+            int certIter = 0;
+
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                foreach (int colIndex in columnIndexes)
+                {
+                    row.Cells[colIndex].Style.BackColor = GetCellColor(certifications[certIter].grade);
+                    row.Cells[colIndex].Value = certifications[certIter].grade;
+                    certIter++;
+                }
+            }
+        }
+        private static Color GetCellColor(int grade)
+        {
+            switch(grade)
+            {
+                case 5:
+                    return Color.Green;
+                case 4:
+                    return Color.LightGreen;
+                case 3:
+                    return Color.Yellow;
+                case 2:
+                    return Color.Red;
+                default:
+                    return Color.White;
             }
         }
         private static DataGridViewColumn[] CreateColumns(ref DataGridView dgv, List<StudentsWithCP> stCPs)
@@ -71,19 +158,23 @@ namespace PointRaitingSystem
                     Name = string.Format("idOfCP{0}", iter),
                     HeaderText = string.Format("idOfCP {0}", iter),
                     ReadOnly = true,
-                    Visible = false
+                    Visible = false,
                 };
                 columns[++colIter] = new DataGridViewTextBoxColumn()
                 {
                     SortMode = DataGridViewColumnSortMode.NotSortable,
                     Name = string.Format("cpName{0}", iter),
                     HeaderText = string.Format("КТ {0}", iter + 1),
-                    ReadOnly = true
+                    ReadOnly = true,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells
                 };
+
+                columns[colIter].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
                 colIter++;
                 iter++;
             }
-            columns[columns.Length - 1] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "sum", HeaderText = "Всего", ReadOnly = true };
+            columns[columns.Length - 1] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "sum", HeaderText = "Всего", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader };
             return columns;
         }
         private static List<StudentsWithCP> GetStudentsCPs(int groupId, int dId)
@@ -92,7 +183,8 @@ namespace PointRaitingSystem
 
             List<Student> students = DataService.SelectStudentsByGroupId(groupId);
             List<StudentControlPoint> pointsOfStudents = DataService.SelectStudentControPointsGroupDisc(groupId, dId);
-            foreach(Student student in students)
+
+            foreach (Student student in students)
             {
                 studentsCPs.Add(new StudentsWithCP()
                 {

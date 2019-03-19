@@ -57,7 +57,7 @@ namespace PointRaitingSystem
         private void PrintListOfGroupDiscipline()
         {
             List<Discipline> disciplines = DataService.SelectDisciplinesByTeacherIdAndGroupId(Session.GetCurrentSession().ID, ((GroupInfo)clbGroups.SelectedItem).id);
-            DataSetInitializer<Discipline>.lbDataSetInitialize(ref lbDisciplines, disciplines, "id", "full_name");
+            DataSetInitializer.lbDataSetInitialize<Discipline>(ref lbDisciplines, disciplines, "id", "full_name");
         }
         
         private void InitializeDataSets()
@@ -65,11 +65,11 @@ namespace PointRaitingSystem
             try
             {
                 clbGroupsDataSource = DataService.SelectAllGroupsInfo();
-                DataSetInitializer<GroupInfo>.clbDataSetInitialize(ref clbGroups, clbGroupsDataSource, "id", "name");
+                DataSetInitializer.clbDataSetInitialize<GroupInfo>(ref clbGroups, clbGroupsDataSource, "id", "name");
                 CheckAlreadyAttachedGroups(clbGroupsDataSource);
 
                 List<DisciplineInfo> disciplinesInfo = DataService.SelectAllDisciplinesInfo();
-                DataSetInitializer<DisciplineInfo>.ComboBoxDataSetInitializer(ref cbDisciplines, disciplinesInfo, "id", "disciplineFullName");
+                DataSetInitializer.ComboBoxDataSetInitializer<DisciplineInfo>(ref cbDisciplines, disciplinesInfo, "id", "disciplineFullName");
             }
             catch (Exception ex)
             {
@@ -123,7 +123,7 @@ namespace PointRaitingSystem
         //HACK: придумать что-нибудь получше
         private void txtGroupsFilter_TextChanged(object sender, EventArgs e)
         {
-            DataSetInitializer<GroupInfo>.clbDataSetInitialize(ref clbGroups, clbGroupsDataSource, "id", "name");
+            DataSetInitializer.clbDataSetInitialize<GroupInfo>(ref clbGroups, clbGroupsDataSource, "id", "name");
             CheckAlreadyAttachedGroups(clbGroupsDataSource);
             List<GroupInfo> groups = new List<GroupInfo>();
 
@@ -132,8 +132,14 @@ namespace PointRaitingSystem
                 if (item.name.Contains(txtGroupsFilter.Text))
                     groups.Add(item);
             }
-            DataSetInitializer<GroupInfo>.clbDataSetInitialize(ref clbGroups, groups, "id", "name");
+            DataSetInitializer.clbDataSetInitialize<GroupInfo>(ref clbGroups, groups, "id", "name");
             CheckAlreadyAttachedGroups(groups);
+        }
+
+        private void showAllBindingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            usrShowAllBindings usrShowAllBindings = new usrShowAllBindings();
+            usrShowAllBindings.ShowDialog();
         }
     }
 }

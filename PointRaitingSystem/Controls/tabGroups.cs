@@ -22,7 +22,7 @@ namespace PointRaitingSystem
             try
             {
                 List<GroupInfo> groupsInfo = DataService.SelectAllGroupsInfo();
-                DataSetInitializer<GroupInfo>.dgvDataSetInitializer(ref dgvGroups, groupsInfo, new int[] { 0 }, new string[] { "name" });
+                DataSetInitializer.dgvDataSetInitializer<GroupInfo>(ref dgvGroups, groupsInfo, new int[] { 0 }, new string[] { "name" });
             }
             catch (Exception ex)
             {

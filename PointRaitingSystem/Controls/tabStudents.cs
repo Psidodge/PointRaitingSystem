@@ -20,10 +20,10 @@ namespace PointRaitingSystem
             try
             {
                 List<StudentInfo> students = DataService.SelectAllStudentsInfo();
-                DataSetInitializer<StudentInfo>.dgvDataSetInitializer(ref dgvStudents, students, new int[] { 0 }, new string[] { "name" });
+                DataSetInitializer.dgvDataSetInitializer<StudentInfo>(ref dgvStudents, students, new int[] { 0 }, new string[] { "name" });
 
                 List<GroupInfo> groups = DataService.SelectAllGroupsInfo();
-                DataSetInitializer<GroupInfo>.ComboBoxDataSetInitializer(ref cbGroup, groups, "id", "group_name");
+                DataSetInitializer.ComboBoxDataSetInitializer<GroupInfo>(ref cbGroup, groups, "id", "group_name");
             }
             catch (Exception ex)
             {

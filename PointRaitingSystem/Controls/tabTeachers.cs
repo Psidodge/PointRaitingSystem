@@ -31,7 +31,7 @@ namespace PointRaitingSystem
             try
             {
                 List<UserInfo> teacherInfos = DataService.SelectAllUsers();
-                DataSetInitializer<UserInfo>.dgvDataSetInitializer(ref dgvTeachers, teacherInfos, new int[] { 0, 3 }, new string[] { "Name" });
+                DataSetInitializer.dgvDataSetInitializer<UserInfo>(ref dgvTeachers, teacherInfos, new int[] { 0, 3 }, new string[] { "Name" });
             }
             catch (Exception ex)
             {
@@ -192,7 +192,7 @@ namespace PointRaitingSystem
 
         private void txtPass_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Regex regex = new Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{5,15}$");
+            Regex regex = new Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)");//.{5,15}$
 
             if (regex.IsMatch(txtPass.Text) && loginValdiationComplete)
             {

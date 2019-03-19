@@ -29,44 +29,41 @@
         private void InitializeComponent()
         {
             this.dgvPreviewData = new System.Windows.Forms.DataGridView();
-            this.btnChange = new System.Windows.Forms.Button();
-            this.btnOk = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPreviewData)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvPreviewData
             // 
+            this.dgvPreviewData.AllowUserToAddRows = false;
+            this.dgvPreviewData.AllowUserToDeleteRows = false;
             this.dgvPreviewData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPreviewData.Dock = System.Windows.Forms.DockStyle.Top;
             this.dgvPreviewData.Location = new System.Drawing.Point(0, 0);
+            this.dgvPreviewData.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dgvPreviewData.Name = "dgvPreviewData";
-            this.dgvPreviewData.Size = new System.Drawing.Size(819, 346);
+            this.dgvPreviewData.Size = new System.Drawing.Size(1092, 426);
             this.dgvPreviewData.TabIndex = 0;
+            this.dgvPreviewData.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPreviewData_CellEndEdit);
             // 
-            // btnChange
+            // btnSave
             // 
-            this.btnChange.Location = new System.Drawing.Point(12, 352);
-            this.btnChange.Name = "btnChange";
-            this.btnChange.Size = new System.Drawing.Size(114, 23);
-            this.btnChange.TabIndex = 1;
-            this.btnChange.Text = "Изменить";
-            this.btnChange.UseVisualStyleBackColor = true;
-            // 
-            // btnOk
-            // 
-            this.btnOk.Location = new System.Drawing.Point(693, 356);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(114, 23);
-            this.btnOk.TabIndex = 2;
-            this.btnOk.Text = "Ок";
-            this.btnOk.UseVisualStyleBackColor = true;
+            this.btnSave.Location = new System.Drawing.Point(924, 438);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(152, 28);
+            this.btnSave.TabIndex = 2;
+            this.btnSave.Text = "Сохранить";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(693, 385);
+            this.btnCancel.Location = new System.Drawing.Point(764, 438);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(114, 23);
+            this.btnCancel.Size = new System.Drawing.Size(152, 28);
             this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "Отмена";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -74,15 +71,15 @@
             // 
             // admParserPreviweForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(819, 420);
+            this.ClientSize = new System.Drawing.Size(1092, 474);
             this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnOk);
-            this.Controls.Add(this.btnChange);
+            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.dgvPreviewData);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "admParserPreviweForm";
-            this.Text = "admParserPreviweForm";
+            this.Text = "Предпросмотр";
             this.Load += new System.EventHandler(this.admParserPreviweForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPreviewData)).EndInit();
             this.ResumeLayout(false);
@@ -92,8 +89,7 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgvPreviewData;
-        private System.Windows.Forms.Button btnChange;
-        private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
     }
 }

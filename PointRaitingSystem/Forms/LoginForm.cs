@@ -63,7 +63,7 @@ namespace PointRaitingSystem
             //NOTE: test
             try
             {
-                DataSetInitializer<UserFullInfo>.ComboBoxDataSetInitializer(ref cbLogin, DataService.SelectUsersFullInfo(), "login", "ShortName");
+                DataSetInitializer.ComboBoxDataSetInitializer<UserFullInfo>(ref cbLogin, DataService.SelectUsersFullInfo(), "login", "ShortName");
             }
             catch (Auth.QueryResultIsNullException)
             {

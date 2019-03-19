@@ -9,7 +9,7 @@ namespace PointRaitingSystem
     public partial class admParserForm : Form
     {
         private DataType selectedType = DataType.None;
-        private List<ParsedData> parsedData;
+        private List<ParserEntity> parsedData;
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private string filePath;
 
@@ -86,6 +86,7 @@ namespace PointRaitingSystem
             if(parsedData == null || parsedData.Count == 0)
             {
                 tsslInfo.Text = "Данные не были выгружены.";
+                return;
             }
             admParserPreviweForm form = new admParserPreviweForm(ref parsedData);
             form.ShowDialog();

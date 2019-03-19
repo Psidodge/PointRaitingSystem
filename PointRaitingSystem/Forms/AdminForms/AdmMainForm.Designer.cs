@@ -36,10 +36,10 @@
             this.btnAddStudents = new System.Windows.Forms.Button();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.parseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsTabs = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeCurrentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.parseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.cmsTabs.SuspendLayout();
@@ -52,16 +52,18 @@
             this.panel1.Controls.Add(this.btnAddTeachers);
             this.panel1.Controls.Add(this.btnAddStudents);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(0, 24);
+            this.panel1.Location = new System.Drawing.Point(0, 28);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(184, 528);
+            this.panel1.Size = new System.Drawing.Size(245, 651);
             this.panel1.TabIndex = 0;
             // 
             // btnAddGroups
             // 
-            this.btnAddGroups.Location = new System.Drawing.Point(12, 90);
+            this.btnAddGroups.Location = new System.Drawing.Point(16, 111);
+            this.btnAddGroups.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnAddGroups.Name = "btnAddGroups";
-            this.btnAddGroups.Size = new System.Drawing.Size(151, 23);
+            this.btnAddGroups.Size = new System.Drawing.Size(201, 28);
             this.btnAddGroups.TabIndex = 3;
             this.btnAddGroups.Text = "Добавить группы";
             this.btnAddGroups.UseVisualStyleBackColor = true;
@@ -69,9 +71,10 @@
             // 
             // btnAddDisciplines
             // 
-            this.btnAddDisciplines.Location = new System.Drawing.Point(12, 61);
+            this.btnAddDisciplines.Location = new System.Drawing.Point(16, 75);
+            this.btnAddDisciplines.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnAddDisciplines.Name = "btnAddDisciplines";
-            this.btnAddDisciplines.Size = new System.Drawing.Size(151, 23);
+            this.btnAddDisciplines.Size = new System.Drawing.Size(201, 28);
             this.btnAddDisciplines.TabIndex = 2;
             this.btnAddDisciplines.Text = "Добавить дисциплины";
             this.btnAddDisciplines.UseVisualStyleBackColor = true;
@@ -79,9 +82,10 @@
             // 
             // btnAddTeachers
             // 
-            this.btnAddTeachers.Location = new System.Drawing.Point(12, 32);
+            this.btnAddTeachers.Location = new System.Drawing.Point(16, 39);
+            this.btnAddTeachers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnAddTeachers.Name = "btnAddTeachers";
-            this.btnAddTeachers.Size = new System.Drawing.Size(151, 23);
+            this.btnAddTeachers.Size = new System.Drawing.Size(201, 28);
             this.btnAddTeachers.TabIndex = 1;
             this.btnAddTeachers.Text = "Добавить преподавателей";
             this.btnAddTeachers.UseVisualStyleBackColor = true;
@@ -89,9 +93,10 @@
             // 
             // btnAddStudents
             // 
-            this.btnAddStudents.Location = new System.Drawing.Point(12, 3);
+            this.btnAddStudents.Location = new System.Drawing.Point(16, 4);
+            this.btnAddStudents.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnAddStudents.Name = "btnAddStudents";
-            this.btnAddStudents.Size = new System.Drawing.Size(151, 23);
+            this.btnAddStudents.Size = new System.Drawing.Size(201, 28);
             this.btnAddStudents.TabIndex = 0;
             this.btnAddStudents.Text = "Добавить студентов";
             this.btnAddStudents.UseVisualStyleBackColor = true;
@@ -101,67 +106,72 @@
             // 
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.HotTrack = true;
-            this.tabControl.Location = new System.Drawing.Point(184, 24);
+            this.tabControl.Location = new System.Drawing.Point(245, 28);
+            this.tabControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabControl.Multiline = true;
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(764, 528);
+            this.tabControl.Size = new System.Drawing.Size(1019, 651);
             this.tabControl.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.tabControl.TabIndex = 1;
             this.tabControl.TabStop = false;
             // 
             // menuStrip1
             // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.parseToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(948, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(1264, 28);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
+            // parseToolStripMenuItem
+            // 
+            this.parseToolStripMenuItem.Name = "parseToolStripMenuItem";
+            this.parseToolStripMenuItem.Size = new System.Drawing.Size(156, 24);
+            this.parseToolStripMenuItem.Text = "Загрузить из файла";
+            this.parseToolStripMenuItem.Click += new System.EventHandler(this.parseToolStripMenuItem_Click);
+            // 
             // cmsTabs
             // 
+            this.cmsTabs.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.cmsTabs.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.closeCurrentToolStripMenuItem,
             this.closeAllToolStripMenuItem});
             this.cmsTabs.Name = "cmsTabs";
-            this.cmsTabs.Size = new System.Drawing.Size(142, 48);
+            this.cmsTabs.Size = new System.Drawing.Size(163, 52);
             // 
             // closeCurrentToolStripMenuItem
             // 
             this.closeCurrentToolStripMenuItem.Name = "closeCurrentToolStripMenuItem";
-            this.closeCurrentToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.closeCurrentToolStripMenuItem.Size = new System.Drawing.Size(162, 24);
             this.closeCurrentToolStripMenuItem.Text = "Закрыть";
             this.closeCurrentToolStripMenuItem.Click += new System.EventHandler(this.closeCurrentToolStripMenuItem_Click);
             // 
             // closeAllToolStripMenuItem
             // 
             this.closeAllToolStripMenuItem.Name = "closeAllToolStripMenuItem";
-            this.closeAllToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.closeAllToolStripMenuItem.Size = new System.Drawing.Size(162, 24);
             this.closeAllToolStripMenuItem.Text = "Закрыть все";
             this.closeAllToolStripMenuItem.Click += new System.EventHandler(this.closeAllToolStripMenuItem_Click);
             // 
-            // parseToolStripMenuItem
-            // 
-            this.parseToolStripMenuItem.Name = "parseToolStripMenuItem";
-            this.parseToolStripMenuItem.Size = new System.Drawing.Size(126, 20);
-            this.parseToolStripMenuItem.Text = "Загрузить из файла";
-            this.parseToolStripMenuItem.Click += new System.EventHandler(this.parseToolStripMenuItem_Click);
-            // 
             // admMainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(948, 552);
+            this.ClientSize = new System.Drawing.Size(1264, 679);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "admMainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "AdmMainForm";
+            this.Text = "Admin dashboard";
             this.panel1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

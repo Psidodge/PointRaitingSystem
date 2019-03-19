@@ -11,9 +11,9 @@ namespace MainLib.Parsing
 {
     public static class ExcelParser
     {
-        public static void ParseDisciplines(out List<ParsedData> outData, string filePath)
+        public static void ParseDisciplines(out List<ParserEntity> outData, string filePath)
         {
-            outData = new List<ParsedData>();
+            outData = new List<ParserEntity>();
             using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
             {
                 using (var reader = ExcelReaderFactory.CreateReader(stream))
@@ -29,9 +29,9 @@ namespace MainLib.Parsing
                 }
             }
         }
-        public static void ParseStudents(out List<ParsedData> outData, string filePath)
+        public static void ParseStudents(out List<ParserEntity> outData, string filePath)
         {
-            outData = new List<ParsedData>();
+            outData = new List<ParserEntity>();
             using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
             {
                 using (var reader = ExcelReaderFactory.CreateReader(stream))
@@ -48,9 +48,9 @@ namespace MainLib.Parsing
             }
 
         }
-        public static void ParseTeachers(out List<ParsedData> outData, string filePath)
+        public static void ParseTeachers(out List<ParserEntity> outData, string filePath)
         {
-            outData = new List<ParsedData>();
+            outData = new List<ParserEntity>();
             using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
             {
                 using (var reader = ExcelReaderFactory.CreateReader(stream))

@@ -36,6 +36,9 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.cbPrevCP = new System.Windows.Forms.ComboBox();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.tsslInfo = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -108,11 +111,28 @@
             this.cbPrevCP.Size = new System.Drawing.Size(166, 24);
             this.cbPrevCP.TabIndex = 7;
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsslInfo});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 159);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(341, 22);
+            this.statusStrip1.TabIndex = 8;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // tsslInfo
+            // 
+            this.tsslInfo.Name = "tsslInfo";
+            this.tsslInfo.Size = new System.Drawing.Size(0, 19);
+            // 
             // usrCertificationAddForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(341, 158);
+            this.ClientSize = new System.Drawing.Size(341, 181);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.cbPrevCP);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnCancel);
@@ -122,7 +142,9 @@
             this.Controls.Add(this.txtGroupName);
             this.Controls.Add(this.label1);
             this.Name = "usrCertificationAddForm";
-            this.Text = "usrCertificationAddForm";
+            this.Text = "Создание аттестации";
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -138,5 +160,7 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cbPrevCP;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel tsslInfo;
     }
 }

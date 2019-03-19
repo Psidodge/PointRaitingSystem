@@ -17,6 +17,7 @@ namespace PointRaitingSystem
 
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private int cbGroupsPrevIndex = 0;
+        private int[] certificationIndexes = null;
         private bool isCellsHiden = false;
        
         private void cbGroups_SelectionChangeCommitted(object sender, EventArgs e)
@@ -27,6 +28,7 @@ namespace PointRaitingSystem
             {
                 cbDiscipline.DataSource = DataService.SelectDisciplinesByTeacherIdAndGroupId(Session.GetCurrentSession().ID, (int)cbGroups.SelectedValue);
                 studentCPsDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
+                studentCPsDataGridViewFactory.InsertCertifications(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, out certificationIndexes);
             }
             catch(Exception ex)
             {
@@ -53,6 +55,7 @@ namespace PointRaitingSystem
             usrCPAddForm form = new usrCPAddForm((Discipline)cbDiscipline.SelectedItem, (int)cbGroups.SelectedValue);
             form.ShowDialog();
             studentCPsDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
+            studentCPsDataGridViewFactory.InsertCertifications(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, out certificationIndexes);
         }
         private void btnShowCP_Click(object sender, EventArgs e)
         {
@@ -67,19 +70,20 @@ namespace PointRaitingSystem
         }
 
 
-        //TODO: инкапсулировть
         private void InitializeDataSets()
         {
             try
             {
                 //cbGroup
                 List<Group> groups = DataService.SelectGroupsByTeacherId(Session.GetCurrentSession().ID);
-                DataSetInitializer<Group>.ComboBoxDataSetInitializer(ref cbGroups, groups, "id", "name");
+                DataSetInitializer.ComboBoxDataSetInitializer<Group>(ref cbGroups, groups, "id", "name");
                 //cbDiscipline
                 List<Discipline> disciplines = DataService.SelectDisciplinesByTeacherIdAndGroupId(Session.GetCurrentSession().ID, (int)cbGroups.SelectedValue);
-                DataSetInitializer<Discipline>.ComboBoxDataSetInitializer(ref cbDiscipline, disciplines, "id", "full_name");
+                DataSetInitializer.ComboBoxDataSetInitializer<Discipline>(ref cbDiscipline, disciplines, "id", "full_name");
                 //dgvStudents dataset
                 studentCPsDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
+                //insert certification
+                studentCPsDataGridViewFactory.InsertCertifications(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, out certificationIndexes);
             }
             catch (Exception ex)
             {
@@ -118,16 +122,28 @@ namespace PointRaitingSystem
         }
         private void dgvStudents_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            int pointsToIns = Convert.ToInt32(dgvStudents.CurrentCell.Value),
-                id = Convert.ToInt32(dgvStudents.CurrentRow.Cells[e.ColumnIndex - 1].Value);
+            double pointsToIns = Convert.ToDouble(dgvStudents.CurrentCell.Value.ToString().Replace('.',','));
+            int id = Convert.ToInt32(dgvStudents.CurrentRow.Cells[e.ColumnIndex - 1].Value);
+            
             try
             {
+                int idOfCP = Convert.ToInt32(dgvStudents.CurrentRow.Cells[dgvStudents.CurrentCell.ColumnIndex - 1].Value);
+                ControlPointInfo cpInfo = DataService.SelectControlPointInfo(idOfCP);
+
+                if (pointsToIns < 0 || pointsToIns > cpInfo.weight)
+                { 
+                    MessageBox.Show("Введеные баллы превышаеют вес КТ.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    dgvStudents.CurrentCell.Value = 0;
+                    return;
+                }
                 DataService.UpdateStudentCP(pointsToIns, id);
             }
             catch (Exception ex)
             {
                 logger.Error(ex);
                 MessageBox.Show("Произошла ошибка при обновлении баллов студента.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dgvStudents.CurrentCell.Value = 0;
+                return;
             }
             studentCPsDataGridViewFactory.CalculateSum(ref dgvStudents);
         }
@@ -142,6 +158,17 @@ namespace PointRaitingSystem
                     isCellsHiden = false;
                     return;
                 }
+
+                for (int i = 0; i < certificationIndexes.Length; i++)
+                {
+                    if (selectedColIndex == certificationIndexes[i])
+                    {
+                        FillControlPointInfo();
+                        isCellsHiden = false;
+                        return;
+                    }
+                }
+
 
                 if (!isCellsHiden)
                 {
@@ -183,6 +210,9 @@ namespace PointRaitingSystem
         {
             usrCertificationAddForm form = new usrCertificationAddForm(((Group)cbGroups.SelectedItem).name, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
             form.ShowDialog();
+            studentCPsDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
+            studentCPsDataGridViewFactory.InsertCertifications(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, out certificationIndexes);
         }
+
     }
 }

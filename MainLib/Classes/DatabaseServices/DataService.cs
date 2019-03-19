@@ -15,16 +15,17 @@ namespace MainLib.DBServices
     public static class DataService
     {
         private static string connectionString = ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
-        private static MySqlConnection OpenConnection()
+        private static MySqlConnection GetConnectionInstance()
         {
             return new MySqlConnection(connectionString);
         }
 
-        // SELECT
+        // SELECT 
         public static AuthInfo SelectAuthInfoByLogin(string userLogin)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -44,7 +45,7 @@ namespace MainLib.DBServices
         }
         public static double GetSumOfPointsUsed(int groupID)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -62,9 +63,51 @@ namespace MainLib.DBServices
                 return connection.ExecuteScalar<double>("SelectSumOfGroupWeight", parameters, commandType: CommandType.StoredProcedure, commandTimeout: 20);
             }
         }
+        public static double GetSumOfPointsToCurrentCP(int studentID, int disciplineID, int prevCPID)
+        {
+            using (MySqlConnection connection = GetConnectionInstance())
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@stID", studentID);
+                parameters.Add("@dID", disciplineID);
+                parameters.Add("@endPointID", prevCPID);
+
+                return connection.ExecuteScalar<double>("SelectWeightsOfStudentControlPoints", parameters, commandType: CommandType.StoredProcedure, commandTimeout: 20);
+            }
+        }
+        public static double GetStudentPointsSum(int studentID)
+        {
+            using (MySqlConnection connection = GetConnectionInstance())
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@studentID", studentID);
+
+                return connection.ExecuteScalar<double>("SelectSumOfStudentPoints", parameters, commandType: CommandType.StoredProcedure, commandTimeout: 20);
+            }
+        }
         public static AuthInfoAdmin SelectAuthInfoByUserID(int usrID)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -84,7 +127,7 @@ namespace MainLib.DBServices
         }
         public static UserInfo SelectLoggedTeacher(string userLogin)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -104,7 +147,7 @@ namespace MainLib.DBServices
         }
         public static UserInfo SelectTeacherById(int userId)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -124,7 +167,7 @@ namespace MainLib.DBServices
         }
         public static ControlPoint SelectControlPointsInfoByStIdAndCpIndex(int studentId, int disciplineId, int cpIndex)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -148,7 +191,7 @@ namespace MainLib.DBServices
         }
         public static Discipline SelectDisciplineById(int id)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -166,10 +209,31 @@ namespace MainLib.DBServices
                 return connection.QueryFirst<Discipline>("SelectDiscipline", commandType: CommandType.StoredProcedure);
             }
         }
-        //NOTE: Test method
+        
+        public static List<StudentCertification> SelectStudentsCertifications(int groupID, int disciplineID)
+        {
+            using (MySqlConnection connection = GetConnectionInstance())
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@groupID", groupID);
+                parameters.Add("@disciplineID", disciplineID);
+
+                return connection.Query<StudentCertification>("SelectStudentsCertifications", parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
         public static List<UserFullInfo> SelectUsersFullInfo()
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -186,7 +250,7 @@ namespace MainLib.DBServices
         }
         public static List<Group> SelectGroupsByTeacherId(int userId)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -206,7 +270,7 @@ namespace MainLib.DBServices
         }
         public static List<Discipline> SelectDisciplinesByTeacherIdAndGroupId(int teacherId, int groupId)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -227,7 +291,7 @@ namespace MainLib.DBServices
         }
         public static List<Discipline> SelectDisciplinesByTeacherID(int id)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -247,7 +311,7 @@ namespace MainLib.DBServices
         }
         public static List<Student> SelectStudentsByGroupId(int groupId)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -267,7 +331,7 @@ namespace MainLib.DBServices
         }
         public static List<ControlPoint> SelectControlPointsByDisciplineId(int id)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -287,7 +351,7 @@ namespace MainLib.DBServices
         }
         public static List<ControlPointsOfStudents> SelectStudentControPoints(int stId, int cpId)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -308,7 +372,7 @@ namespace MainLib.DBServices
         }
         public static List<StudentControlPoint> SelectStudentControPointsGroupDisc(int grId, int discId)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -334,7 +398,7 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return null;
 
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -355,7 +419,7 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return null;
 
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -372,7 +436,7 @@ namespace MainLib.DBServices
         }
         public static List<DisciplineInfo> SelectAllDisciplinesInfo()
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -389,7 +453,7 @@ namespace MainLib.DBServices
         }
         public static List<GroupInfo> SelectAllGroupsInfo()
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -406,7 +470,7 @@ namespace MainLib.DBServices
         }
         public static ControlPointInfo SelectControlPointInfo(int id)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -427,7 +491,7 @@ namespace MainLib.DBServices
 
         public static int GetIndexOfLastControlPoint()
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -444,7 +508,7 @@ namespace MainLib.DBServices
         }
         public static int GetIdOfGroupByGroupName(string groupName)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -471,7 +535,7 @@ namespace MainLib.DBServices
         }
         public static bool isLoginExist(string login)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -491,7 +555,7 @@ namespace MainLib.DBServices
         }
         public static bool isTeacherDiscipline(int disciplineId, int teacherId)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -512,7 +576,7 @@ namespace MainLib.DBServices
         }
         public static bool isGroupDiscipline(int disciplineId, int groupId)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -533,7 +597,7 @@ namespace MainLib.DBServices
         }
         public static bool isGroupExist(out int groupId, string groupName)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -559,7 +623,7 @@ namespace MainLib.DBServices
         // INSERT
         public static int InsertIntoControlPointsTable(ControlPoint cpToIns)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -582,7 +646,7 @@ namespace MainLib.DBServices
         }
         public static int InsertIntoStudentCPTable(ControlPointsOfStudents cpToIns)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -603,9 +667,34 @@ namespace MainLib.DBServices
                 return connection.ExecuteScalar<int>("InsertIntoStudentsControlPoints", parameters, commandType: CommandType.StoredProcedure);
             }
         }
+        public static int InsertIntoStudentCertification(StudentCertification certificationToIns)
+        {
+            using (MySqlConnection connection = GetConnectionInstance())
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@studentID", certificationToIns.id_of_student);
+                parameters.Add("@stGrade", certificationToIns.grade);
+                parameters.Add("@certDate", certificationToIns.date);
+                parameters.Add("@prevCPID", certificationToIns.id_of_prev_cp);
+                parameters.Add("@disciplineID", certificationToIns.id_of_discipline);
+
+
+                return connection.ExecuteScalar<int>("InsertIntoStudentCertification", parameters, commandType: CommandType.StoredProcedure);
+            }
+        }
         public static int InsertIntoTeacherDisciplines(int teacherId, int disciplineId)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -627,7 +716,7 @@ namespace MainLib.DBServices
         }
         public static int InsertIntoTeacherGroups(int teacherId, int groupId)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -648,7 +737,7 @@ namespace MainLib.DBServices
         }
         public static int InsertIntoGroupDiscipline(int disciplineId, int groupId)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -670,7 +759,7 @@ namespace MainLib.DBServices
 
         public static int InsertIntoAuthInfo(AuthInfoAdmin authInfo)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -695,7 +784,7 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -720,7 +809,7 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -745,7 +834,7 @@ namespace MainLib.DBServices
                 return -1;
 
             
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -769,7 +858,7 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -796,7 +885,7 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -821,7 +910,7 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -846,7 +935,7 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -872,7 +961,7 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -897,7 +986,7 @@ namespace MainLib.DBServices
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
 
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {
@@ -918,9 +1007,9 @@ namespace MainLib.DBServices
 
             }
         }
-        public static int UpdateStudentCP(int points, int cpId)
+        public static int UpdateStudentCP(double points, int cpId)
         {
-            using (MySqlConnection connection = OpenConnection())
+            using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
                 {

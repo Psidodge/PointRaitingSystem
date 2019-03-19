@@ -8,12 +8,12 @@ namespace PointRaitingSystem
 {
     public partial class admParserPreviweForm : Form
     {
-        private List<ParsedData> orgParsedDatas;
+        private List<ParserEntity> parsedDataList;
 
-        public admParserPreviweForm(ref List<ParsedData> data)
+        public admParserPreviweForm(ref List<ParserEntity> data)
         {
             InitializeComponent();
-            orgParsedDatas = data;
+            parsedDataList = data;
             InitializeDataSets();
         }
 
@@ -22,14 +22,13 @@ namespace PointRaitingSystem
         }
         private void InitializeDataSets()
         {
-            List<ParsedData> cpyParsedData = orgParsedDatas;
+            List<ParserEntity> cpyParsedData = parsedDataList;
 
-            //HACK: не придумал ничего лучше этого
             var @switch = new Dictionary<Type, Action>
             {
-                { typeof(ParsedDiscipline), () => DataSetInitializer<ParsedDiscipline>.dgvDataSetInitializer(ref dgvPreviewData, cpyParsedData.OfType<ParsedDiscipline>().ToList()) },
-                { typeof(ParsedStudent), () => DataSetInitializer<ParsedStudent>.dgvDataSetInitializer(ref dgvPreviewData, cpyParsedData.OfType<ParsedStudent>().ToList()) },
-                { typeof(ParsedTeacher), () => DataSetInitializer<ParsedTeacher>.dgvDataSetInitializer(ref dgvPreviewData, cpyParsedData.OfType<ParsedTeacher>().ToList()) },
+                { typeof(ParsedDiscipline), () => DataSetInitializer.dgvDataSetInitializer<ParsedDiscipline>(ref dgvPreviewData, cpyParsedData.OfType<ParsedDiscipline>().ToList()) },
+                { typeof(ParsedStudent), () => DataSetInitializer.dgvDataSetInitializer<ParsedStudent>(ref dgvPreviewData, cpyParsedData.OfType<ParsedStudent>().ToList()) },
+                { typeof(ParsedTeacher), () => DataSetInitializer.dgvDataSetInitializer<ParsedTeacher>(ref dgvPreviewData, cpyParsedData.OfType<ParsedTeacher>().ToList()) },
             };
 
             dgvPreviewData.AutoGenerateColumns = true;
@@ -37,6 +36,24 @@ namespace PointRaitingSystem
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void dgvPreviewData_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            object[] parameters = new object[dgvPreviewData.Columns.Count];
+            int paramIter = 0;
+
+            foreach(DataGridViewColumn column in dgvPreviewData.Columns)
+            {
+                parameters[paramIter] = dgvPreviewData.CurrentRow.Cells[column.Index].Value;
+            }
+
+            parsedDataList[e.RowIndex].ChangeObject(parameters);
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
         {
             this.Close();
         }

@@ -15,7 +15,7 @@ namespace PointRaitingSystem
             try
             {
                 List<DisciplineInfo> disciplines = DataService.SelectAllDisciplinesInfo();
-                DataSetInitializer<DisciplineInfo>.dgvDataSetInitializer(ref dgvDisciplines, disciplines, new int[] { 0 }, new string[] { "name" });
+                DataSetInitializer.dgvDataSetInitializer<DisciplineInfo>(ref dgvDisciplines, disciplines, new int[] { 0 }, new string[] { "name" });
             }
             catch (Exception ex)
             {
