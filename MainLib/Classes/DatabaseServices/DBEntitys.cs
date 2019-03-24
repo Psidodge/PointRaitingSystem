@@ -126,6 +126,28 @@ namespace MainLib.DBServices
                 return;
             }
         }
+        public double GetMaxSumOfPoint()
+        {
+            try
+            {
+                return DataService.GetSumOfPointsToCurrentCP(this.id_of_student, id_of_discipline, id_of_prev_cp);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public double GetStudentScore()
+        {
+            try
+            {
+                return DataService.GetStudentPointsSum(this.id_of_student);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 
     public class StudentControlPoint : DBEntity

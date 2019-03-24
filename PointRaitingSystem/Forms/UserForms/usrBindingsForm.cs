@@ -28,7 +28,6 @@ namespace PointRaitingSystem
             InitializeDataSets();
         }
 
-        //HACK: подумать над более лучшем решением
         private void CheckAlreadyAttachedGroups(List<GroupInfo> groups)
         {
             try

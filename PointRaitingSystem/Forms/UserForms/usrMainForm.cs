@@ -114,6 +114,28 @@ namespace PointRaitingSystem
             lblWeight.Text = cpInfo.weight.ToString();
             txtDescription.Text = cpInfo.description;
         }
+        private void FillCertificationInfo(bool isVisible = false, bool isFirst = true)
+        {
+            gbCertificationInfo.Visible = isVisible;
+            if (!isVisible)
+                return;
+
+            StudentCertification studentCertification = null;
+            try
+            {
+                int studentID = (int)dgvStudents.CurrentRow.Cells[0].Value;
+                var stCeritifications = DataService.SelectStudentCertifications((int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, studentID);
+                // HACK: придумать лучший алгоритм
+                studentCertification = (isFirst?stCeritifications[0]:stCeritifications[1]);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+            }
+            lblGrade.Text = studentCertification.grade.ToString();
+
+            lblDate.Text = studentCertification.date.ToShortDateString();
+        }
         private void bindingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             usrSettingsForm usrSettingsForm = new usrSettingsForm();
@@ -213,6 +235,13 @@ namespace PointRaitingSystem
             studentCPsDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
             studentCPsDataGridViewFactory.InsertCertifications(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, out certificationIndexes);
         }
+        private void tsmiCertification_Click(object sender, EventArgs e)
+        {
 
+        }
+        private void tsmiExam_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -164,7 +164,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="TODO.txt" />
     <EmbeddedResource Include="Controls\tabDisciplines.resx">
       <DependentUpon>tabDisciplines.cs</DependentUpon>
     </EmbeddedResource>

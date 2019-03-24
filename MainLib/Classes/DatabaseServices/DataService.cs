@@ -209,7 +209,52 @@ namespace MainLib.DBServices
                 return connection.QueryFirst<Discipline>("SelectDiscipline", commandType: CommandType.StoredProcedure);
             }
         }
-        
+        public static ControlPointInfo SelectControlPointInfo(int id)
+        {
+            using (MySqlConnection connection = GetConnectionInstance())
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@cpID", id);
+
+                return connection.QueryFirst<ControlPointInfo>("SelectControlPointInfo", parameters, commandType: CommandType.StoredProcedure);
+            }
+        }
+        public static List<StudentCertification> SelectStudentCertifications(int groupID, int disciplineID, int studentID)
+        {
+            using (MySqlConnection connection = GetConnectionInstance())
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@groupID", groupID);
+                parameters.Add("@disciplineID", disciplineID);
+                
+                var results = connection.Query<StudentCertification>("SelectStudentsCertifications", parameters, commandType: CommandType.StoredProcedure).ToList();
+
+                return (from result in results
+                        where result.id_of_student == studentID
+                        select result).ToList();
+            }
+        }
+
         public static List<StudentCertification> SelectStudentsCertifications(int groupID, int disciplineID)
         {
             using (MySqlConnection connection = GetConnectionInstance())
@@ -466,26 +511,6 @@ namespace MainLib.DBServices
                 }
 
                 return connection.Query<GroupInfo>("SelectGroupsInfo", commandType: CommandType.StoredProcedure).ToList();
-            }
-        }
-        public static ControlPointInfo SelectControlPointInfo(int id)
-        {
-            using (MySqlConnection connection = GetConnectionInstance())
-            {
-                try
-                {
-                    if (connection.State != ConnectionState.Open)
-                        connection.Open();
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-
-                var parameters = new DynamicParameters();
-                parameters.Add("@cpID", id);
-
-                return connection.QueryFirst<ControlPointInfo>("SelectControlPointInfo", parameters, commandType: CommandType.StoredProcedure);
             }
         }
 
