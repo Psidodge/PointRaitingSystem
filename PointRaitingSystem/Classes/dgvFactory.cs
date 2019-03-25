@@ -119,26 +119,10 @@ namespace PointRaitingSystem
             {
                 foreach (int colIndex in columnIndexes)
                 {
-                    row.Cells[colIndex].Style.BackColor = GetCellColor(certifications[certIter].grade);
+                    row.Cells[colIndex].Style.BackColor = Color.LightGreen;
                     row.Cells[colIndex].Value = certifications[certIter].grade;
                     certIter++;
                 }
-            }
-        }
-        private static Color GetCellColor(int grade)
-        {
-            switch(grade)
-            {
-                case 5:
-                    return Color.Green;
-                case 4:
-                    return Color.LightGreen;
-                case 3:
-                    return Color.Yellow;
-                case 2:
-                    return Color.Red;
-                default:
-                    return Color.White;
             }
         }
         private static DataGridViewColumn[] CreateColumns(ref DataGridView dgv, List<StudentsWithCP> stCPs)

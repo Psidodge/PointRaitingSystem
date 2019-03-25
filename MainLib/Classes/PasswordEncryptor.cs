@@ -2,9 +2,9 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace MainLib.Cryptography
+namespace MainLib.Hashing
 {
-    public static class PasswordEncryptor
+    public static class PasswordHashing
     {
         const int saltLen = 10;
 

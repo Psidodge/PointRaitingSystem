@@ -83,8 +83,10 @@ namespace MainLib.DBServices
         public int id_of_student { get; set; }
         public int id_of_prev_cp { get; set; }
         public int id_of_discipline { get; set; }
+        public int id_of_user { get; set; }
         public int grade { get; private set; }
         public DateTime date { get; set; }
+
 
         public override Type GetEntityType()
         {
@@ -126,7 +128,7 @@ namespace MainLib.DBServices
                 return;
             }
         }
-        public double GetMaxSumOfPoint()
+        public double GetMaxSumOfPoints()
         {
             try
             {
@@ -157,6 +159,7 @@ namespace MainLib.DBServices
         public int id_of_controlPoint { get; set; }
         public double points { get; set; }
         public string description { get; set; }
+        public string pseudonym { get; set; }
         public override Type GetEntityType()
         {
             return this.GetType();
@@ -183,7 +186,7 @@ namespace MainLib.DBServices
     }
     public class AuthInfoAdmin : DBEntity
     {
-        public int id { get; }
+        public int id { get; set; }
         public string login { get; set; }
         public byte[] salt { get; set; }
         public byte[] hash { get; set; }

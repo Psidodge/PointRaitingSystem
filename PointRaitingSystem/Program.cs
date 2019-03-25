@@ -1,5 +1,5 @@
-﻿//#define LOGINLESS
-//#define USR
+﻿#define LOGINLESS
+#define USR
 //#define ADM
 using MainLib.Session;
 using System;
@@ -18,15 +18,15 @@ namespace PointRaitingSystem
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-//#if LOGINLESS
-//#if ADM
-//            Session.CreateSessionInstance("admin");
-//            Application.Run(new admMainForm());
-//#elif USR
-//            Session.CreateSessionInstance("cep.sa");
-//            Application.Run(new usrMainForm());
-//#endif
-//#else
+#if LOGINLESS
+#if ADM
+            Session.CreateSessionInstance("admin");
+            Application.Run(new admMainForm());
+#elif USR
+            Session.CreateSessionInstance("cep.ds");
+            Application.Run(new usrMainForm());
+#endif
+#else
             //Login form runs first
             LoginForm loginForm = new LoginForm();
             Application.Run(loginForm);
@@ -37,7 +37,7 @@ namespace PointRaitingSystem
                     Application.Run(new usrMainForm());
             else
                 Application.Exit();
-//#endif
+#endif
         }
     }
 }

@@ -712,7 +712,7 @@ namespace MainLib.DBServices
                 parameters.Add("@certDate", certificationToIns.date);
                 parameters.Add("@prevCPID", certificationToIns.id_of_prev_cp);
                 parameters.Add("@disciplineID", certificationToIns.id_of_discipline);
-
+                parameters.Add("@userID", certificationToIns.id_of_user);
 
                 return connection.ExecuteScalar<int>("InsertIntoStudentCertification", parameters, commandType: CommandType.StoredProcedure);
             }
@@ -922,12 +922,7 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                var parameters = new DynamicParameters();
-                parameters.Add("@id", authInfo.id);
-                parameters.Add("@hash", authInfo.hash);
-                parameters.Add("@salt", authInfo.salt);
-
-                return connection.ExecuteScalar<int>("UpdateAuthInfo", parameters,  commandType: CommandType.StoredProcedure);
+                return connection.ExecuteScalar<int>("UpdateAuthInfo", authInfo,  commandType: CommandType.StoredProcedure);
             }
         }
         public static int UpdateStudents(Student student)

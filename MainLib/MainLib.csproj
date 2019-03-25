@@ -37,6 +37,9 @@
     <Reference Include="ExcelDataReader, Version=3.4.2.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelDataReader.3.4.2\lib\net45\ExcelDataReader.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data, Version=8.0.15.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
@@ -64,6 +67,10 @@
     <Compile Include="Classes\Parser\ParserEntitys.cs" />
     <Compile Include="Classes\PasswordEncryptor.cs" />
     <Compile Include="Classes\Authentication\Session.cs" />
+    <Compile Include="Classes\ReportsFactory\Reports\CertificationReport.cs" />
+    <Compile Include="Classes\ReportsFactory\Reports\ExamReport.cs" />
+    <Compile Include="Classes\ReportsFactory\ReportsFactory.cs" />
+    <Compile Include="Classes\ReportsFactory\Reports\IReports.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

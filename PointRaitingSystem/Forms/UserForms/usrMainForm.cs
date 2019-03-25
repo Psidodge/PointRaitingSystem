@@ -114,10 +114,10 @@ namespace PointRaitingSystem
             lblWeight.Text = cpInfo.weight.ToString();
             txtDescription.Text = cpInfo.description;
         }
-        private void FillCertificationInfo(bool isVisible = false, bool isFirst = true)
+        private void FillCertificationInfo(bool isVisible = false, int certIndex = -1)
         {
             gbCertificationInfo.Visible = isVisible;
-            if (!isVisible)
+            if (!isVisible || certIndex == -1)
                 return;
 
             StudentCertification studentCertification = null;
@@ -125,15 +125,15 @@ namespace PointRaitingSystem
             {
                 int studentID = (int)dgvStudents.CurrentRow.Cells[0].Value;
                 var stCeritifications = DataService.SelectStudentCertifications((int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, studentID);
-                // HACK: придумать лучший алгоритм
-                studentCertification = (isFirst?stCeritifications[0]:stCeritifications[1]);
+                studentCertification = stCeritifications[certIndex];
+                lblCertCreator.Text = DataService.SelectTeacherById(studentCertification.id_of_user).Name.ToString();
             }
             catch (Exception ex)
             {
                 logger.Error(ex);
             }
-            lblGrade.Text = studentCertification.grade.ToString();
 
+            lblMaxPointsSum.Text = studentCertification.GetMaxSumOfPoints().ToString();
             lblDate.Text = studentCertification.date.ToShortDateString();
         }
         private void bindingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -186,6 +186,7 @@ namespace PointRaitingSystem
                     if (selectedColIndex == certificationIndexes[i])
                     {
                         FillControlPointInfo();
+                        FillCertificationInfo(true, i);
                         isCellsHiden = false;
                         return;
                     }
@@ -205,6 +206,7 @@ namespace PointRaitingSystem
                         }
                     }
                     isCellsHiden = true;
+                    FillCertificationInfo();
                     FillControlPointInfo(true);
                 }
                 else

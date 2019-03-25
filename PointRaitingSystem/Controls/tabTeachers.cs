@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using MainLib.DBServices;
-using MainLib.Cryptography;
+using MainLib.Hashing;
 
 namespace PointRaitingSystem
 {
@@ -128,14 +128,39 @@ namespace PointRaitingSystem
 
         private void btnUpdateAuth_Click(object sender, EventArgs e)
         {
-            
+            if (string.IsNullOrWhiteSpace(txtLogin.Text) && loginValdiationComplete)
+            {
+                lblInfo.Text = "Данные не прошли валидацию.";
+                return;
+            }
+
+            byte[] genSalt;
+
+            AuthInfoAdmin auth = new AuthInfoAdmin()
+            {
+                id = int.Parse(txtAuthID.Text),
+                hash = PasswordHashing.GetHashedPassword(txtPass.Text, out genSalt),
+                salt = genSalt
+            };
+
+            try
+            {
+                if(DataService.UpdateAuthInfo(auth) > 0)
+                    lblInfo.Text = "Данные успешно изменены.";
+            }
+            catch(Exception ex)
+            {
+                lblInfo.Text = string.Format("Произошла ошибка.{0}Запись не изменена.", Environment.NewLine);
+                logger.Error(ex);
+            }
         }
 
         private void btnAddAuth_Click(object sender, EventArgs e)
         {
-            if(!passValidationComplete && !loginValdiationComplete)
+            if(passValidationComplete && loginValdiationComplete)
             {
                 lblInfo.Text = "Данные не прошли валидацию.";
+                return;
             }
 
             byte[] genSalt;
@@ -143,7 +168,7 @@ namespace PointRaitingSystem
             AuthInfoAdmin auth = new AuthInfoAdmin()
             {
                 login = txtLogin.Text,
-                hash = PasswordEncryptor.GetHashedPassword(txtPass.Text, out genSalt),
+                hash = PasswordHashing.GetHashedPassword(txtPass.Text, out genSalt),
                 salt = genSalt
             };
 
@@ -194,7 +219,7 @@ namespace PointRaitingSystem
         {
             Regex regex = new Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)");//.{5,15}$
 
-            if (regex.IsMatch(txtPass.Text) && loginValdiationComplete)
+            if (regex.IsMatch(txtPass.Text))
             {
                 txtPass.ForeColor = Color.Green;
                 passValidationComplete = true;
