@@ -242,6 +242,7 @@ namespace MainLib.DBServices
         public int id { get; }
         public string name { get; }
         public string group_name { get; }
+        public int groupID { get; }
         public override Type GetEntityType()
         {
             return this.GetType();

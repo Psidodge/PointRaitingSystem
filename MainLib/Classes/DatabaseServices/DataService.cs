@@ -21,7 +21,7 @@ namespace MainLib.DBServices
         {
             return new MySqlConnection(connectionString);
         }
-
+        
         // SELECT 
         public static AuthInfo SelectAuthInfoByLogin(string userLogin)
         {
@@ -229,6 +229,25 @@ namespace MainLib.DBServices
                 return connection.QueryFirst<ControlPointInfo>("SelectControlPointInfo", parameters, commandType: CommandType.StoredProcedure);
             }
         }
+        public static Group SelectGroupByID (int groupID)
+        {
+            using (MySqlConnection connection = GetConnectionInstance())
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                return connection.QueryFirst<Group>("SelectGroupByID", groupID, commandType: CommandType.StoredProcedure, commandTimeout: 20);
+            }
+        }
+
+
         public static List<StudentCertification> SelectStudentCertifications(int groupID, int disciplineID, int studentID)
         {
             using (MySqlConnection connection = GetConnectionInstance())
@@ -254,7 +273,6 @@ namespace MainLib.DBServices
                         select result).ToList();
             }
         }
-
         public static List<StudentCertification> SelectStudentsCertifications(int groupID, int disciplineID)
         {
             using (MySqlConnection connection = GetConnectionInstance())
@@ -274,6 +292,31 @@ namespace MainLib.DBServices
                 parameters.Add("@disciplineID", disciplineID);
 
                 return connection.Query<StudentCertification>("SelectStudentsCertifications", parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+        public static List<StudentCertification> SelectStudentsCertificationsByDate(int groupID, int disciplineID, DateTime date)
+        {
+            using (MySqlConnection connection = GetConnectionInstance())
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@groupID", groupID);
+                parameters.Add("@disciplineID", disciplineID);
+
+                var results = connection.Query<StudentCertification>("SelectStudentsCertifications", parameters, commandType: CommandType.StoredProcedure).ToList();
+
+                return (from result in results
+                        where result.date == date
+                        select result).ToList();
             }
         }
         public static List<UserFullInfo> SelectUsersFullInfo()
