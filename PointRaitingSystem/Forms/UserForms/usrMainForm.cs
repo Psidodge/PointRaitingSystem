@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using MainLib.DBServices;
 using MainLib.Session;
+using MainLib.ReportsFactory;
 
 namespace PointRaitingSystem
 {
@@ -239,7 +240,7 @@ namespace PointRaitingSystem
         }
         private void tsmiCertification_Click(object sender, EventArgs e)
         {
-
+            
         }
         private void tsmiExam_Click(object sender, EventArgs e)
         {

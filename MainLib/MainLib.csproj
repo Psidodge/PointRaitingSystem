@@ -67,11 +67,16 @@
     <Compile Include="Classes\Parser\ParserEntitys.cs" />
     <Compile Include="Classes\PasswordEncryptor.cs" />
     <Compile Include="Classes\Authentication\Session.cs" />
+    <Compile Include="Classes\ReportsFactory\ReportFactory.cs" />
     <Compile Include="Classes\ReportsFactory\Reports\CertificationReport.cs" />
     <Compile Include="Classes\ReportsFactory\Reports\ExamReport.cs" />
-    <Compile Include="Classes\ReportsFactory\ReportsFactory.cs" />
     <Compile Include="Classes\ReportsFactory\Reports\IReports.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="NLog.config">
@@ -81,6 +86,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <None Include="resources\tnr.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">
@@ -101,6 +109,12 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -126,6 +126,12 @@
     <Compile Include="Forms\UserForms\usrCertificationAddForm.Designer.cs">
       <DependentUpon>usrCertificationAddForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\UserForms\usrCertReportGenForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UserForms\usrCertReportGenForm.Designer.cs">
+      <DependentUpon>usrCertReportGenForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\UserForms\usrCPAddForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -187,6 +193,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserForms\usrCertificationAddForm.resx">
       <DependentUpon>usrCertificationAddForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserForms\usrCertReportGenForm.resx">
+      <DependentUpon>usrCertReportGenForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserForms\usrCPAddForm.resx">
       <DependentUpon>usrCPAddForm.cs</DependentUpon>
