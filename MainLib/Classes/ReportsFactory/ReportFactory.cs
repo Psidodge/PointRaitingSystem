@@ -1,5 +1,6 @@
 ﻿using iTextSharp.text.pdf;
 using MainLib.ReportsFactory.Reports;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace MainLib.ReportsFactory
 
     public static class ReportFactory
     {
-        public static bool GenerateReport(ReportType reportType, string path, int groupID, int teacherID, int disciplineID)
+        // certDate need to be default
+        public static bool GenerateReport(ReportType reportType, string path, int groupID, int teacherID, int disciplineID, DateTime certDate)
         {
             IReport report = null;
             switch (reportType)
@@ -31,7 +33,7 @@ namespace MainLib.ReportsFactory
             if (report == null)
                 return false;
 
-            return report.GenerateReport(path, groupID, disciplineID, teacherID);
+            return report.GenerateReport(path, groupID, disciplineID, teacherID, certDate);
         }   
     }
 }

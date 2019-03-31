@@ -29,12 +29,17 @@ namespace MainLib.ReportsFactory.Reports
                 return false;
 
             Document doc = new Document(PageSize.A4);
+            PdfPTable pTable = null;
 
-            doc.Open();
             var output = new FileStream($"Аттестация_{group.name}_{DateTime.Now.ToShortDateString()}.pdf", FileMode.Create);
             var writer = PdfWriter.GetInstance(doc, output);
 
+            doc.Open();
+            GenerateReportHeader(ref doc);
+            GenerateReportTableHeaders(ref doc, out pTable);
+            GenerateReportColumns(ref doc, ref pTable);
             doc.Close();
+
             return true;
         }
         private void GenerateReportHeader(ref Document doc)
@@ -42,7 +47,7 @@ namespace MainLib.ReportsFactory.Reports
             Font font = new Font(bFont, 15, Font.NORMAL, BaseColor.BLACK);
 
             Paragraph par = new Paragraph(string.Format("Отчет по аттестации на {0}{1}группы {2}", certifications[0].date, 
-                                          Environment.NewLine, students[0].id_of_group), font);
+                                          Environment.NewLine, group.name), font);
             par.Alignment = Element.ALIGN_CENTER;
             doc.Add(par);
         }
@@ -77,7 +82,7 @@ namespace MainLib.ReportsFactory.Reports
             stTable.AddCell(headerCell);
             // Header end
         }
-        private void GenerateReportColumns(ref Document doc, PdfPTable stTable)
+        private void GenerateReportColumns(ref Document doc, ref PdfPTable stTable)
         {
             Font trFont = new Font(bFont, 13, Font.NORMAL, BaseColor.BLACK);
             PdfPCell trCell;
@@ -112,6 +117,9 @@ namespace MainLib.ReportsFactory.Reports
             {
                 students = DataService.SelectStudentsByGroupId(groupID);
                 certifications = DataService.SelectStudentsCertifications(groupID, disciplineID);
+                certifications = (from stCert in certifications
+                                  where stCert.date == certDate
+                                  select stCert).ToList();
                 userInfo = DataService.SelectTeacherById(teacherID);
                 group = DataService.SelectGroupByID(groupID);
                 discipline = DataService.SelectDisciplineById(disciplineID);

@@ -85,7 +85,7 @@ namespace MainLib.DBServices
                 return connection.ExecuteScalar<double>("SelectWeightsOfStudentControlPoints", parameters, commandType: CommandType.StoredProcedure, commandTimeout: 20);
             }
         }
-        public static double GetStudentPointsSum(int studentID)
+        public static double GetStudentPointsSum(int studentID, int prevCPID)
         {
             using (MySqlConnection connection = GetConnectionInstance())
             {
@@ -101,6 +101,7 @@ namespace MainLib.DBServices
 
                 var parameters = new DynamicParameters();
                 parameters.Add("@studentID", studentID);
+                parameters.Add("@endCPID", prevCPID);
 
                 return connection.ExecuteScalar<double>("SelectSumOfStudentPoints", parameters, commandType: CommandType.StoredProcedure, commandTimeout: 20);
             }
@@ -206,7 +207,7 @@ namespace MainLib.DBServices
                 var parameters = new DynamicParameters();
                 parameters.Add("@dID", id);
 
-                return connection.QueryFirst<Discipline>("SelectDiscipline", commandType: CommandType.StoredProcedure);
+                return connection.QueryFirst<Discipline>("SelectDiscipline", parameters, commandType: CommandType.StoredProcedure);
             }
         }
         public static ControlPointInfo SelectControlPointInfo(int id)
@@ -243,7 +244,10 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                return connection.QueryFirst<Group>("SelectGroupByID", groupID, commandType: CommandType.StoredProcedure, commandTimeout: 20);
+                var parameters = new DynamicParameters();
+                parameters.Add("@groupID", groupID);
+
+                return connection.QueryFirst<Group>("SelectGroupByID", parameters, commandType: CommandType.StoredProcedure, commandTimeout: 20);
             }
         }
 

@@ -100,7 +100,7 @@ namespace MainLib.DBServices
             try
             {
                 sumOfWeights = DataService.GetSumOfPointsToCurrentCP(this.id_of_student, disciplineID, previousControlPoinID);
-                sumOfPoints = DataService.GetStudentPointsSum(this.id_of_student);
+                sumOfPoints = DataService.GetStudentPointsSum(this.id_of_student, previousControlPoinID);
             }
             catch(Exception ex)
             {
@@ -143,7 +143,7 @@ namespace MainLib.DBServices
         {
             try
             {
-                return DataService.GetStudentPointsSum(this.id_of_student);
+                return DataService.GetStudentPointsSum(this.id_of_student, id_of_prev_cp);
             }
             catch (Exception)
             {

@@ -240,7 +240,8 @@ namespace PointRaitingSystem
         }
         private void tsmiCertification_Click(object sender, EventArgs e)
         {
-            
+            usrCertReportGenForm form = new usrCertReportGenForm((int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
+            form.ShowDialog();
         }
         private void tsmiExam_Click(object sender, EventArgs e)
         {

@@ -67,7 +67,9 @@
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.btnGenerateReport);
             this.Controls.Add(this.lbListOfCerts);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "usrCertReportGenForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "usrCertReportGenForm";
             this.ResumeLayout(false);
             this.PerformLayout();
