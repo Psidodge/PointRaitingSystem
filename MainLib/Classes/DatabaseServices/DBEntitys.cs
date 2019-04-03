@@ -117,7 +117,7 @@ namespace MainLib.DBServices
                 grade = 4;
                 return;
             }
-            if (sumOfPoints > (sumOfWeights * 0.50))
+            if (sumOfPoints >= (sumOfWeights * 0.50))
             {
                 grade = 3;
                 return;

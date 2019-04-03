@@ -43,7 +43,7 @@ namespace MainLib.DBServices
                 return connection.QueryFirst<AuthInfo>("SelectAuthInfoByLogin", parameters, commandType: CommandType.StoredProcedure, commandTimeout: 20);
             }
         }
-        public static double GetSumOfPointsUsed(int groupID)
+        public static double GetSumOfPointsUsed(int groupID, int disID)
         {
             using (MySqlConnection connection = GetConnectionInstance())
             {
@@ -59,6 +59,7 @@ namespace MainLib.DBServices
 
                 var parameters = new DynamicParameters();
                 parameters.Add("@groupID", groupID);
+                parameters.Add("@disID", disID);
 
                 return connection.ExecuteScalar<double>("SelectSumOfGroupWeight", parameters, commandType: CommandType.StoredProcedure, commandTimeout: 20);
             }

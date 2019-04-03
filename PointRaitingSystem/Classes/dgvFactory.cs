@@ -103,7 +103,11 @@ namespace PointRaitingSystem
                 {
                     if (cell.ColumnIndex > 1 && cell.ColumnIndex < dgv.Columns.Count - 1 && !cell.OwningColumn.Name.Contains("id") && !cell.OwningColumn.Name.Contains("certification"))
                     {
-                        sum += Convert.ToDouble(cell.Value.ToString().Replace('.',','));
+                        sum += Convert.ToDouble(cell.Value.ToString().Replace('.',',')
+                                                                     .Replace('/', ',')
+                                                                     .Replace('б', ',')
+                                                                     .Replace('ю', ',')
+                                                                     .Replace('Ю', ','));
                     }
                 }
                 row.Cells["sum"].Value = sum;

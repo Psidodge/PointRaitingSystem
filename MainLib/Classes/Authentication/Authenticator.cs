@@ -42,7 +42,6 @@ namespace MainLib.Auth
             return hashedPass;
         }
 
-
         [Serializable]
         public class QueryResultIsNullException : Exception
         {

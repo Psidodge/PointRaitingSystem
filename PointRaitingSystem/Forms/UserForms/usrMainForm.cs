@@ -53,7 +53,7 @@ namespace PointRaitingSystem
         }
         private void btnCreateCP_Click(object sender, EventArgs e)
         {
-            usrCPAddForm form = new usrCPAddForm((Discipline)cbDiscipline.SelectedItem, (int)cbGroups.SelectedValue);
+            usrCPAddForm form = new usrCPAddForm((Discipline)cbDiscipline.SelectedItem, (int)cbGroups.SelectedValue, cbDiscipline.SelectedValue);
             form.ShowDialog();
             studentCPsDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
             studentCPsDataGridViewFactory.InsertCertifications(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, out certificationIndexes);
@@ -145,7 +145,12 @@ namespace PointRaitingSystem
         }
         private void dgvStudents_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            double pointsToIns = Convert.ToDouble(dgvStudents.CurrentCell.Value.ToString().Replace('.',','));
+            double pointsToIns = Convert.ToDouble(dgvStudents.CurrentCell.Value.ToString().Replace('.', ',')
+                                                                                          .Replace('/', ',')
+                                                                                          .Replace('б', ',')
+                                                                                          .Replace('ю', ',')
+                                                                                          .Replace('Ю', ','));
+            dgvStudents.CurrentCell.Value = pointsToIns;
             int id = Convert.ToInt32(dgvStudents.CurrentRow.Cells[e.ColumnIndex - 1].Value);
             
             try
@@ -202,7 +207,7 @@ namespace PointRaitingSystem
                         {
                             if(column.Index != selectedColIndex - 1 && column.Index != selectedColIndex)
                                 column.Visible = false;
-                            if (column.Index == selectedColIndex)
+                            if (column.Index == selectedColIndex && column.Index > certificationIndexes[certificationIndexes.Length - 1])
                                 column.ReadOnly = false;
                         }
                     }
@@ -246,6 +251,11 @@ namespace PointRaitingSystem
         private void tsmiExam_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnAddExam_Click(object sender, EventArgs e)
+        {
+             
         }
     }
 }

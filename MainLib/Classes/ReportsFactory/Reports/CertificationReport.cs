@@ -46,7 +46,7 @@ namespace MainLib.ReportsFactory.Reports
         {
             Font font = new Font(bFont, 15, Font.NORMAL, BaseColor.BLACK);
 
-            Paragraph par = new Paragraph(string.Format("Отчет по аттестации на {0}{1}группы {2}", certifications[0].date, 
+            Paragraph par = new Paragraph(string.Format("Отчет по аттестации на {0}{1}группы {2}", certifications[0].date.ToShortDateString(), 
                                           Environment.NewLine, group.name), font);
             par.Alignment = Element.ALIGN_CENTER;
             doc.Add(par);
@@ -91,7 +91,7 @@ namespace MainLib.ReportsFactory.Reports
             foreach (Student student in students)
             {
                 trCell = new PdfPCell();
-                trCell.AddElement(new Paragraph(iter.ToString(), trFont) { Alignment = Element.ALIGN_LEFT });
+                trCell.AddElement(new Paragraph((iter + 1).ToString(), trFont) { Alignment = Element.ALIGN_LEFT });
                 stTable.AddCell(trCell);
                 trCell = new PdfPCell();
                 trCell.AddElement(new Paragraph(student.name, trFont) { Alignment = Element.ALIGN_LEFT });
@@ -110,7 +110,6 @@ namespace MainLib.ReportsFactory.Reports
             stTable.SpacingAfter = 25;
             doc.Add(stTable);
         }
-
         private bool InitializeReportData(int groupID, int disciplineID, int teacherID, DateTime certDate)
         {
             try

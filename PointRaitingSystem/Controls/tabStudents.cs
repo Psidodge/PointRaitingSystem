@@ -106,17 +106,25 @@ namespace PointRaitingSystem
         }
         private void checkBoxOnlySelecetdStudent_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBoxOnlySelecetdStudent.Checked)
+            try
             {
-                gbTransferInfo.Text = "Перевести студента в другую группу";
-                lblStudentName.Text = dgvStudents.CurrentRow.Cells["name"].Value.ToString();
-                cbGroupFrom.SelectedIndex = cbGroup.SelectedIndex;
-                studentNamePanel.Visible = true;
+                if (checkBoxOnlySelecetdStudent.Checked)
+                {
+                    gbTransferInfo.Text = "Перевести студента в другую группу";
+                    lblStudentName.Text = dgvStudents.CurrentRow.Cells["name"].Value.ToString();
+                    cbGroupFrom.SelectedIndex = cbGroup.SelectedIndex;
+                    studentNamePanel.Visible = true;
+                }
+                else
+                {
+                    gbTransferInfo.Text = "Перевести студентов в другую группу";
+                    studentNamePanel.Visible = false;
+                }
             }
-            else
+            catch (NullReferenceException) { }
+            catch(Exception ex)
             {
-                gbTransferInfo.Text = "Перевести студентов в другую группу";
-                studentNamePanel.Visible = false;
+                logger.Error(ex);
             }
         }
         private void UpdateSingleStudent()

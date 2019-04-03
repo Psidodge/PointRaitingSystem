@@ -12,11 +12,11 @@ namespace PointRaitingSystem
         {
             InitializeComponent();
         }
-        public usrCPAddForm(Discipline selectedDiscipline, int SelectedGroupId)
+        public usrCPAddForm(Discipline selectedDiscipline, int SelectedGroupId, object selectedDisciplineIndex)
         {
             InitializeComponent();
             groupId = SelectedGroupId;
-            InitializeDataSets(selectedDiscipline);
+            InitializeDataSets(selectedDisciplineIndex, selectedDiscipline);
         }
 
         private int groupId;
@@ -25,13 +25,14 @@ namespace PointRaitingSystem
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
 
-        private void InitializeDataSets(Discipline selectedDiscipline = null)
+        private void InitializeDataSets(object selectedDisciplineValue, Discipline selectedDiscipline = null)
         {
             try
             {
                 List<Discipline> disciplines = DataService.SelectDisciplinesByTeacherIdAndGroupId(Session.GetCurrentSession().ID, groupId);
                 DataSetInitializer.ComboBoxDataSetInitializer<Discipline>(ref cbDiscipline, disciplines, "id", "full_name");
-                sumOfUsedPoints = DataService.GetSumOfPointsUsed(groupId);
+                cbDiscipline.SelectedValue = selectedDisciplineValue;
+                sumOfUsedPoints = DataService.GetSumOfPointsUsed(groupId, (int)selectedDisciplineValue);
                 tsslPointsLeft.Text = string.Format("{0} {1} баллов", tsslPointsLeft.Text, sumOfUsedPoints.ToString());
 
             }
