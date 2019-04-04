@@ -74,7 +74,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\DataSetInitializer.cs" />
-    <Compile Include="Classes\dgvFactory.cs" />
+    <Compile Include="Classes\studentCPsDataGridViewFactory.cs" />
+    <Compile Include="Classes\studentExamDataGridViewFactory.cs" />
     <Compile Include="Controls\CustomPage.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -119,6 +120,12 @@
     </Compile>
     <Compile Include="Forms\AdminForms\admParserPreviweForm.Designer.cs">
       <DependentUpon>admParserPreviweForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserForms\usrAddExamForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UserForms\usrAddExamForm.Designer.cs">
+      <DependentUpon>usrAddExamForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\UserForms\usrCertificationAddForm.cs">
       <SubType>Form</SubType>
@@ -190,6 +197,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AdminForms\admParserPreviweForm.resx">
       <DependentUpon>admParserPreviweForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserForms\usrAddExamForm.resx">
+      <DependentUpon>usrAddExamForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserForms\usrCertificationAddForm.resx">
       <DependentUpon>usrCertificationAddForm.cs</DependentUpon>

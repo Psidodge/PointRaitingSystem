@@ -64,7 +64,7 @@ namespace MainLib.DBServices
                 return connection.ExecuteScalar<double>("SelectSumOfGroupWeight", parameters, commandType: CommandType.StoredProcedure, commandTimeout: 20);
             }
         }
-        public static double GetSumOfPointsToCurrentCP(int studentID, int disciplineID, int prevCPID)
+        public static double GetSumOfMaxWeightsToCurrentCP(int studentID, int disciplineID, int prevCPID)
         {
             using (MySqlConnection connection = GetConnectionInstance())
             {
@@ -86,7 +86,7 @@ namespace MainLib.DBServices
                 return connection.ExecuteScalar<double>("SelectWeightsOfStudentControlPoints", parameters, commandType: CommandType.StoredProcedure, commandTimeout: 20);
             }
         }
-        public static double GetStudentPointsSum(int studentID, int prevCPID)
+        public static double GetStudentPointsSum(int studentID, int prevCPID, int disciplineID)
         {
             using (MySqlConnection connection = GetConnectionInstance())
             {
@@ -103,8 +103,51 @@ namespace MainLib.DBServices
                 var parameters = new DynamicParameters();
                 parameters.Add("@studentID", studentID);
                 parameters.Add("@endCPID", prevCPID);
+                parameters.Add("@disID", disciplineID);
 
                 return connection.ExecuteScalar<double>("SelectSumOfStudentPoints", parameters, commandType: CommandType.StoredProcedure, commandTimeout: 20);
+            }
+        }
+        public static double GetMaxSumOfStudentPoints(int studentID, int disciplineID)
+        {
+            using (MySqlConnection connection = GetConnectionInstance())
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@studentID", studentID);
+                parameters.Add("@disID", disciplineID);
+
+                return connection.ExecuteScalar<double>("SelectSumOfAllStudentPoints", parameters, commandType: CommandType.StoredProcedure, commandTimeout: 20);
+            }
+        }
+        public static double GetSumOfMaxWeights(int studentID, int disciplineID)
+        {
+            using (MySqlConnection connection = GetConnectionInstance())
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@stID", studentID);
+                parameters.Add("@dID", disciplineID);
+
+                return connection.ExecuteScalar<double>("SelectMaxSumOfDisciplineCPWheights", parameters, commandType: CommandType.StoredProcedure, commandTimeout: 20);
             }
         }
         public static AuthInfoAdmin SelectAuthInfoByUserID(int usrID)
@@ -420,6 +463,27 @@ namespace MainLib.DBServices
                 parameters.Add("@grID", groupId);
 
                 return connection.Query<Student>("SelectGroupStudents", parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+        public static List<StudentExam> SelectStudentsExams(int groupID, int disciplineID)
+        {
+            using (MySqlConnection connection = GetConnectionInstance())
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("groupID", groupID);
+                parameters.Add("@disID", disciplineID);
+
+                return connection.Query<StudentExam>("SelectAllExams", parameters, commandType: CommandType.StoredProcedure).ToList();
             }
         }
         public static List<ControlPoint> SelectControlPointsByDisciplineId(int id)
@@ -829,6 +893,32 @@ namespace MainLib.DBServices
                 return connection.ExecuteScalar<int>("InsertIntoGroupDiscipline", parameters,  commandType: CommandType.StoredProcedure);
             }
         }
+        public static int InsertIntoStudentExam(StudentExam exam)
+        {
+            using (MySqlConnection connection = GetConnectionInstance())
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@studentID", exam.id_of_student);
+                parameters.Add("@disciplineID", exam.id_of_discipline);
+                parameters.Add("@userID", exam.id_of_user);
+                parameters.Add("@examDate", exam.date);
+                parameters.Add("@examPoints", exam.points);
+                parameters.Add("@examGrade", exam.grade);
+                parameters.Add("@isNPassed", exam.isNotPassed);
+
+                return connection.ExecuteScalar<int>("InsertIntoExams", parameters, commandType: CommandType.StoredProcedure);
+            }
+        }
 
         public static int InsertIntoAuthInfo(AuthInfoAdmin authInfo)
         {
@@ -971,6 +1061,32 @@ namespace MainLib.DBServices
                 }
 
                 return connection.ExecuteScalar<int>("UpdateAuthInfo", authInfo,  commandType: CommandType.StoredProcedure);
+            }
+        }
+        public static int UpdateAuthInfo(StudentExam exam)
+        {
+            if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
+                return -1;
+
+            using (MySqlConnection connection = GetConnectionInstance())
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@examID", exam.id);
+                parameters.Add("@examPoints", exam.points);
+                parameters.Add("@examGrade", exam.grade);
+                parameters.Add("@isNPassed", exam.isNotPassed);
+
+                return connection.ExecuteScalar<int>("UpdateExamStudentPoints", parameters, commandType: CommandType.StoredProcedure);
             }
         }
         public static int UpdateStudents(Student student)

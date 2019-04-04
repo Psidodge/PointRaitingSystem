@@ -1,0 +1,320 @@
+
+=============================Error 2019-04-01 01:29:40.0130=============================
+                     
+                     Call site:          PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click
+                     Exception type:     System.IO.IOException
+                     Exception message:  tnr.ttf not found as file or resource.
+                     Stack trace:        
+   в iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   в iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   в iTextSharp.text.pdf.TrueTypeFont.Process(Byte[] ttfAfm, Boolean preload)
+   в iTextSharp.text.pdf.TrueTypeFontUnicode..ctor(String ttFile, String enc, Boolean emb, Byte[] ttfAfm, Boolean forceRead)
+   в iTextSharp.text.pdf.BaseFont.CreateFont(String name, String encoding, Boolean embedded, Boolean cached, Byte[] ttfAfm, Byte[] pfb, Boolean noThrow, Boolean forceRead)
+   в iTextSharp.text.pdf.BaseFont.CreateFont(String name, String encoding, Boolean embedded)
+   в MainLib.ReportsFactory.Reports.CertificationReport..ctor() в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 23
+   в MainLib.ReportsFactory.ReportFactory.GenerateReport(ReportType reportType, String path, Int32 groupID, Int32 teacherID, Int32 disciplineID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\ReportFactory.cs:строка 23
+   в PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\UserForms\usrCertReportGenForm.cs:строка 47
+                     Additional message: System.IO.IOException: tnr.ttf not found as file or resource.
+   в iTextSharp.text.io.RandomAccessSourceFactory.CreateByReadingToMemory(String filename)
+   в iTextSharp.text.io.RandomAccessSourceFactory.CreateBestSource(String filename)
+   в iTextSharp.text.pdf.TrueTypeFont.Process(Byte[] ttfAfm, Boolean preload)
+   в iTextSharp.text.pdf.TrueTypeFontUnicode..ctor(String ttFile, String enc, Boolean emb, Byte[] ttfAfm, Boolean forceRead)
+   в iTextSharp.text.pdf.BaseFont.CreateFont(String name, String encoding, Boolean embedded, Boolean cached, Byte[] ttfAfm, Byte[] pfb, Boolean noThrow, Boolean forceRead)
+   в iTextSharp.text.pdf.BaseFont.CreateFont(String name, String encoding, Boolean embedded)
+   в MainLib.ReportsFactory.Reports.CertificationReport..ctor() в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 23
+   в MainLib.ReportsFactory.ReportFactory.GenerateReport(ReportType reportType, String path, Int32 groupID, Int32 teacherID, Int32 disciplineID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\ReportFactory.cs:строка 23
+   в PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\UserForms\usrCertReportGenForm.cs:строка 47                     
+==============================================================================
+
+
+=============================Error 2019-04-01 01:33:50.9164=============================
+                     
+                     Call site:          MainLib.ReportsFactory.Reports.CertificationReport.InitializeReportData
+                     Exception type:     MySql.Data.MySqlClient.MySqlException
+                     Exception message:  Procedure or function '`SelectGroupByID`' cannot be found in database '`ratingsystem`'.
+                     Stack trace:        
+   в MySql.Data.MySqlClient.ProcedureCache.GetProcData(MySqlConnection connection, String spName)
+   в MySql.Data.MySqlClient.ProcedureCache.AddNew(MySqlConnection connection, String spName)
+   в MySql.Data.MySqlClient.ProcedureCache.GetProcedure(MySqlConnection conn, String spName, String cacheKey)
+   в MySql.Data.MySqlClient.StoredProcedure.GetParameters(String procName)
+   в MySql.Data.MySqlClient.StoredProcedure.CheckParameters(String spName)
+   в MySql.Data.MySqlClient.StoredProcedure.Resolve(Boolean preparing)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   в System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   в Dapper.SqlMapper.ExecuteReaderWithFlagsFallback(IDbCommand cmd, Boolean wasClosed, CommandBehavior behavior)
+   в Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType)
+   в Dapper.SqlMapper.QueryFirst[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType)
+   в MainLib.DBServices.DataService.SelectGroupByID(Int32 groupID) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\DatabaseServices\DataService.cs:строка 246
+   в MainLib.ReportsFactory.Reports.CertificationReport.InitializeReportData(Int32 groupID, Int32 disciplineID, Int32 teacherID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 116
+                     Additional message: MySql.Data.MySqlClient.MySqlException (0x80004005): Procedure or function '`SelectGroupByID`' cannot be found in database '`ratingsystem`'.
+   в MySql.Data.MySqlClient.ProcedureCache.GetProcData(MySqlConnection connection, String spName)
+   в MySql.Data.MySqlClient.ProcedureCache.AddNew(MySqlConnection connection, String spName)
+   в MySql.Data.MySqlClient.ProcedureCache.GetProcedure(MySqlConnection conn, String spName, String cacheKey)
+   в MySql.Data.MySqlClient.StoredProcedure.GetParameters(String procName)
+   в MySql.Data.MySqlClient.StoredProcedure.CheckParameters(String spName)
+   в MySql.Data.MySqlClient.StoredProcedure.Resolve(Boolean preparing)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   в System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   в Dapper.SqlMapper.ExecuteReaderWithFlagsFallback(IDbCommand cmd, Boolean wasClosed, CommandBehavior behavior)
+   в Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType)
+   в Dapper.SqlMapper.QueryFirst[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType)
+   в MainLib.DBServices.DataService.SelectGroupByID(Int32 groupID) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\DatabaseServices\DataService.cs:строка 246
+   в MainLib.ReportsFactory.Reports.CertificationReport.InitializeReportData(Int32 groupID, Int32 disciplineID, Int32 teacherID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 116                     
+==============================================================================
+
+
+=============================Error 2019-04-01 01:34:08.2334=============================
+                     
+                     Call site:          MainLib.ReportsFactory.Reports.CertificationReport.InitializeReportData
+                     Exception type:     MySql.Data.MySqlClient.MySqlException
+                     Exception message:  Procedure or function '`SelectGroupByID`' cannot be found in database '`ratingsystem`'.
+                     Stack trace:        
+   в MySql.Data.MySqlClient.ProcedureCache.GetProcData(MySqlConnection connection, String spName)
+   в MySql.Data.MySqlClient.ProcedureCache.AddNew(MySqlConnection connection, String spName)
+   в MySql.Data.MySqlClient.ProcedureCache.GetProcedure(MySqlConnection conn, String spName, String cacheKey)
+   в MySql.Data.MySqlClient.StoredProcedure.GetParameters(String procName)
+   в MySql.Data.MySqlClient.StoredProcedure.CheckParameters(String spName)
+   в MySql.Data.MySqlClient.StoredProcedure.Resolve(Boolean preparing)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   в System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   в Dapper.SqlMapper.ExecuteReaderWithFlagsFallback(IDbCommand cmd, Boolean wasClosed, CommandBehavior behavior)
+   в Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType)
+   в Dapper.SqlMapper.QueryFirst[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType)
+   в MainLib.DBServices.DataService.SelectGroupByID(Int32 groupID) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\DatabaseServices\DataService.cs:строка 246
+   в MainLib.ReportsFactory.Reports.CertificationReport.InitializeReportData(Int32 groupID, Int32 disciplineID, Int32 teacherID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 116
+                     Additional message: MySql.Data.MySqlClient.MySqlException (0x80004005): Procedure or function '`SelectGroupByID`' cannot be found in database '`ratingsystem`'.
+   в MySql.Data.MySqlClient.ProcedureCache.GetProcData(MySqlConnection connection, String spName)
+   в MySql.Data.MySqlClient.ProcedureCache.AddNew(MySqlConnection connection, String spName)
+   в MySql.Data.MySqlClient.ProcedureCache.GetProcedure(MySqlConnection conn, String spName, String cacheKey)
+   в MySql.Data.MySqlClient.StoredProcedure.GetParameters(String procName)
+   в MySql.Data.MySqlClient.StoredProcedure.CheckParameters(String spName)
+   в MySql.Data.MySqlClient.StoredProcedure.Resolve(Boolean preparing)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   в System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   в Dapper.SqlMapper.ExecuteReaderWithFlagsFallback(IDbCommand cmd, Boolean wasClosed, CommandBehavior behavior)
+   в Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType)
+   в Dapper.SqlMapper.QueryFirst[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType)
+   в MainLib.DBServices.DataService.SelectGroupByID(Int32 groupID) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\DatabaseServices\DataService.cs:строка 246
+   в MainLib.ReportsFactory.Reports.CertificationReport.InitializeReportData(Int32 groupID, Int32 disciplineID, Int32 teacherID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 116                     
+==============================================================================
+
+
+=============================Error 2019-04-01 01:35:52.8113=============================
+                     
+                     Call site:          MainLib.ReportsFactory.Reports.CertificationReport.InitializeReportData
+                     Exception type:     MySql.Data.MySqlClient.MySqlException
+                     Exception message:  Procedure or function '`SelectGroupByID`' cannot be found in database '`ratingsystem`'.
+                     Stack trace:        
+   в MySql.Data.MySqlClient.ProcedureCache.GetProcData(MySqlConnection connection, String spName)
+   в MySql.Data.MySqlClient.ProcedureCache.AddNew(MySqlConnection connection, String spName)
+   в MySql.Data.MySqlClient.ProcedureCache.GetProcedure(MySqlConnection conn, String spName, String cacheKey)
+   в MySql.Data.MySqlClient.StoredProcedure.GetParameters(String procName)
+   в MySql.Data.MySqlClient.StoredProcedure.CheckParameters(String spName)
+   в MySql.Data.MySqlClient.StoredProcedure.Resolve(Boolean preparing)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   в System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   в Dapper.SqlMapper.ExecuteReaderWithFlagsFallback(IDbCommand cmd, Boolean wasClosed, CommandBehavior behavior)
+   в Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType)
+   в Dapper.SqlMapper.QueryFirst[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType)
+   в MainLib.DBServices.DataService.SelectGroupByID(Int32 groupID) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\DatabaseServices\DataService.cs:строка 246
+   в MainLib.ReportsFactory.Reports.CertificationReport.InitializeReportData(Int32 groupID, Int32 disciplineID, Int32 teacherID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 116
+                     Additional message: MySql.Data.MySqlClient.MySqlException (0x80004005): Procedure or function '`SelectGroupByID`' cannot be found in database '`ratingsystem`'.
+   в MySql.Data.MySqlClient.ProcedureCache.GetProcData(MySqlConnection connection, String spName)
+   в MySql.Data.MySqlClient.ProcedureCache.AddNew(MySqlConnection connection, String spName)
+   в MySql.Data.MySqlClient.ProcedureCache.GetProcedure(MySqlConnection conn, String spName, String cacheKey)
+   в MySql.Data.MySqlClient.StoredProcedure.GetParameters(String procName)
+   в MySql.Data.MySqlClient.StoredProcedure.CheckParameters(String spName)
+   в MySql.Data.MySqlClient.StoredProcedure.Resolve(Boolean preparing)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   в System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   в Dapper.SqlMapper.ExecuteReaderWithFlagsFallback(IDbCommand cmd, Boolean wasClosed, CommandBehavior behavior)
+   в Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType)
+   в Dapper.SqlMapper.QueryFirst[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType)
+   в MainLib.DBServices.DataService.SelectGroupByID(Int32 groupID) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\DatabaseServices\DataService.cs:строка 246
+   в MainLib.ReportsFactory.Reports.CertificationReport.InitializeReportData(Int32 groupID, Int32 disciplineID, Int32 teacherID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 116                     
+==============================================================================
+
+
+=============================Error 2019-04-01 01:41:34.4029=============================
+                     
+                     Call site:          PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click
+                     Exception type:     System.ArgumentException
+                     Exception message:  Parameter 'endCPID' not found in the collection.
+                     Stack trace:        
+   в MySql.Data.MySqlClient.MySqlParameterCollection.GetParameterFlexible(String parameterName, Boolean throwOnNotFound)
+   в MySql.Data.MySqlClient.StoredProcedure.GetAndFixParameter(String spName, MySqlSchemaRow param, Boolean realAsFloat, MySqlParameter returnParameter)
+   в MySql.Data.MySqlClient.StoredProcedure.CheckParameters(String spName)
+   в MySql.Data.MySqlClient.StoredProcedure.Resolve(Boolean preparing)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteScalar()
+   в Dapper.SqlMapper.ExecuteScalarImpl[T](IDbConnection cnn, CommandDefinition& command)
+   в Dapper.SqlMapper.ExecuteScalar[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType)
+   в MainLib.DBServices.DataService.GetStudentPointsSum(Int32 studentID) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\DatabaseServices\DataService.cs:строка 105
+   в MainLib.DBServices.StudentCertification.GetStudentScore() в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\DatabaseServices\DBEntitys.cs:строка 150
+   в MainLib.ReportsFactory.Reports.CertificationReport.GenerateReportColumns(Document& doc, PdfPTable stTable) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 98
+   в MainLib.ReportsFactory.Reports.CertificationReport.GenerateReport(String folderPath, Int32 groupID, Int32 disciplineID, Int32 teacherID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 39
+   в MainLib.ReportsFactory.ReportFactory.GenerateReport(ReportType reportType, String path, Int32 groupID, Int32 teacherID, Int32 disciplineID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\ReportFactory.cs:строка 36
+   в PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\UserForms\usrCertReportGenForm.cs:строка 47
+                     Additional message: System.ArgumentException: Parameter 'endCPID' not found in the collection.
+   в MySql.Data.MySqlClient.MySqlParameterCollection.GetParameterFlexible(String parameterName, Boolean throwOnNotFound)
+   в MySql.Data.MySqlClient.StoredProcedure.GetAndFixParameter(String spName, MySqlSchemaRow param, Boolean realAsFloat, MySqlParameter returnParameter)
+   в MySql.Data.MySqlClient.StoredProcedure.CheckParameters(String spName)
+   в MySql.Data.MySqlClient.StoredProcedure.Resolve(Boolean preparing)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   в MySql.Data.MySqlClient.MySqlCommand.ExecuteScalar()
+   в Dapper.SqlMapper.ExecuteScalarImpl[T](IDbConnection cnn, CommandDefinition& command)
+   в Dapper.SqlMapper.ExecuteScalar[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType)
+   в MainLib.DBServices.DataService.GetStudentPointsSum(Int32 studentID) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\DatabaseServices\DataService.cs:строка 105
+   в MainLib.DBServices.StudentCertification.GetStudentScore() в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\DatabaseServices\DBEntitys.cs:строка 150
+   в MainLib.ReportsFactory.Reports.CertificationReport.GenerateReportColumns(Document& doc, PdfPTable stTable) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 98
+   в MainLib.ReportsFactory.Reports.CertificationReport.GenerateReport(String folderPath, Int32 groupID, Int32 disciplineID, Int32 teacherID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 39
+   в MainLib.ReportsFactory.ReportFactory.GenerateReport(ReportType reportType, String path, Int32 groupID, Int32 teacherID, Int32 disciplineID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\ReportFactory.cs:строка 36
+   в PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\UserForms\usrCertReportGenForm.cs:строка 47                     
+==============================================================================
+
+
+=============================Error 2019-04-01 01:46:38.1143=============================
+                     
+                     Call site:          PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click
+                     Exception type:     iTextSharp.text.DocumentException
+                     Exception message:  Ссылка на объект не указывает на экземпляр объекта.
+                     Stack trace:        
+   в iTextSharp.text.pdf.PdfDocument.Add(IElement element)
+   в iTextSharp.text.Document.Add(IElement element)
+   в MainLib.ReportsFactory.Reports.CertificationReport.GenerateReportColumns(Document& doc, PdfPTable stTable) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 109
+   в MainLib.ReportsFactory.Reports.CertificationReport.GenerateReport(String folderPath, Int32 groupID, Int32 disciplineID, Int32 teacherID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 39
+   в MainLib.ReportsFactory.ReportFactory.GenerateReport(ReportType reportType, String path, Int32 groupID, Int32 teacherID, Int32 disciplineID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\ReportFactory.cs:строка 36
+   в PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\UserForms\usrCertReportGenForm.cs:строка 47
+                     Additional message: iTextSharp.text.DocumentException: Ссылка на объект не указывает на экземпляр объекта.
+   в iTextSharp.text.pdf.PdfDocument.Add(IElement element)
+   в iTextSharp.text.Document.Add(IElement element)
+   в MainLib.ReportsFactory.Reports.CertificationReport.GenerateReportColumns(Document& doc, PdfPTable stTable) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 109
+   в MainLib.ReportsFactory.Reports.CertificationReport.GenerateReport(String folderPath, Int32 groupID, Int32 disciplineID, Int32 teacherID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 39
+   в MainLib.ReportsFactory.ReportFactory.GenerateReport(ReportType reportType, String path, Int32 groupID, Int32 teacherID, Int32 disciplineID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\ReportFactory.cs:строка 36
+   в PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\UserForms\usrCertReportGenForm.cs:строка 47                     
+==============================================================================
+
+
+=============================Error 2019-04-01 01:46:42.2615=============================
+                     
+                     Call site:          PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click
+                     Exception type:     System.IO.IOException
+                     Exception message:  Процесс не может получить доступ к файлу "D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\bin\Debug\Аттестация_ЭУ-138_01.04.2019.pdf", так как этот файл используется другим процессом.
+                     Stack trace:        
+   в System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   в System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   в System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy)
+   в System.IO.FileStream..ctor(String path, FileMode mode)
+   в MainLib.ReportsFactory.Reports.CertificationReport.GenerateReport(String folderPath, Int32 groupID, Int32 disciplineID, Int32 teacherID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 35
+   в MainLib.ReportsFactory.ReportFactory.GenerateReport(ReportType reportType, String path, Int32 groupID, Int32 teacherID, Int32 disciplineID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\ReportFactory.cs:строка 36
+   в PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\UserForms\usrCertReportGenForm.cs:строка 47
+                     Additional message: System.IO.IOException: Процесс не может получить доступ к файлу "D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\bin\Debug\Аттестация_ЭУ-138_01.04.2019.pdf", так как этот файл используется другим процессом.
+   в System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   в System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   в System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy)
+   в System.IO.FileStream..ctor(String path, FileMode mode)
+   в MainLib.ReportsFactory.Reports.CertificationReport.GenerateReport(String folderPath, Int32 groupID, Int32 disciplineID, Int32 teacherID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 35
+   в MainLib.ReportsFactory.ReportFactory.GenerateReport(ReportType reportType, String path, Int32 groupID, Int32 teacherID, Int32 disciplineID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\ReportFactory.cs:строка 36
+   в PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\UserForms\usrCertReportGenForm.cs:строка 47                     
+==============================================================================
+
+
+=============================Error 2019-04-01 01:46:53.5881=============================
+                     
+                     Call site:          PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click
+                     Exception type:     System.IO.IOException
+                     Exception message:  Процесс не может получить доступ к файлу "D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\bin\Debug\Аттестация_ЭУ-138_01.04.2019.pdf", так как этот файл используется другим процессом.
+                     Stack trace:        
+   в System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   в System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   в System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy)
+   в System.IO.FileStream..ctor(String path, FileMode mode)
+   в MainLib.ReportsFactory.Reports.CertificationReport.GenerateReport(String folderPath, Int32 groupID, Int32 disciplineID, Int32 teacherID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 35
+   в MainLib.ReportsFactory.ReportFactory.GenerateReport(ReportType reportType, String path, Int32 groupID, Int32 teacherID, Int32 disciplineID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\ReportFactory.cs:строка 36
+   в PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\UserForms\usrCertReportGenForm.cs:строка 47
+                     Additional message: System.IO.IOException: Процесс не может получить доступ к файлу "D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\bin\Debug\Аттестация_ЭУ-138_01.04.2019.pdf", так как этот файл используется другим процессом.
+   в System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   в System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   в System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy)
+   в System.IO.FileStream..ctor(String path, FileMode mode)
+   в MainLib.ReportsFactory.Reports.CertificationReport.GenerateReport(String folderPath, Int32 groupID, Int32 disciplineID, Int32 teacherID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 35
+   в MainLib.ReportsFactory.ReportFactory.GenerateReport(ReportType reportType, String path, Int32 groupID, Int32 teacherID, Int32 disciplineID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\ReportFactory.cs:строка 36
+   в PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\UserForms\usrCertReportGenForm.cs:строка 47                     
+==============================================================================
+
+
+=============================Error 2019-04-01 01:46:59.3615=============================
+                     
+                     Call site:          PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click
+                     Exception type:     System.IO.IOException
+                     Exception message:  Процесс не может получить доступ к файлу "D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\bin\Debug\Аттестация_ЭУ-138_01.04.2019.pdf", так как этот файл используется другим процессом.
+                     Stack trace:        
+   в System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   в System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   в System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy)
+   в System.IO.FileStream..ctor(String path, FileMode mode)
+   в MainLib.ReportsFactory.Reports.CertificationReport.GenerateReport(String folderPath, Int32 groupID, Int32 disciplineID, Int32 teacherID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 35
+   в MainLib.ReportsFactory.ReportFactory.GenerateReport(ReportType reportType, String path, Int32 groupID, Int32 teacherID, Int32 disciplineID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\ReportFactory.cs:строка 36
+   в PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\UserForms\usrCertReportGenForm.cs:строка 47
+                     Additional message: System.IO.IOException: Процесс не может получить доступ к файлу "D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\bin\Debug\Аттестация_ЭУ-138_01.04.2019.pdf", так как этот файл используется другим процессом.
+   в System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   в System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   в System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy)
+   в System.IO.FileStream..ctor(String path, FileMode mode)
+   в MainLib.ReportsFactory.Reports.CertificationReport.GenerateReport(String folderPath, Int32 groupID, Int32 disciplineID, Int32 teacherID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 35
+   в MainLib.ReportsFactory.ReportFactory.GenerateReport(ReportType reportType, String path, Int32 groupID, Int32 teacherID, Int32 disciplineID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\ReportFactory.cs:строка 36
+   в PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\UserForms\usrCertReportGenForm.cs:строка 47                     
+==============================================================================
+
+
+=============================Error 2019-04-01 01:47:26.5140=============================
+                     
+                     Call site:          PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click
+                     Exception type:     System.IO.IOException
+                     Exception message:  Процесс не может получить доступ к файлу "D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\bin\Debug\Аттестация_ЭУ-138_01.04.2019.pdf", так как этот файл используется другим процессом.
+                     Stack trace:        
+   в System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   в System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   в System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy)
+   в System.IO.FileStream..ctor(String path, FileMode mode)
+   в MainLib.ReportsFactory.Reports.CertificationReport.GenerateReport(String folderPath, Int32 groupID, Int32 disciplineID, Int32 teacherID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 35
+   в MainLib.ReportsFactory.ReportFactory.GenerateReport(ReportType reportType, String path, Int32 groupID, Int32 teacherID, Int32 disciplineID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\ReportFactory.cs:строка 36
+   в PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\UserForms\usrCertReportGenForm.cs:строка 47
+                     Additional message: System.IO.IOException: Процесс не может получить доступ к файлу "D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\bin\Debug\Аттестация_ЭУ-138_01.04.2019.pdf", так как этот файл используется другим процессом.
+   в System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   в System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   в System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy)
+   в System.IO.FileStream..ctor(String path, FileMode mode)
+   в MainLib.ReportsFactory.Reports.CertificationReport.GenerateReport(String folderPath, Int32 groupID, Int32 disciplineID, Int32 teacherID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 35
+   в MainLib.ReportsFactory.ReportFactory.GenerateReport(ReportType reportType, String path, Int32 groupID, Int32 teacherID, Int32 disciplineID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\ReportFactory.cs:строка 36
+   в PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\UserForms\usrCertReportGenForm.cs:строка 47                     
+==============================================================================
+
+
+=============================Error 2019-04-01 01:50:33.7557=============================
+                     
+                     Call site:          PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click
+                     Exception type:     iTextSharp.text.DocumentException
+                     Exception message:  Ссылка на объект не указывает на экземпляр объекта.
+                     Stack trace:        
+   в iTextSharp.text.pdf.PdfDocument.Add(IElement element)
+   в iTextSharp.text.Document.Add(IElement element)
+   в MainLib.ReportsFactory.Reports.CertificationReport.GenerateReportColumns(Document& doc, PdfPTable& stTable) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 109
+   в MainLib.ReportsFactory.Reports.CertificationReport.GenerateReport(String folderPath, Int32 groupID, Int32 disciplineID, Int32 teacherID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 39
+   в MainLib.ReportsFactory.ReportFactory.GenerateReport(ReportType reportType, String path, Int32 groupID, Int32 teacherID, Int32 disciplineID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\ReportFactory.cs:строка 36
+   в PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\UserForms\usrCertReportGenForm.cs:строка 47
+                     Additional message: iTextSharp.text.DocumentException: Ссылка на объект не указывает на экземпляр объекта.
+   в iTextSharp.text.pdf.PdfDocument.Add(IElement element)
+   в iTextSharp.text.Document.Add(IElement element)
+   в MainLib.ReportsFactory.Reports.CertificationReport.GenerateReportColumns(Document& doc, PdfPTable& stTable) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 109
+   в MainLib.ReportsFactory.Reports.CertificationReport.GenerateReport(String folderPath, Int32 groupID, Int32 disciplineID, Int32 teacherID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\Reports\CertificationReport.cs:строка 39
+   в MainLib.ReportsFactory.ReportFactory.GenerateReport(ReportType reportType, String path, Int32 groupID, Int32 teacherID, Int32 disciplineID, DateTime certDate) в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\ReportsFactory\ReportFactory.cs:строка 36
+   в PointRaitingSystem.usrCertReportGenForm.btnGenerateReport_Click(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\UserForms\usrCertReportGenForm.cs:строка 47                     
+==============================================================================
+

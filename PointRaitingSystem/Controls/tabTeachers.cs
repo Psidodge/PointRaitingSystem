@@ -8,9 +8,6 @@ using MainLib.Hashing;
 
 namespace PointRaitingSystem
 {
-    //NOTE: Как либо реализовать создание без автoризационной информации
-    //      Авт. информации создавать и привязывать отдельно
-    //UNDONE: Смотри выше, работает не так, лучше спросить у заказчика
     public partial class tabTeachers : UserControl
     {
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();

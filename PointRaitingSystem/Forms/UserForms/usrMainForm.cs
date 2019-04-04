@@ -134,7 +134,7 @@ namespace PointRaitingSystem
                 logger.Error(ex);
             }
 
-            lblMaxPointsSum.Text = studentCertification.GetMaxSumOfPoints().ToString();
+            lblMaxPointsSum.Text = studentCertification.GetMaxSumOfPointsForCurCP().ToString();
             lblDate.Text = studentCertification.date.ToShortDateString();
         }
         private void bindingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -255,7 +255,8 @@ namespace PointRaitingSystem
 
         private void btnAddExam_Click(object sender, EventArgs e)
         {
-             
+            usrAddExamForm form = new usrAddExamForm((int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
+            form.ShowDialog();
         }
     }
 }

@@ -100,7 +100,7 @@ namespace MainLib.ReportsFactory.Reports
                 trCell.AddElement(new Paragraph(certifications[iter].GetStudentScore().ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
                 stTable.AddCell(trCell);
                 trCell = new PdfPCell();
-                trCell.AddElement(new Paragraph(certifications[iter].GetMaxSumOfPoints().ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
+                trCell.AddElement(new Paragraph(certifications[iter].GetMaxSumOfPointsForCurCP().ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
                 stTable.AddCell(trCell);
                 trCell = new PdfPCell();
                 trCell.AddElement(new Paragraph(certifications[iter].grade.ToString(), trFont) { Alignment = Element.ALIGN_CENTER });

@@ -79,7 +79,7 @@ namespace MainLib.DBServices
     }
     public class StudentCertification : DBEntity
     {
-        public int id { get; private set; }
+        public int id { get; set; }
         public int id_of_student { get; set; }
         public int id_of_prev_cp { get; set; }
         public int id_of_discipline { get; set; }
@@ -99,8 +99,8 @@ namespace MainLib.DBServices
                    sumOfWeights = 0;
             try
             {
-                sumOfWeights = DataService.GetSumOfPointsToCurrentCP(this.id_of_student, disciplineID, previousControlPoinID);
-                sumOfPoints = DataService.GetStudentPointsSum(this.id_of_student, previousControlPoinID);
+                sumOfWeights = DataService.GetSumOfMaxWeightsToCurrentCP(this.id_of_student, disciplineID, previousControlPoinID);
+                sumOfPoints = DataService.GetStudentPointsSum(this.id_of_student, previousControlPoinID, disciplineID);
             }
             catch(Exception ex)
             {
@@ -128,11 +128,11 @@ namespace MainLib.DBServices
                 return;
             }
         }
-        public double GetMaxSumOfPoints()
+        public double GetMaxSumOfPointsForCurCP()
         {
             try
             {
-                return DataService.GetSumOfPointsToCurrentCP(this.id_of_student, id_of_discipline, id_of_prev_cp);
+                return DataService.GetSumOfMaxWeightsToCurrentCP(this.id_of_student, id_of_discipline, id_of_prev_cp);
             }
             catch (Exception)
             {
@@ -143,7 +143,98 @@ namespace MainLib.DBServices
         {
             try
             {
-                return DataService.GetStudentPointsSum(this.id_of_student, id_of_prev_cp);
+                return DataService.GetStudentPointsSum(this.id_of_student, id_of_prev_cp, id_of_discipline);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+    }
+    public class StudentExam : DBEntity
+    {
+        public int id { get; set; }
+        public int id_of_student { get; set; }
+        public int id_of_discipline { get; set; }
+        public int id_of_user { get; set; }
+        public DateTime date { get; set; }
+        public int grade { get; set; }
+        public double points { get; set; }
+        public bool isNotPassed { get; set; }
+
+        public override Type GetEntityType()
+        {
+            return this.GetType();
+        }
+        public int CountRecommendedGrade()
+        {
+            double maxSumOfPoint = GetMaxSumOfPoints(),
+                   studentScore = GetMaxStudentScore();
+
+            if (grade == 2)
+                return 2;
+
+            if (studentScore > (maxSumOfPoint * 0.85))
+            {
+                return 5;
+            }
+            if (studentScore > (maxSumOfPoint * 0.65))
+            {
+                return 4;
+            }
+            if (studentScore >= (maxSumOfPoint * 0.50))
+            {
+                return 3;
+            }
+            if (studentScore < (maxSumOfPoint * 0.50))
+            {
+                return 2;
+            }
+            return -1;
+        }
+        public void CountExamGrade()
+        {
+            double sumOfWeights = 20;
+            isNotPassed = false;
+
+            if (points > (sumOfWeights * 0.85))
+            {
+                grade = 5;
+                return;
+            }
+            if (points > (sumOfWeights * 0.65))
+            {
+                grade = 4;
+                return;
+            }
+            if (points >= (sumOfWeights * 0.50))
+            {
+                grade = 3;
+                return;
+            }
+            if (points < (sumOfWeights * 0.50))
+            {
+                grade = 2;
+                isNotPassed = true;
+                return;
+            }
+        }
+        public double GetMaxSumOfPoints()
+        {
+            try
+            {
+                return DataService.GetSumOfMaxWeights(this.id_of_student, id_of_discipline);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public double GetMaxStudentScore()
+        {
+            try
+            {
+                return DataService.GetMaxSumOfStudentPoints(this.id_of_student, id_of_discipline);
             }
             catch (Exception)
             {
@@ -160,6 +251,16 @@ namespace MainLib.DBServices
         public double points { get; set; }
         public string description { get; set; }
         public string pseudonym { get; set; }
+        public override Type GetEntityType()
+        {
+            return this.GetType();
+        }
+    }
+    public class StudentWithExam : DBEntity
+    {
+        public int studentID { get; set; }
+        public string studentName { get; set; }
+        public StudentExam examInfo { get; set; }
         public override Type GetEntityType()
         {
             return this.GetType();
@@ -269,11 +370,15 @@ namespace MainLib.DBServices
             return this.GetType();
         }
     }
-    public class ControlPointInfo
+    public class ControlPointInfo : DBEntity
     {
         public string name { get; }
         public string discipline_name { get; }
         public int weight { get; }
         public string description { get; }
+        public override Type GetEntityType()
+        {
+            return this.GetType();
+        }
     }
 }

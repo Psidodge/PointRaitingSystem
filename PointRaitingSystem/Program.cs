@@ -1,5 +1,5 @@
-﻿//#define LOGINLESS
-//#define USR
+﻿#define LOGINLESS
+#define USR
 //#define ADM
 using MainLib.Session;
 using System;

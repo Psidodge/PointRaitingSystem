@@ -43,6 +43,7 @@ namespace MainLib.Session
                 currentSession = DataService.SelectLoggedTeacher(login);
             }
 
+            public UserInfo UserSession { get => currentSession; }
             public int ID { get => currentSession.id; }
             public string UserLogin { get => login; }
             public string UserName { get => currentSession.Name; }

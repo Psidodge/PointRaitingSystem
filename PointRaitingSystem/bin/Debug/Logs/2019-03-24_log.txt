@@ -1,0 +1,85 @@
+
+=============================Error 2019-03-24 20:53:07.1868=============================
+                     
+                     Call site:          PointRaitingSystem.LoginForm.LoginForm_Load
+                     Exception type:     MySql.Data.MySqlClient.MySqlException
+                     Exception message:  Unable to connect to any of the specified MySQL hosts.
+                     Stack trace:        
+   в MainLib.DBServices.DataService.SelectUsersFullInfo() в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\DatabaseServices\DataService.cs:строка 290
+   в PointRaitingSystem.LoginForm.LoginForm_Load(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\LoginForm.cs:строка 66
+                     Additional message: MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+   в MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   в MySql.Data.Common.StreamCreator.GetStream(MySqlConnectionStringBuilder settings)
+   в MySql.Data.MySqlClient.NativeDriver.Open()
+   в MainLib.DBServices.DataService.SelectUsersFullInfo() в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\DatabaseServices\DataService.cs:строка 290
+   в PointRaitingSystem.LoginForm.LoginForm_Load(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\LoginForm.cs:строка 66                     
+==============================================================================
+
+
+=============================Error 2019-03-24 20:53:53.1744=============================
+                     
+                     Call site:          PointRaitingSystem.LoginForm.LoginForm_Load
+                     Exception type:     MySql.Data.MySqlClient.MySqlException
+                     Exception message:  Unable to connect to any of the specified MySQL hosts.
+                     Stack trace:        
+   в MainLib.DBServices.DataService.SelectUsersFullInfo() в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\DatabaseServices\DataService.cs:строка 290
+   в PointRaitingSystem.LoginForm.LoginForm_Load(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\LoginForm.cs:строка 66
+                     Additional message: MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+   в MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   в MySql.Data.Common.StreamCreator.GetStream(MySqlConnectionStringBuilder settings)
+   в MySql.Data.MySqlClient.NativeDriver.Open()
+   в MainLib.DBServices.DataService.SelectUsersFullInfo() в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\DatabaseServices\DataService.cs:строка 290
+   в PointRaitingSystem.LoginForm.LoginForm_Load(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\LoginForm.cs:строка 66                     
+==============================================================================
+
+
+=============================Error 2019-03-24 20:54:38.8270=============================
+                     
+                     Call site:          PointRaitingSystem.LoginForm.LoginForm_Load
+                     Exception type:     MySql.Data.MySqlClient.MySqlException
+                     Exception message:  Unable to connect to any of the specified MySQL hosts.
+                     Stack trace:        
+   в MainLib.DBServices.DataService.SelectUsersFullInfo() в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\DatabaseServices\DataService.cs:строка 290
+   в PointRaitingSystem.LoginForm.LoginForm_Load(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\LoginForm.cs:строка 66
+                     Additional message: MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+   в MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   в MySql.Data.Common.StreamCreator.GetStream(MySqlConnectionStringBuilder settings)
+   в MySql.Data.MySqlClient.NativeDriver.Open()
+   в MainLib.DBServices.DataService.SelectUsersFullInfo() в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\DatabaseServices\DataService.cs:строка 290
+   в PointRaitingSystem.LoginForm.LoginForm_Load(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\LoginForm.cs:строка 66                     
+==============================================================================
+
+
+=============================Error 2019-03-24 21:00:43.0089=============================
+                     
+                     Call site:          PointRaitingSystem.LoginForm.LoginForm_Load
+                     Exception type:     MySql.Data.MySqlClient.MySqlException
+                     Exception message:  Unable to connect to any of the specified MySQL hosts.
+                     Stack trace:        
+   в MainLib.DBServices.DataService.SelectUsersFullInfo() в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\DatabaseServices\DataService.cs:строка 290
+   в PointRaitingSystem.LoginForm.LoginForm_Load(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\LoginForm.cs:строка 66
+                     Additional message: MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+   в MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   в MySql.Data.Common.StreamCreator.GetStream(MySqlConnectionStringBuilder settings)
+   в MySql.Data.MySqlClient.NativeDriver.Open()
+   в MainLib.DBServices.DataService.SelectUsersFullInfo() в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\DatabaseServices\DataService.cs:строка 290
+   в PointRaitingSystem.LoginForm.LoginForm_Load(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\LoginForm.cs:строка 66                     
+==============================================================================
+
+
+=============================Error 2019-03-24 21:04:30.8369=============================
+                     
+                     Call site:          PointRaitingSystem.LoginForm.LoginForm_Load
+                     Exception type:     MySql.Data.MySqlClient.MySqlException
+                     Exception message:  Unable to connect to any of the specified MySQL hosts.
+                     Stack trace:        
+   в MainLib.DBServices.DataService.SelectUsersFullInfo() в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\DatabaseServices\DataService.cs:строка 290
+   в PointRaitingSystem.LoginForm.LoginForm_Load(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\LoginForm.cs:строка 66
+                     Additional message: MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+   в MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   в MySql.Data.Common.StreamCreator.GetStream(MySqlConnectionStringBuilder settings)
+   в MySql.Data.MySqlClient.NativeDriver.Open()
+   в MainLib.DBServices.DataService.SelectUsersFullInfo() в D:\fullchicken44\repos\PointRaitingSystem\MainLib\Classes\DatabaseServices\DataService.cs:строка 290
+   в PointRaitingSystem.LoginForm.LoginForm_Load(Object sender, EventArgs e) в D:\fullchicken44\repos\PointRaitingSystem\PointRaitingSystem\Forms\LoginForm.cs:строка 66                     
+==============================================================================
+
