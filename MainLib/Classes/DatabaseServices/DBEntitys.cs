@@ -107,12 +107,12 @@ namespace MainLib.DBServices
                 throw ex;
             }
 
-            if (sumOfPoints > (sumOfWeights * 0.85))
+            if (sumOfPoints >= (sumOfWeights * 0.85))
             {
                 grade = 5;
                 return;
             }
-            if (sumOfPoints > (sumOfWeights * 0.65))
+            if (sumOfPoints >= (sumOfWeights * 0.65))
             {
                 grade = 4;
                 return;
@@ -168,17 +168,14 @@ namespace MainLib.DBServices
         }
         public int CountRecommendedGrade()
         {
-            double maxSumOfPoint = GetMaxSumOfPoints(),
-                   studentScore = GetMaxStudentScore();
+            double maxSumOfPoint = GetMaxSumOfPoints() + 20,
+                   studentScore = GetMaxStudentScore() + points;
 
-            if (grade == 2)
-                return 2;
-
-            if (studentScore > (maxSumOfPoint * 0.85))
+            if (studentScore >= (maxSumOfPoint * 0.85))
             {
                 return 5;
             }
-            if (studentScore > (maxSumOfPoint * 0.65))
+            if (studentScore >= (maxSumOfPoint * 0.65))
             {
                 return 4;
             }
@@ -195,14 +192,13 @@ namespace MainLib.DBServices
         public void CountExamGrade()
         {
             double sumOfWeights = 20;
-            isNotPassed = false;
 
-            if (points > (sumOfWeights * 0.85))
+            if (points >= (sumOfWeights * 0.85))
             {
                 grade = 5;
                 return;
             }
-            if (points > (sumOfWeights * 0.65))
+            if (points >= (sumOfWeights * 0.65))
             {
                 grade = 4;
                 return;
@@ -215,7 +211,6 @@ namespace MainLib.DBServices
             if (points < (sumOfWeights * 0.50))
             {
                 grade = 2;
-                isNotPassed = true;
                 return;
             }
         }

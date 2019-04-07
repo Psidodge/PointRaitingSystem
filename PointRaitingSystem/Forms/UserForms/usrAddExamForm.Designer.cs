@@ -31,17 +31,23 @@
             this.dgvStudentExams = new System.Windows.Forms.DataGridView();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.tsslInfo = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStudentExams)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvStudentExams
             // 
+            this.dgvStudentExams.AllowUserToAddRows = false;
+            this.dgvStudentExams.AllowUserToDeleteRows = false;
             this.dgvStudentExams.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvStudentExams.Dock = System.Windows.Forms.DockStyle.Top;
             this.dgvStudentExams.Location = new System.Drawing.Point(0, 0);
             this.dgvStudentExams.Name = "dgvStudentExams";
             this.dgvStudentExams.Size = new System.Drawing.Size(694, 438);
             this.dgvStudentExams.TabIndex = 0;
+            this.dgvStudentExams.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgvStudentExams_CellBeginEdit);
             this.dgvStudentExams.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStudentExams_CellEndEdit);
             // 
             // btnSave
@@ -64,11 +70,27 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsslInfo});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 503);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(694, 22);
+            this.statusStrip1.TabIndex = 5;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // tsslInfo
+            // 
+            this.tsslInfo.Name = "tsslInfo";
+            this.tsslInfo.Size = new System.Drawing.Size(0, 17);
+            // 
             // usrAddExamForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(694, 503);
+            this.ClientSize = new System.Drawing.Size(694, 525);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.dgvStudentExams);
@@ -77,7 +99,10 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "usrAddExamForm";
             ((System.ComponentModel.ISupportInitialize)(this.dgvStudentExams)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -86,5 +111,7 @@
         private System.Windows.Forms.DataGridView dgvStudentExams;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel tsslInfo;
     }
 }

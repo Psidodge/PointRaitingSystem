@@ -893,10 +893,11 @@ namespace MainLib.DBServices
                 return connection.ExecuteScalar<int>("InsertIntoGroupDiscipline", parameters,  commandType: CommandType.StoredProcedure);
             }
         }
-        public static int InsertIntoStudentExam(StudentExam exam)
+        public static bool InsertIntoStudentExam(List<StudentExam> exams)
         {
             using (MySqlConnection connection = GetConnectionInstance())
             {
+                DynamicParameters parameters;
                 try
                 {
                     if (connection.State != ConnectionState.Open)
@@ -907,16 +908,33 @@ namespace MainLib.DBServices
                     throw e;
                 }
 
-                var parameters = new DynamicParameters();
-                parameters.Add("@studentID", exam.id_of_student);
-                parameters.Add("@disciplineID", exam.id_of_discipline);
-                parameters.Add("@userID", exam.id_of_user);
-                parameters.Add("@examDate", exam.date);
-                parameters.Add("@examPoints", exam.points);
-                parameters.Add("@examGrade", exam.grade);
-                parameters.Add("@isNPassed", exam.isNotPassed);
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        foreach (StudentExam exam in exams)
+                        {
+                            parameters = new DynamicParameters();
+                            parameters.Add("@studentID", exam.id_of_student);
+                            parameters.Add("@disciplineID", exam.id_of_discipline);
+                            parameters.Add("@userID", exam.id_of_user);
+                            parameters.Add("@examDate", exam.date);
+                            parameters.Add("@examPoints", exam.points);
+                            parameters.Add("@examGrade", exam.grade);
+                            parameters.Add("@isNPassed", exam.isNotPassed);
 
-                return connection.ExecuteScalar<int>("InsertIntoExams", parameters, commandType: CommandType.StoredProcedure);
+                            connection.ExecuteScalar<int>("InsertIntoExams", parameters, commandType: CommandType.StoredProcedure, transaction: transaction);
+                        }
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        logger.Error(ex);
+                        return false;
+                    }
+                }
+                return true;
             }
         }
 

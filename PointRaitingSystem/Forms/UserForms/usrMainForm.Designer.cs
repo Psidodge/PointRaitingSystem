@@ -55,7 +55,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnCreateCP = new System.Windows.Forms.Button();
-            this.btnShowCP = new System.Windows.Forms.Button();
+            this.btnReexam = new System.Windows.Forms.Button();
             this.cbDiscipline = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.cbGroups = new System.Windows.Forms.ComboBox();
@@ -136,13 +136,13 @@
             this.menuPanel.Controls.Add(this.btnCertification);
             this.menuPanel.Controls.Add(this.gbCPInfo);
             this.menuPanel.Controls.Add(this.btnCreateCP);
-            this.menuPanel.Controls.Add(this.btnShowCP);
+            this.menuPanel.Controls.Add(this.btnReexam);
             this.menuPanel.Controls.Add(this.cbDiscipline);
             this.menuPanel.Controls.Add(this.label4);
             this.menuPanel.Controls.Add(this.cbGroups);
             this.menuPanel.Controls.Add(this.label1);
             this.menuPanel.Location = new System.Drawing.Point(0, 24);
-            this.menuPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.menuPanel.Margin = new System.Windows.Forms.Padding(2);
             this.menuPanel.Name = "menuPanel";
             this.menuPanel.Size = new System.Drawing.Size(284, 556);
             this.menuPanel.TabIndex = 2;
@@ -331,24 +331,22 @@
             this.btnCreateCP.UseVisualStyleBackColor = true;
             this.btnCreateCP.Click += new System.EventHandler(this.btnCreateCP_Click);
             // 
-            // btnShowCP
+            // btnReexam
             // 
-            this.btnShowCP.Enabled = false;
-            this.btnShowCP.Location = new System.Drawing.Point(11, 169);
-            this.btnShowCP.Name = "btnShowCP";
-            this.btnShowCP.Size = new System.Drawing.Size(107, 23);
-            this.btnShowCP.TabIndex = 6;
-            this.btnShowCP.Text = "Просмотреть КТ";
-            this.btnShowCP.UseVisualStyleBackColor = true;
-            this.btnShowCP.Visible = false;
-            this.btnShowCP.Click += new System.EventHandler(this.btnShowCP_Click);
+            this.btnReexam.Location = new System.Drawing.Point(138, 140);
+            this.btnReexam.Name = "btnReexam";
+            this.btnReexam.Size = new System.Drawing.Size(121, 23);
+            this.btnReexam.TabIndex = 6;
+            this.btnReexam.Text = "Переэкзаменовка";
+            this.btnReexam.UseVisualStyleBackColor = true;
+            this.btnReexam.Click += new System.EventHandler(this.btnReExam_Click);
             // 
             // cbDiscipline
             // 
             this.cbDiscipline.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbDiscipline.FormattingEnabled = true;
             this.cbDiscipline.Location = new System.Drawing.Point(11, 77);
-            this.cbDiscipline.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbDiscipline.Margin = new System.Windows.Forms.Padding(2);
             this.cbDiscipline.Name = "cbDiscipline";
             this.cbDiscipline.Size = new System.Drawing.Size(219, 21);
             this.cbDiscipline.TabIndex = 5;
@@ -369,7 +367,7 @@
             this.cbGroups.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbGroups.FormattingEnabled = true;
             this.cbGroups.Location = new System.Drawing.Point(11, 27);
-            this.cbGroups.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbGroups.Margin = new System.Windows.Forms.Padding(2);
             this.cbGroups.Name = "cbGroups";
             this.cbGroups.Size = new System.Drawing.Size(99, 21);
             this.cbGroups.TabIndex = 1;
@@ -449,7 +447,7 @@
             this.Controls.Add(this.menuPanel);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "usrMainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Меню";
@@ -485,7 +483,7 @@
         private System.Windows.Forms.DataGridView dgvStudents;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Button btnCreateCP;
-        private System.Windows.Forms.Button btnShowCP;
+        private System.Windows.Forms.Button btnReexam;
         private System.Windows.Forms.GroupBox gbCPInfo;
         private System.Windows.Forms.TextBox txtDescription;
         private System.Windows.Forms.Label label6;
