@@ -4,3 +4,15 @@
 
 /.vs/PointRaitingSystem/v15
 /MainLib/bin/Debug/Bin
+/MainLib/bin/Release
+/PointRaitingSystem/bin/Debug/Logs
+/MainLib/obj/Release/TempPE
+/MainLib/obj/Release/MainLib.csproj.CopyComplete
+/MainLib/obj/Release/MainLib.csproj.FileListAbsolute.txt
+/MainLib/obj/Release/MainLib.csproj.GenerateResource.cache
+/MainLib/obj/Release/MainLib.dll
+/MainLib/obj/Release/MainLib.pdb
+/MainLib/obj/Release/MainLib.Properties.Resources.resources
+/MainLib/obj/Release/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
+/MainLib/obj/Release/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
+/MainLib/obj/Release/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs

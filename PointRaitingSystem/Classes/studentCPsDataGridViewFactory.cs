@@ -8,6 +8,7 @@ using MainLib.DBServices;
 namespace PointRaitingSystem
 {
     //TODO: Здесь не отлавливаются исключения. Добавить
+    // NOTE: Медленно работает, попробывать оптимизировать или нет
     public static class studentCPsDataGridViewFactory
     {
         public static void CreateStudentCPsDataGridView(ref DataGridView dgv, int groupId, int disciplineId)
@@ -16,27 +17,35 @@ namespace PointRaitingSystem
 
             int cpIter = 0; 
             double sum = 0;
-
-            List<StudentsWithCP> studentsCPs = GetStudentsCPs(groupId, disciplineId);
+            List<StudentExam> exams = null;
+            List<StudentsWithCP> studentsCPs = GetStudentsCPs(groupId, disciplineId, out exams);
             DataGridViewColumn[] columns = CreateColumns(ref dgv, studentsCPs);
 
             if(columns == null)
-                return;
+                throw new NullReferenceException($"In  'studentCPsDataGridViewFactory'.'CreateStudentCPsDataGridView' object 'columns' = {columns == null}");
 
             dgv.Columns.AddRange(columns);
             dgv.Rows.Add(studentsCPs.Count);
+
+            if (exams.Count == 0)
+                dgv.Columns["grade"].Visible = false;
 
             for (int i = 0; i < studentsCPs.Count; i++)
             {
                 dgv.Rows[i].Cells[0].Value = studentsCPs[i].id;
                 dgv.Rows[i].Cells[1].Value = studentsCPs[i].name;
-                for (int j = 2; j < dgv.Columns.Count - 1; j+=2, cpIter++)
+                for (int j = 2; j < dgv.Columns.Count - 2; j+=2, cpIter++)
                 {
                     dgv.Rows[i].Cells[j].Value = studentsCPs[i].studentCPs[cpIter].id;
                     dgv.Rows[i].Cells[j + 1].Value = studentsCPs[i].studentCPs[cpIter].points;
                     sum += studentsCPs[i].studentCPs[cpIter].points;
                 }
-                dgv.Rows[i].Cells[dgv.Columns.Count - 1].Value = sum;
+                if (exams.Count != 0)
+                {
+                    dgv.Rows[i].Cells[dgv.Columns.Count - 1].Value = exams[i].CountRecommendedGrade();
+                    //dgv.Rows[i].Cells[dgv.Columns.Count - 1].Style.BackColor = Color.LightSeaGreen;
+                }
+                dgv.Rows[i].Cells[dgv.Columns.Count - 2].Value = sum;
                 cpIter = 0;
                 sum = 0;
             }
@@ -70,7 +79,7 @@ namespace PointRaitingSystem
                               select scp.id).First();
 
                 /* (dgv.Columns.Count - 3); -3 - потому что, первые 2 это id, и ФИО + последняя Всего */
-                for (int i = 0; i < (dgv.Columns.Count - 3) / 2; i++)
+                for (int i = 0; i < (dgv.Columns.Count - 3); i++)
                 {
                     if ((int)dgv.Rows[0].Cells[string.Format("idOfCP{0}", i)].Value == idOfSCP)
                     {
@@ -114,7 +123,6 @@ namespace PointRaitingSystem
                 sum = 0;
             }
         }
-
         private static void FillStudentsCertificationsCells(ref DataGridView dgv, ref List<StudentCertification> certifications, ref int[] columnIndexes)
         {
             int certIter = 0;
@@ -134,7 +142,7 @@ namespace PointRaitingSystem
             if (stCPs.Count == 0)
                 return null;
 
-            DataGridViewColumn[] columns = new DataGridViewTextBoxColumn[(stCPs[0].studentCPs.Count * 2) + 3];
+            DataGridViewColumn[] columns = new DataGridViewTextBoxColumn[(stCPs[0].studentCPs.Count * 2) + 4];
             columns[0] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "id", HeaderText = "id", ReadOnly = true, Visible = false };
             columns[1] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "Name", HeaderText = "ФИО", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells };
             int iter = 0, colIter = 2;
@@ -162,15 +170,30 @@ namespace PointRaitingSystem
                 colIter++;
                 iter++;
             }
-            columns[columns.Length - 1] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "sum", HeaderText = "Всего", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader };
+            columns[columns.Length - 2] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "sum", HeaderText = "Всего", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader };
+            columns[columns.Length - 1] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "grade", HeaderText = "Итоговая оценка", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.NotSet };
             return columns;
         }
-        private static List<StudentsWithCP> GetStudentsCPs(int groupId, int dId)
+        private static List<StudentsWithCP> GetStudentsCPs(int groupId, int dId, out List<StudentExam> exams)
         {
             List<StudentsWithCP> studentsCPs = new List<StudentsWithCP>();
+            List<Student> students = null;
+            List<StudentControlPoint> pointsOfStudents = null;
+            exams = null;
 
-            List<Student> students = DataService.SelectStudentsByGroupId(groupId);
-            List<StudentControlPoint> pointsOfStudents = DataService.SelectStudentControPointsGroupDisc(groupId, dId);
+            try
+            {
+                students = DataService.SelectStudentsByGroupId(groupId);
+                pointsOfStudents = DataService.SelectStudentControPointsGroupDisc(groupId, dId);
+                exams = DataService.SelectStudentsExams(groupId, dId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            if (students == null || pointsOfStudents == null)
+                throw new NullReferenceException($"In method 'studentCPsDataGridViewFactory'.'GetStudentsCPs' object 'students' = {students == null} or 'pointsOfStudents' = {pointsOfStudents == null}");
 
             foreach (Student student in students)
             {

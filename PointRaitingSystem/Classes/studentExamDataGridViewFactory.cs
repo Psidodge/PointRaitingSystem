@@ -21,16 +21,18 @@ namespace PointRaitingSystem
                 return;
 
             dgv.Columns.AddRange(columns);
-            dgv.Rows.Add(studentsExams.Count - 1);
+            dgv.Rows.Add(studentsExams.Count);
 
             for(int i = 0; i < studentsExams.Count; i++)
             {
                 dgv.Rows[i].Cells[0].Value = studentsExams[i].studentID;
                 dgv.Rows[i].Cells[1].Value = studentsExams[i].studentName;
-                dgv.Rows[i].Cells[2].Value = studentsExams[i].examInfo.id;
-                dgv.Rows[i].Cells[3].Value = studentsExams[i].examInfo.points;
-                dgv.Rows[i].Cells[4].Value = "-";
-                dgv.Rows[i].Cells[5].Value = studentsExams[i].examInfo.GetMaxStudentScore();
+                dgv.Rows[i].Cells[2].Value = studentsExams[i].examInfo.GetMaxStudentScore();
+                if ((double)dgv.Rows[i].Cells[2].Value < 50)
+                    dgv.Rows[i].Cells[2].Style.BackColor = Color.IndianRed;
+                dgv.Rows[i].Cells[3].Value = studentsExams[i].examInfo.id;
+                dgv.Rows[i].Cells[4].Value = studentsExams[i].examInfo.points;
+                dgv.Rows[i].Cells[5].Value = 2;
                 dgv.Rows[i].Cells[6].Style.BackColor = Color.LightGreen;
                 dgv.Rows[i].Cells[6].Value = 2;
             }
@@ -77,10 +79,10 @@ namespace PointRaitingSystem
             DataGridViewColumn[] columns = new DataGridViewTextBoxColumn[7];
             columns[0] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "stID", HeaderText = "stid", ReadOnly = true, Visible = false };
             columns[1] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "name", HeaderText = "ФИО", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill };
-            columns[2] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "examID", HeaderText = "examid", ReadOnly = true, Visible = false };
-            columns[3] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "examPoints", HeaderText = "Баллы за экзамен", AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader };
-            columns[4] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "examGrade", HeaderText = "Оценка за экзамен", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader };
-            columns[5] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "sum", HeaderText = "Всего получено", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader };
+            columns[2] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "sum", HeaderText = "Всего получено", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader };
+            columns[3] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "examID", HeaderText = "examid", ReadOnly = true, Visible = false };
+            columns[4] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "examPoints", HeaderText = "Баллы за экзамен", AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader };
+            columns[5] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "examGrade", HeaderText = "Оценка за экзамен", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader };
             columns[6] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "recGrade", HeaderText = "Рек. оценка", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader };
 
             return columns;
