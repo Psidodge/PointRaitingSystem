@@ -14,7 +14,7 @@ namespace MainLib.ReportsFactory
     public static class ReportFactory
     {
         // certDate need to be default
-        public static bool GenerateReport(ReportType reportType, string path, int groupID, int teacherID, int disciplineID, DateTime certDate)
+        public static bool GenerateReport(ReportType reportType, string path, int groupID, int teacherID, int disciplineID, DateTime? certDate = null)
         {
             IReport report = null;
             switch (reportType)

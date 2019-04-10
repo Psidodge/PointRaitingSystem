@@ -9,6 +9,6 @@ namespace MainLib.ReportsFactory.Reports
 {
     public interface IReport
     {
-        bool GenerateReport(string folderPath, int groupID, int disciplineID, int teacherID, DateTime certDate);
+        bool GenerateReport(string folderPath, int groupID, int disciplineID, int teacherID, DateTime? certDate = null);
     }
 }

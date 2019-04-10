@@ -92,7 +92,7 @@ namespace PointRaitingSystem
                                 HeaderText = string.Format("Аттестация {0}", certIter + 1),
                                 ReadOnly = true,
                                 Visible = true,
-                                AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                                Width = 105
                             });
 
                         dgv.Columns[certificationIndexes[certIter]].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -110,7 +110,9 @@ namespace PointRaitingSystem
             {
                 foreach(DataGridViewCell cell in row.Cells)
                 {
-                    if (cell.ColumnIndex > 1 && cell.ColumnIndex < dgv.Columns.Count - 1 && !cell.OwningColumn.Name.Contains("id") && !cell.OwningColumn.Name.Contains("certification"))
+                    if (cell.ColumnIndex > 1 && cell.ColumnIndex < dgv.Columns.Count - 1 && 
+                        !cell.OwningColumn.Name.Contains("id") && !cell.OwningColumn.Name.Contains("certification") && 
+                        !cell.OwningColumn.Name.Contains("grade") && !cell.OwningColumn.Name.Contains("sum"))
                     {
                         sum += Convert.ToDouble(cell.Value.ToString().Replace('.',',')
                                                                      .Replace('/', ',')
@@ -162,7 +164,7 @@ namespace PointRaitingSystem
                     Name = string.Format("cpName{0}", iter),
                     HeaderText = string.Format("КТ {0}", iter + 1),
                     ReadOnly = true,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells
+                    Width = 45
                 };
 
                 columns[colIter].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -171,7 +173,7 @@ namespace PointRaitingSystem
                 iter++;
             }
             columns[columns.Length - 2] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "sum", HeaderText = "Всего", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader };
-            columns[columns.Length - 1] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "grade", HeaderText = "Итоговая оценка", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.NotSet };
+            columns[columns.Length - 1] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "grade", HeaderText = "Итоговая оценка", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader };
             return columns;
         }
         private static List<StudentsWithCP> GetStudentsCPs(int groupId, int dId, out List<StudentExam> exams)

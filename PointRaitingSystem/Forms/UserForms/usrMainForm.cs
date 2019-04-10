@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using MainLib.DBServices;
 using MainLib.Session;
 using MainLib.ReportsFactory;
+using System.Configuration;
 
 namespace PointRaitingSystem
 {
@@ -112,8 +113,15 @@ namespace PointRaitingSystem
             if (certificationIndexes.Length == 2)
                 btnCertification.Enabled = false;
 
+            if(certificationIndexes.Length != 2)
+                btnAddExam.Enabled = false;
+
+            if (!dgvStudents.Columns[dgvStudents.Columns.Count - 1].Visible)
+                btnReexam.Enabled = false;
+
             if (dgvStudents.Columns[dgvStudents.Columns.Count - 1].Visible)
             {
+                btnReexam.Enabled = true;
                 btnCreateCP.Enabled = false;
                 btnAddExam.Enabled = false;
             }
@@ -200,7 +208,6 @@ namespace PointRaitingSystem
                 dgvStudents.CurrentCell.Value = 0;
                 return;
             }
-            studentCPsDataGridViewFactory.CalculateSum(ref dgvStudents);
         }
         private void dgvStudents_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -246,12 +253,13 @@ namespace PointRaitingSystem
                 {
                     foreach (DataGridViewColumn column in dgvStudents.Columns)
                     {
-                        if (!column.Name.Contains("id"))
+                        if (!column.Name.Contains("id") && column.Index != dgvStudents.Columns.Count - 1)
                         {
                             column.Visible = true;
                             column.ReadOnly = true;
                         }
                     }
+                    studentCPsDataGridViewFactory.CalculateSum(ref dgvStudents);
                     isCellsHiden = false;
                     FillControlPointInfo();
                 }
@@ -279,7 +287,12 @@ namespace PointRaitingSystem
         }
         private void tsmiExam_Click(object sender, EventArgs e)
         {
-
+            string path = ConfigurationManager.AppSettings["reportFilePath"];
+            bool result = ReportFactory.GenerateReport(ReportType.EXAM, path, (int)cbGroups.SelectedValue, Session.GetCurrentSession().ID, (int)cbDiscipline.SelectedValue);
+            if (result)
+                MessageBox.Show("Отчет успешно сформирован", "Вот", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else
+                MessageBox.Show("Отчет не сформирован", "Вот", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         private void btnAddExam_Click(object sender, EventArgs e)
         {
@@ -292,6 +305,18 @@ namespace PointRaitingSystem
         private void btnReExam_Click(object sender, EventArgs e)
         {
 
+        }
+        private void tsmiPickReportFolder_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folderBrowser = new FolderBrowserDialog();
+
+            if (folderBrowser.ShowDialog() == DialogResult.Cancel)
+                return;
+
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.AppSettings.Settings["reportFilePath"].Value = folderBrowser.SelectedPath;
+            config.Save(ConfigurationSaveMode.Modified);
+            ConfigurationManager.RefreshSection("appSettings");
         }
     }
 }

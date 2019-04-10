@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MainLib.DBServices;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
@@ -20,18 +18,18 @@ namespace MainLib.ReportsFactory.Reports
         private Discipline discipline;
         private Group group;
 
-        private BaseFont bFont = BaseFont.CreateFont(@"tnr.ttf", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+        private BaseFont bFont = BaseFont.CreateFont(@"resources\tnr.ttf", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
 
-        public bool GenerateReport(string folderPath, int groupID, int disciplineID, int teacherID, DateTime certDate)
+        public bool GenerateReport(string folderPath, int groupID, int disciplineID, int teacherID, DateTime? certDate)
         {
 
-            if (!InitializeReportData(groupID, disciplineID, teacherID, certDate))
+            if (!InitializeReportData(groupID, disciplineID, teacherID, (DateTime)certDate))
                 return false;
 
             Document doc = new Document(PageSize.A4);
             PdfPTable pTable = null;
 
-            var output = new FileStream($"Аттестация_{group.name}_{DateTime.Now.ToShortDateString()}.pdf", FileMode.Create);
+            var output = new FileStream($"{folderPath}\\Аттестация_{group.name}_{discipline.name}_{DateTime.Now.ToShortDateString()}.pdf", FileMode.Create);
             var writer = PdfWriter.GetInstance(doc, output);
 
             doc.Open();
@@ -46,8 +44,12 @@ namespace MainLib.ReportsFactory.Reports
         {
             Font font = new Font(bFont, 15, Font.NORMAL, BaseColor.BLACK);
 
-            Paragraph par = new Paragraph(string.Format("Отчет по аттестации на {0}{1}группы {2}", certifications[0].date.ToShortDateString(), 
-                                          Environment.NewLine, group.name), font);
+            Paragraph par = new Paragraph(string.Format("Отчет по аттестации группы {3}{2} по дисциплине {0}{2} на {1}",
+                                          discipline.name,
+                                          certifications[0].date.ToShortDateString(), 
+                                          Environment.NewLine,
+                                          group.name), 
+                                          font);
             par.Alignment = Element.ALIGN_CENTER;
             doc.Add(par);
         }

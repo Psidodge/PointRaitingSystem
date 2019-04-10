@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MainLib.ReportsFactory;
 using MainLib.DBServices;
 using MainLib.Session;
+using System.Configuration;
 
 namespace PointRaitingSystem
 {
@@ -17,6 +14,7 @@ namespace PointRaitingSystem
     {
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private int groupID, disciplineID;
+        private string path;
 
 
         public usrCertReportGenForm(int groupID, int disciplineID)
@@ -25,6 +23,7 @@ namespace PointRaitingSystem
             DataSetsInitializer(groupID, disciplineID);
             this.groupID = groupID;
             this.disciplineID = disciplineID;
+            path = ConfigurationManager.AppSettings["reportFilePath"];
         }
 
         private void DataSetsInitializer(int groupID, int disciplineID)
@@ -44,7 +43,7 @@ namespace PointRaitingSystem
         {
             try
             {
-                ReportFactory.GenerateReport(ReportType.CERTIFICATION, "\\", groupID, Session.GetCurrentSession().ID, disciplineID, (DateTime)lbListOfCerts.SelectedValue);
+                ReportFactory.GenerateReport(ReportType.CERTIFICATION, path, groupID, Session.GetCurrentSession().ID, disciplineID, (DateTime)lbListOfCerts.SelectedValue);
                 lblStatus.Text = "Отчет сформирован успешно.";
             }
             catch (Exception ex)
