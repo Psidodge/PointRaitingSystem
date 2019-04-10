@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using MainLib.DBServices;
 using MainLib.Auth;
 using MainLib.Session;
+using System.Configuration;
 
 namespace PointRaitingSystem
 {
@@ -16,6 +17,16 @@ namespace PointRaitingSystem
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private bool isLoggedIn = false;
 
+        private void UpdateConfiguration(string loggedUserLogin)
+        {
+            if (ConfigurationManager.AppSettings["defaultUserLogin"] == loggedUserLogin)
+                return;
+
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.AppSettings.Settings["defaultUserLogin"].Value = cbLogin.SelectedIndex.ToString();
+            config.Save(ConfigurationSaveMode.Modified);
+            ConfigurationManager.RefreshSection("appSettings");
+        }
         private void btnEnter_Click(object sender, EventArgs e)
         {
             try
@@ -27,6 +38,7 @@ namespace PointRaitingSystem
                 {
                     isLoggedIn = true;
                     Session.CreateSessionInstance(this.cbLogin.SelectedValue.ToString());
+                    UpdateConfiguration(this.cbLogin.SelectedValue.ToString());
                     this.Close();
                 }
                 else
@@ -51,7 +63,6 @@ namespace PointRaitingSystem
         {
             this.Close();
         }
-
         public bool IsLoggedIn { get => isLoggedIn; }
         private void txtKeyPress(object sender, KeyPressEventArgs e)
         {
@@ -64,6 +75,7 @@ namespace PointRaitingSystem
             try
             {
                 DataSetInitializer.ComboBoxDataSetInitializer<UserFullInfo>(ref cbLogin, DataService.SelectUsersFullInfo(), "login", "ShortName");
+                cbLogin.SelectedIndex = int.Parse(ConfigurationManager.AppSettings["defaultUserLogin"]);
             }
             catch (Auth.QueryResultIsNullException)
             {
