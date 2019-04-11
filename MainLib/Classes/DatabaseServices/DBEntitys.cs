@@ -189,6 +189,29 @@ namespace MainLib.DBServices
             }
             return -1;
         }
+        public int CountRecommendedGrade(double currentPoints)
+        {
+            double maxSumOfPoint = GetMaxSumOfPoints() + 20;
+            currentPoints += points;
+
+            if (currentPoints >= (maxSumOfPoint * 0.85))
+            {
+                return 5;
+            }
+            if (currentPoints >= (maxSumOfPoint * 0.65))
+            {
+                return 4;
+            }
+            if (currentPoints >= (maxSumOfPoint * 0.50))
+            {
+                return 3;
+            }
+            if (currentPoints < (maxSumOfPoint * 0.50))
+            {
+                return 2;
+            }
+            return -1;
+        }
         public void CountExamGrade()
         {
             double sumOfWeights = 20;
@@ -213,6 +236,28 @@ namespace MainLib.DBServices
                 grade = 2;
                 return;
             }
+        }
+        public int GetExamGrade()
+        {
+            double sumOfWeights = 20;
+
+            if (points >= (sumOfWeights * 0.85))
+            {
+                return 5;
+            }
+            if (points >= (sumOfWeights * 0.65))
+            {
+                return 4;
+            }
+            if (points >= (sumOfWeights * 0.50))
+            {
+                return 3;
+            }
+            if (points < (sumOfWeights * 0.50))
+            {
+                return 2;
+            }
+            return -1;
         }
         public double GetMaxSumOfPoints()
         {

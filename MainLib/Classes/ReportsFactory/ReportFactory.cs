@@ -1,11 +1,5 @@
-﻿using iTextSharp.text.pdf;
-using MainLib.ReportsFactory.Reports;
+﻿using MainLib.ReportsFactory.Reports;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Resources;
-using System.Text;
 
 namespace MainLib.ReportsFactory
 {
@@ -33,7 +27,15 @@ namespace MainLib.ReportsFactory
             if (report == null)
                 return false;
 
-            return report.GenerateReport(path, groupID, disciplineID, teacherID, certDate);
+            try
+            {
+                return report.GenerateReport(path, groupID, disciplineID, teacherID, certDate);
+            }
+            catch(Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Error(ex);
+                return false;
+            }
         }   
     }
 }

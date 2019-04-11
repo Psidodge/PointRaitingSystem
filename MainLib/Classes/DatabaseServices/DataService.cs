@@ -1230,5 +1230,28 @@ namespace MainLib.DBServices
                 return connection.ExecuteScalar<int>("UpdateStudentControlPoints", parameters, commandType: CommandType.StoredProcedure);
             }
         }
+        public static int UpdateStudentExamsResults(StudentExam exam)
+        {
+            using (MySqlConnection connection = GetConnectionInstance())
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@examID", exam.id);
+                parameters.Add("@examPoints", exam.points);
+                parameters.Add("@examGrade", exam.grade);
+                parameters.Add("@isNPassed", exam.isNotPassed);
+
+                return connection.ExecuteScalar<int>("UpdateExamStudentPoints", parameters, commandType: CommandType.StoredProcedure);
+            }
+        }
     }
 }

@@ -74,16 +74,16 @@ namespace MainLib.ReportsFactory.Reports
             headerCell.AddElement(new Paragraph("ФИО", thFont) { Alignment = Element.ALIGN_CENTER });
             stTable.AddCell(headerCell);
             headerCell = new PdfPHeaderCell();
-            headerCell.AddElement(new Paragraph("Получено баллов за семестр", thFont) { Alignment = Element.ALIGN_CENTER });
+            headerCell.AddElement(new Paragraph("Получено баллов за экзамен", thFont) { Alignment = Element.ALIGN_CENTER });
             stTable.AddCell(headerCell);
             headerCell = new PdfPHeaderCell();
-            headerCell.AddElement(new Paragraph("Получено баллов за экзамен", thFont) { Alignment = Element.ALIGN_CENTER });
+            headerCell.AddElement(new Paragraph("Получено баллов за семестр", thFont) { Alignment = Element.ALIGN_CENTER });
             stTable.AddCell(headerCell);
             headerCell = new PdfPHeaderCell();
             headerCell.AddElement(new Paragraph("Всего баллов", thFont) { Alignment = Element.ALIGN_CENTER });
             stTable.AddCell(headerCell);
             headerCell = new PdfPHeaderCell();
-            headerCell.AddElement(new Paragraph("Оценка", thFont) { Alignment = Element.ALIGN_CENTER });
+            headerCell.AddElement(new Paragraph("Оценка за экзамен", thFont) { Alignment = Element.ALIGN_CENTER });
             stTable.AddCell(headerCell);
             // Header end
         }
@@ -102,16 +102,16 @@ namespace MainLib.ReportsFactory.Reports
                 trCell.AddElement(new Paragraph(student.name, trFont) { Alignment = Element.ALIGN_LEFT });
                 stTable.AddCell(trCell);
                 trCell = new PdfPCell();
-                trCell.AddElement(new Paragraph(exams[iter].GetMaxStudentScore().ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
+                trCell.AddElement(new Paragraph(exams[iter].points.ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
                 stTable.AddCell(trCell);
                 trCell = new PdfPCell();
-                trCell.AddElement(new Paragraph(exams[iter].points.ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
+                trCell.AddElement(new Paragraph((exams[iter].GetMaxStudentScore() + exams[iter].points).ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
                 stTable.AddCell(trCell);
                 trCell = new PdfPCell();
                 trCell.AddElement(new Paragraph((exams[iter].GetMaxSumOfPoints() + 20).ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
                 stTable.AddCell(trCell);
                 trCell = new PdfPCell();
-                trCell.AddElement(new Paragraph(exams[iter].CountRecommendedGrade().ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
+                trCell.AddElement(new Paragraph(exams[iter].GetExamGrade().ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
                 stTable.AddCell(trCell);
                 iter++;
             }

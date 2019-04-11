@@ -9,7 +9,7 @@ namespace PointRaitingSystem
 {
     //TODO: Здесь не отлавливаются исключения. Добавить
     // NOTE: Медленно работает, попробывать оптимизировать или нет
-    public static class studentCPsDataGridViewFactory
+    public static class mainDataGridViewFactory
     {
         public static void CreateStudentCPsDataGridView(ref DataGridView dgv, int groupId, int disciplineId)
         {

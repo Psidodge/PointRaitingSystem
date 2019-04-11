@@ -75,7 +75,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\DataSetInitializer.cs" />
-    <Compile Include="Classes\studentCPsDataGridViewFactory.cs" />
+    <Compile Include="Classes\mainDataGridViewFactory.cs" />
+    <Compile Include="Classes\reexamStudentCPsDataGridViewFactory.cs" />
+    <Compile Include="Classes\reexamStudentsExamsDataGridViewFactory.cs" />
     <Compile Include="Classes\studentExamDataGridViewFactory.cs" />
     <Compile Include="Controls\CustomPage.cs">
       <SubType>Component</SubType>

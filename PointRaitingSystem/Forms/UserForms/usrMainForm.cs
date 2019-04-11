@@ -30,8 +30,8 @@ namespace PointRaitingSystem
             try
             {
                 cbDiscipline.DataSource = DataService.SelectDisciplinesByTeacherIdAndGroupId(Session.GetCurrentSession().ID, (int)cbGroups.SelectedValue);
-                studentCPsDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
-                studentCPsDataGridViewFactory.InsertCertifications(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, out certificationIndexes);
+                mainDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
+                mainDataGridViewFactory.InsertCertifications(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, out certificationIndexes);
                 pointsUsed = DataService.GetSumOfPointsUsed((int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
                 BlockCreation(pointsUsed);
             }
@@ -46,7 +46,7 @@ namespace PointRaitingSystem
             double pointsUsed = 0d;
             try
             {
-                studentCPsDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
+                mainDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
                 pointsUsed = DataService.GetSumOfPointsUsed((int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
                 BlockCreation(pointsUsed);
                 FillControlPointInfo();
@@ -62,8 +62,8 @@ namespace PointRaitingSystem
         {
             usrCPAddForm form = new usrCPAddForm((Discipline)cbDiscipline.SelectedItem, (int)cbGroups.SelectedValue, cbDiscipline.SelectedValue);
             form.ShowDialog();
-            studentCPsDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
-            studentCPsDataGridViewFactory.InsertCertifications(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, out certificationIndexes);
+            mainDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
+            mainDataGridViewFactory.InsertCertifications(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, out certificationIndexes);
         }
         private void btnShowCP_Click(object sender, EventArgs e)
         {
@@ -90,9 +90,9 @@ namespace PointRaitingSystem
                 List<Discipline> disciplines = DataService.SelectDisciplinesByTeacherIdAndGroupId(Session.GetCurrentSession().ID, (int)cbGroups.SelectedValue);
                 DataSetInitializer.ComboBoxDataSetInitializer<Discipline>(ref cbDiscipline, disciplines, "id", "full_name");
                 //dgvStudents dataset
-                studentCPsDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
+                mainDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
                 //insert certification
-                studentCPsDataGridViewFactory.InsertCertifications(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, out certificationIndexes);
+                mainDataGridViewFactory.InsertCertifications(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, out certificationIndexes);
                 pointsUsed = DataService.GetSumOfPointsUsed((int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
             }
             catch (Exception ex)
@@ -259,7 +259,7 @@ namespace PointRaitingSystem
                             column.ReadOnly = true;
                         }
                     }
-                    studentCPsDataGridViewFactory.CalculateSum(ref dgvStudents);
+                    mainDataGridViewFactory.CalculateSum(ref dgvStudents);
                     isCellsHiden = false;
                     FillControlPointInfo();
                 }
@@ -274,8 +274,8 @@ namespace PointRaitingSystem
         {
             usrCertificationAddForm form = new usrCertificationAddForm(((Group)cbGroups.SelectedItem).name, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
             form.ShowDialog();
-            studentCPsDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
-            studentCPsDataGridViewFactory.InsertCertifications(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, out certificationIndexes);
+            mainDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
+            mainDataGridViewFactory.InsertCertifications(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, out certificationIndexes);
 
             if (certificationIndexes.Length == 2)
                 btnCertification.Enabled = false;
@@ -304,7 +304,8 @@ namespace PointRaitingSystem
         }
         private void btnReExam_Click(object sender, EventArgs e)
         {
-
+            usrReExamFrom form = new usrReExamFrom((int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
+            form.ShowDialog();
         }
         private void tsmiPickReportFolder_Click(object sender, EventArgs e)
         {
