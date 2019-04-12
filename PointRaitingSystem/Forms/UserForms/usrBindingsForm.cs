@@ -112,6 +112,7 @@ namespace PointRaitingSystem
                 if (!DataService.isTeacherDiscipline((int)cbDisciplines.SelectedValue, Session.GetCurrentSession().ID))
                     DataService.InsertIntoTeacherDisciplines(Session.GetCurrentSession().ID, (int)cbDisciplines.SelectedValue);
                 PrintListOfGroupDiscipline();
+                clbGroups.SetItemChecked(clbGroups.SelectedIndex, true);
             }
             catch(Exception ex)
             {

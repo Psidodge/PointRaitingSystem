@@ -29,7 +29,7 @@ namespace MainLib.ReportsFactory.Reports
             Document doc = new Document(PageSize.A4);
             PdfPTable pTable = null;
 
-            var output = new FileStream($"{folderPath}\\Аттестация_{group.name}_{discipline.name}_{DateTime.Now.ToShortDateString()}.pdf", FileMode.Create);
+            var output = new FileStream($"{folderPath}\\Аттестация_{group.name}_{discipline.name}_{certifications[0].date.ToShortDateString()}.pdf", FileMode.Create);
             var writer = PdfWriter.GetInstance(doc, output);
 
             doc.Open();
@@ -44,7 +44,7 @@ namespace MainLib.ReportsFactory.Reports
         {
             Font font = new Font(bFont, 15, Font.NORMAL, BaseColor.BLACK);
 
-            Paragraph par = new Paragraph(string.Format("Отчет по аттестации группы {3}{2} по дисциплине {0}{2} на {1}",
+            Paragraph par = new Paragraph(string.Format("Отчет по аттестации группы {3}{2} по дисциплине \"{0}\"{2} на {1}",
                                           discipline.name,
                                           certifications[0].date.ToShortDateString(), 
                                           Environment.NewLine,

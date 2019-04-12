@@ -35,6 +35,11 @@ namespace PointRaitingSystem
             InitializeComponent();
         }
 
+        public override void Refresh()
+        {
+            InitializeDataSets();
+        }
+
         private void tabGroups_Load(object sender, EventArgs e)
         {
             InitializeDataSets();

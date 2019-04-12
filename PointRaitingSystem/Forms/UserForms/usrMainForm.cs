@@ -110,6 +110,9 @@ namespace PointRaitingSystem
             btnCreateCP.Enabled = true;
             btnAddExam.Enabled = true;
 
+            if (certificationIndexes == null)
+                return;
+
             if (certificationIndexes.Length == 2)
                 btnCertification.Enabled = false;
 

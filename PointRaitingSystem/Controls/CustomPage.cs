@@ -4,11 +4,12 @@ namespace PointRaitingSystem
 {
     public class CustomTabPage : TabPage
     {
+        private Control page;
         public enum PAGE_TYPE { STUDENTS, TEACHERS, DISCIPLINES, GROUPS };
 
         public CustomTabPage(PAGE_TYPE type)
         {
-            Control page = null;
+            page = null;
             switch (type)
             {
                 case PAGE_TYPE.STUDENTS:
@@ -31,6 +32,12 @@ namespace PointRaitingSystem
 
             page.Dock = DockStyle.Fill;
             this.Controls.Add(page);
+        }
+
+        public override void Refresh()
+        {
+            page.Refresh();
+            base.Refresh();
         }
     }
 }

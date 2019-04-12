@@ -17,58 +17,59 @@ namespace PointRaitingSystem
             InitializeComponent();
         }
 
+        private void RefreshAllTabs()
+        {
+            foreach (TabPage page in tabControl.Controls)
+                page.Refresh();
+        }
+
         private void btnAddStudents_Click(object sender, EventArgs e)
         {
-            tabControl.Controls.Add(new CustomTabPage(CustomTabPage.PAGE_TYPE.STUDENTS)
-            {
-                Text = "Студенты",
-                ContextMenuStrip = cmsTabs
-            });
-            tabControl.SelectedIndex = tabControl.Controls.Count - 1;
+            tabControl.SelectedIndex = 0;
+            tabControl.SelectedTab.Refresh();
         }
         private void btnAddTeachers_Click(object sender, EventArgs e)
         {
-            tabControl.Controls.Add(new CustomTabPage(CustomTabPage.PAGE_TYPE.TEACHERS)
-            {
-                Text = "Преподаватели",
-                ContextMenuStrip = this.cmsTabs
-            });
-            tabControl.SelectedIndex = tabControl.Controls.Count - 1;
+            tabControl.SelectedIndex = 1;
+            tabControl.SelectedTab.Refresh();
         }
         private void btnAddDisciplines_Click(object sender, EventArgs e)
         {
-            tabControl.Controls.Add(new CustomTabPage(CustomTabPage.PAGE_TYPE.DISCIPLINES)
-            {
-                Text = "Дисциплины",
-                ContextMenuStrip = cmsTabs
-            });
-
-            tabControl.SelectedIndex = tabControl.Controls.Count - 1;
+            tabControl.SelectedIndex = 2;
+            tabControl.SelectedTab.Refresh();
         }
         private void btnAddGroups_Click(object sender, EventArgs e)
         {
-            tabControl.Controls.Add(new CustomTabPage(CustomTabPage.PAGE_TYPE.GROUPS)
-            {
-                Text = "Группы",
-                ContextMenuStrip = cmsTabs
-            });
-            tabControl.SelectedIndex = tabControl.Controls.Count - 1;
+            tabControl.SelectedIndex = 3;
+            tabControl.SelectedTab.Refresh();
         }
-        private void closeCurrentToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            tabControl.TabPages.Remove(tabControl.SelectedTab);
-        }
-        private void closeAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            foreach(TabPage page in tabControl.TabPages)
-            {
-                tabControl.TabPages.Remove(page);
-            }
-        }
-        private void parseToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void btnLoadFromFile_Click(object sender, EventArgs e)
         {
             admParserForm admParserForm = new admParserForm();
             admParserForm.ShowDialog();
+            RefreshAllTabs();
+        }
+
+        private void admMainForm_Load(object sender, EventArgs e)
+        {
+            tabControl.Controls.Add(new CustomTabPage(CustomTabPage.PAGE_TYPE.STUDENTS)
+            {
+                Text = "Студенты"
+            });
+            tabControl.Controls.Add(new CustomTabPage(CustomTabPage.PAGE_TYPE.TEACHERS)
+            {
+                Text = "Преподаватели"
+            });
+            tabControl.Controls.Add(new CustomTabPage(CustomTabPage.PAGE_TYPE.DISCIPLINES)
+            {
+                Text = "Дисциплины",
+            });
+            tabControl.Controls.Add(new CustomTabPage(CustomTabPage.PAGE_TYPE.GROUPS)
+            {
+                Text = "Группы",
+            });
+            tabControl.SelectedIndex = 0;
         }
     }
 }

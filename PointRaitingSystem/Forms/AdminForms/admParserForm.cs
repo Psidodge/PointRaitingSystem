@@ -103,12 +103,37 @@ namespace PointRaitingSystem
             {
                 FillDataBase.Fill(selectedType, parsedData);
                 tsslInfo.Text = "Сохранено.";
+                this.Close();
             }
             catch (Exception ex)
             {
                 logger.Error(ex);
                 tsslInfo.Text = "Данные не сохранены.";
             }
+        }
+
+        private void btnOpenFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog()
+            {
+                Multiselect = false
+            };
+
+            if (openFileDialog.ShowDialog() == DialogResult.Cancel)
+                return;
+
+            tsslInfo.Text = openFileDialog.FileName;
+
+            try
+            {
+                filePath = openFileDialog.FileName;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                MessageBox.Show("Error occurred! See log for more details.");
+            }
+
         }
     }
 }
