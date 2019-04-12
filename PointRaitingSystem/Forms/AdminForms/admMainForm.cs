@@ -65,7 +65,8 @@ namespace PointRaitingSystem
                 tabControl.TabPages.Remove(page);
             }
         }
-        private void parseToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void btnLoadFromFile_Click(object sender, EventArgs e)
         {
             admParserForm admParserForm = new admParserForm();
             admParserForm.ShowDialog();

@@ -16,6 +16,11 @@ namespace PointRaitingSystem
             InitializeComponent();
         }
 
+        public override void Refresh()
+        {
+            InitializeDataSets();
+        }
+
         private void InitializeDataSets()
         {
             try

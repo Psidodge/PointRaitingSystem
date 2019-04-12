@@ -41,6 +41,7 @@ namespace PointRaitingSystem
 
         private void btnGenerateReport_Click(object sender, EventArgs e)
         {
+            lblStatus.Text = "";
             try
             {
                 ReportFactory.GenerateReport(ReportType.CERTIFICATION, path, groupID, Session.GetCurrentSession().ID, disciplineID, (DateTime)lbListOfCerts.SelectedValue);

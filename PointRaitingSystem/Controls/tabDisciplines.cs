@@ -28,6 +28,10 @@ namespace PointRaitingSystem
             InitializeComponent();
         }
 
+        public override void Refresh()
+        {
+            InitializeDataSets();
+        }
 
         private void tabDisciplines_Load(object sender, EventArgs e)
         {
