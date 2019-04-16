@@ -74,6 +74,7 @@ namespace PointRaitingSystem
         }
         public static void lbDataSetInitialize<T>(ref ListBox elementRef, List<T> dataSource, string valueMember, string displayMember)
         {
+            elementRef.DataSource = null;
             elementRef.DataSource = dataSource;
             elementRef.ValueMember = valueMember;
             elementRef.DisplayMember = displayMember;
