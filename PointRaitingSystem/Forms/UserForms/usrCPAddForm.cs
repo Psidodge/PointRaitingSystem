@@ -12,6 +12,7 @@ namespace PointRaitingSystem
         {
             InitializeComponent();
         }
+
         public usrCPAddForm(Discipline selectedDiscipline, int SelectedGroupId, object selectedDisciplineIndex)
         {
             InitializeComponent();
@@ -58,6 +59,8 @@ namespace PointRaitingSystem
             try
             {
                 DataService.InsertIntoControlPointsTable(cp);
+                if (MessageBox.Show("Сохранить как шаблон?", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    DataService.InsertIntoControlPointTemplateTable(cp.ConvertToTemplate());
             }
             catch(Exception ex)
             {
@@ -89,7 +92,6 @@ namespace PointRaitingSystem
                 MessageBox.Show("Произошла ошибка при привязки контрольной точки студенту.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void txtCPWeight_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             double weight = 0;
@@ -108,7 +110,6 @@ namespace PointRaitingSystem
                 return;
             }
         }
-
         private void txtCPWeight_TextChanged(object sender, EventArgs e)
         {
             double weight = 0;

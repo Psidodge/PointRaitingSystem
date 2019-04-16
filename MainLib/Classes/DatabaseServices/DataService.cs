@@ -294,8 +294,28 @@ namespace MainLib.DBServices
                 return connection.QueryFirst<Group>("SelectGroupByID", parameters, commandType: CommandType.StoredProcedure, commandTimeout: 20);
             }
         }
+        
+        public static List<ControlPointTemplate> SelectUserControlPointsTemplate(int disciplineID, int userID)
+        {
+            using (MySqlConnection connection = GetConnectionInstance())
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
 
+                var parameters = new DynamicParameters();
+                parameters.Add("@userID", userID);
+                parameters.Add("@disciplineID", disciplineID);
 
+                return connection.Query<ControlPointTemplate>("SelectCPTemplates", parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
         public static List<StudentCertification> SelectStudentCertifications(int groupID, int disciplineID, int studentID)
         {
             using (MySqlConnection connection = GetConnectionInstance())
@@ -758,6 +778,29 @@ namespace MainLib.DBServices
         }
 
         // INSERT
+        public static int InsertIntoControlPointTemplateTable(ControlPointTemplate template)
+        {
+            using (MySqlConnection connection = GetConnectionInstance())
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@userID", template.id_of_user);
+                parameters.Add("@disciplineID", template.id_of_discipline);
+                parameters.Add("@weight", template.weight);
+                parameters.Add("@description", template.description);
+
+                return connection.ExecuteScalar<int>("InsertIntoCPTemplates", parameters, commandType: CommandType.StoredProcedure);
+            }
+        }
         public static int InsertIntoControlPointsTable(ControlPoint cpToIns)
         {
             using (MySqlConnection connection = GetConnectionInstance())
@@ -802,6 +845,68 @@ namespace MainLib.DBServices
                 //parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
                 return connection.ExecuteScalar<int>("InsertIntoStudentsControlPoints", parameters, commandType: CommandType.StoredProcedure);
+            }
+        }
+        public static bool InsertIntoCPnStCPFromCPTemplateTransact(ref List<ControlPoint> points, List<Student> students)
+        {
+            using (MySqlConnection connection = GetConnectionInstance())
+            {
+                DynamicParameters parameters;
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        foreach (ControlPoint point in points)
+                        {
+                            parameters = new DynamicParameters();
+                            parameters.Add("@userID", point.id_of_user);
+                            parameters.Add("@disID", point.id_of_discipline);
+                            parameters.Add("@weight", point.weight);
+                            parameters.Add("@description", point.Description);
+
+                            point.id = connection.ExecuteScalar<int>("InsertIntoControlPoints", parameters, commandType: CommandType.StoredProcedure, transaction: transaction);
+                        }
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        logger.Error(ex);
+                        return false;
+                    }
+                }
+
+                try
+                {
+                    foreach (ControlPoint point in points)
+                    {
+                        foreach (Student student in students)
+                        {
+                            InsertIntoStudentCPTable(new ControlPointsOfStudents
+                            {
+                                id_of_controlPoint = point.id,
+                                id_of_student = student.id,
+                                points = 0
+                            });
+                        }
+                    }
+                }
+                catch(Exception ex)
+                {
+                    logger.Error(ex);
+                    return false;
+                }
+                return true;
             }
         }
         public static int InsertIntoStudentCertification(StudentCertification certificationToIns)

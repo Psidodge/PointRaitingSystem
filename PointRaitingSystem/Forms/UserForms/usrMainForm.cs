@@ -108,6 +108,7 @@ namespace PointRaitingSystem
         {
             btnCertification.Enabled = true;
             btnCreateCP.Enabled = true;
+            btnPickCPs.Enabled = true;
             btnAddExam.Enabled = true;
 
             if (certificationIndexes == null)
@@ -126,11 +127,15 @@ namespace PointRaitingSystem
             {
                 btnReexam.Enabled = true;
                 btnCreateCP.Enabled = false;
+                btnPickCPs.Enabled = false;
                 btnAddExam.Enabled = false;
             }
 
             if (pointsUsed == 80d)
+            {
                 btnCreateCP.Enabled = false;
+                btnPickCPs.Enabled = false;
+            }
         }
         private void FillControlPointInfo(bool isVisible = false)
         {
@@ -175,6 +180,8 @@ namespace PointRaitingSystem
             lblMaxPointsSum.Text = studentCertification.GetMaxSumOfPointsForCurCP().ToString();
             lblDate.Text = studentCertification.date.ToShortDateString();
         }
+
+
         private void bindingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             usrSettingsForm usrSettingsForm = new usrSettingsForm();
@@ -321,6 +328,13 @@ namespace PointRaitingSystem
             config.AppSettings.Settings["reportFilePath"].Value = folderBrowser.SelectedPath;
             config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("appSettings");
+        }
+        private void btnPickCPs_Click(object sender, EventArgs e)
+        {
+            usrTemplateList form = new usrTemplateList((int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
+            form.ShowDialog();
+            mainDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
+            mainDataGridViewFactory.InsertCertifications(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, out certificationIndexes);
         }
     }
 }

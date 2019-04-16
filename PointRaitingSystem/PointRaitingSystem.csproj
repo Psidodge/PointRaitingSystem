@@ -184,6 +184,12 @@
     <Compile Include="Forms\UserForms\usrShowAllBindings.Designer.cs">
       <DependentUpon>usrShowAllBindings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\UserForms\usrTemplateList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UserForms\usrTemplateList.Designer.cs">
+      <DependentUpon>usrTemplateList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Controls\tabDisciplines.resx">
@@ -236,6 +242,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserForms\usrShowAllBindings.resx">
       <DependentUpon>usrShowAllBindings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserForms\usrTemplateList.resx">
+      <DependentUpon>usrTemplateList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -20,6 +20,42 @@ namespace MainLib.DBServices
         {
             return this.GetType();
         }
+
+        public ControlPointTemplate ConvertToTemplate()
+        {
+            return new ControlPointTemplate()
+            {
+                id_of_discipline = this.id_of_discipline,
+                id_of_user = this.id_of_user,
+                description = Description,
+                weight = this.weight
+            };
+        }
+    }
+    public class ControlPointTemplate : DBEntity
+    {
+        public int id { get; set; }
+        public int id_of_user { get; set; }
+        public int id_of_discipline { get; set; }
+        public double weight { get; set; }
+        public string description { get; set; }
+
+
+        public string GetFormatedString { get => $"{description}; Вес: {weight}"; }
+        public ControlPoint ConvertToControlPoint()
+        {
+            return new ControlPoint()
+            {
+                id_of_user = this.id_of_user,
+                id_of_discipline = this.id_of_discipline,
+                weight = this.weight,
+                Description = this.description
+            };
+        }
+        public override Type GetEntityType()
+        {
+            return this.GetType();
+        }
     }
     public class ControlPointsOfStudents : DBEntity
     {

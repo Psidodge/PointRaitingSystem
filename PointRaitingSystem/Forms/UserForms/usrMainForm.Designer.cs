@@ -35,6 +35,8 @@
             this.сформироватьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiCertification = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiExam = new System.Windows.Forms.ToolStripMenuItem();
+            this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiPickReportFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.menuPanel = new System.Windows.Forms.Panel();
             this.btnAddExam = new System.Windows.Forms.Button();
             this.gbCertificationInfo = new System.Windows.Forms.GroupBox();
@@ -67,14 +69,15 @@
             this.tsslCurrentDate = new System.Windows.Forms.ToolStripStatusLabel();
             this.dgvStudents = new System.Windows.Forms.DataGridView();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiPickReportFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnPickCPs = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.menuStrip1.SuspendLayout();
             this.menuPanel.SuspendLayout();
             this.gbCertificationInfo.SuspendLayout();
             this.gbCPInfo.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStudents)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -112,33 +115,48 @@
             this.tsmiCertification,
             this.tsmiExam});
             this.сформироватьToolStripMenuItem.Name = "сформироватьToolStripMenuItem";
-            this.сформироватьToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.сформироватьToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
             this.сформироватьToolStripMenuItem.Text = "Сформировать";
             // 
             // tsmiCertification
             // 
             this.tsmiCertification.Name = "tsmiCertification";
-            this.tsmiCertification.Size = new System.Drawing.Size(216, 26);
+            this.tsmiCertification.Size = new System.Drawing.Size(167, 26);
             this.tsmiCertification.Text = "Атттестация";
             this.tsmiCertification.Click += new System.EventHandler(this.tsmiCertification_Click);
             // 
             // tsmiExam
             // 
             this.tsmiExam.Name = "tsmiExam";
-            this.tsmiExam.Size = new System.Drawing.Size(216, 26);
+            this.tsmiExam.Size = new System.Drawing.Size(167, 26);
             this.tsmiExam.Text = "Экзамен";
             this.tsmiExam.Click += new System.EventHandler(this.tsmiExam_Click);
+            // 
+            // настройкиToolStripMenuItem
+            // 
+            this.настройкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiPickReportFolder});
+            this.настройкиToolStripMenuItem.Name = "настройкиToolStripMenuItem";
+            this.настройкиToolStripMenuItem.Size = new System.Drawing.Size(96, 24);
+            this.настройкиToolStripMenuItem.Text = "Настройки";
+            // 
+            // tsmiPickReportFolder
+            // 
+            this.tsmiPickReportFolder.Name = "tsmiPickReportFolder";
+            this.tsmiPickReportFolder.Size = new System.Drawing.Size(333, 26);
+            this.tsmiPickReportFolder.Text = "Выбрать папку сохранения отчетов";
+            this.tsmiPickReportFolder.Click += new System.EventHandler(this.tsmiPickReportFolder_Click);
             // 
             // menuPanel
             // 
             this.menuPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.menuPanel.Controls.Add(this.groupBox1);
             this.menuPanel.Controls.Add(this.btnAddExam);
             this.menuPanel.Controls.Add(this.gbCertificationInfo);
             this.menuPanel.Controls.Add(this.btnCertification);
             this.menuPanel.Controls.Add(this.gbCPInfo);
-            this.menuPanel.Controls.Add(this.btnCreateCP);
             this.menuPanel.Controls.Add(this.btnReexam);
             this.menuPanel.Controls.Add(this.cbDiscipline);
             this.menuPanel.Controls.Add(this.label4);
@@ -152,10 +170,10 @@
             // 
             // btnAddExam
             // 
-            this.btnAddExam.Location = new System.Drawing.Point(15, 172);
-            this.btnAddExam.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAddExam.Location = new System.Drawing.Point(194, 137);
+            this.btnAddExam.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddExam.Name = "btnAddExam";
-            this.btnAddExam.Size = new System.Drawing.Size(143, 28);
+            this.btnAddExam.Size = new System.Drawing.Size(161, 28);
             this.btnAddExam.TabIndex = 10;
             this.btnAddExam.Text = "Создать экзамен";
             this.btnAddExam.UseVisualStyleBackColor = true;
@@ -170,9 +188,9 @@
             this.gbCertificationInfo.Controls.Add(this.lblMaxPointsSum);
             this.gbCertificationInfo.Controls.Add(this.label11);
             this.gbCertificationInfo.Location = new System.Drawing.Point(5, 446);
-            this.gbCertificationInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbCertificationInfo.Margin = new System.Windows.Forms.Padding(4);
             this.gbCertificationInfo.Name = "gbCertificationInfo";
-            this.gbCertificationInfo.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbCertificationInfo.Padding = new System.Windows.Forms.Padding(4);
             this.gbCertificationInfo.Size = new System.Drawing.Size(369, 176);
             this.gbCertificationInfo.TabIndex = 9;
             this.gbCertificationInfo.TabStop = false;
@@ -238,8 +256,8 @@
             // 
             // btnCertification
             // 
-            this.btnCertification.Location = new System.Drawing.Point(184, 137);
-            this.btnCertification.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCertification.Location = new System.Drawing.Point(194, 209);
+            this.btnCertification.Margin = new System.Windows.Forms.Padding(4);
             this.btnCertification.Name = "btnCertification";
             this.btnCertification.Size = new System.Drawing.Size(161, 28);
             this.btnCertification.TabIndex = 9;
@@ -258,9 +276,9 @@
             this.gbCPInfo.Controls.Add(this.label3);
             this.gbCPInfo.Controls.Add(this.label2);
             this.gbCPInfo.Location = new System.Drawing.Point(5, 446);
-            this.gbCPInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbCPInfo.Margin = new System.Windows.Forms.Padding(4);
             this.gbCPInfo.Name = "gbCPInfo";
-            this.gbCPInfo.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbCPInfo.Padding = new System.Windows.Forms.Padding(4);
             this.gbCPInfo.Size = new System.Drawing.Size(369, 208);
             this.gbCPInfo.TabIndex = 8;
             this.gbCPInfo.TabStop = false;
@@ -297,7 +315,7 @@
             // txtDescription
             // 
             this.txtDescription.Location = new System.Drawing.Point(129, 129);
-            this.txtDescription.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtDescription.Margin = new System.Windows.Forms.Padding(4);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.ReadOnly = true;
@@ -346,8 +364,8 @@
             // 
             // btnCreateCP
             // 
-            this.btnCreateCP.Location = new System.Drawing.Point(15, 137);
-            this.btnCreateCP.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCreateCP.Location = new System.Drawing.Point(7, 36);
+            this.btnCreateCP.Margin = new System.Windows.Forms.Padding(4);
             this.btnCreateCP.Name = "btnCreateCP";
             this.btnCreateCP.Size = new System.Drawing.Size(143, 28);
             this.btnCreateCP.TabIndex = 7;
@@ -357,8 +375,8 @@
             // 
             // btnReexam
             // 
-            this.btnReexam.Location = new System.Drawing.Point(184, 172);
-            this.btnReexam.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnReexam.Location = new System.Drawing.Point(194, 173);
+            this.btnReexam.Margin = new System.Windows.Forms.Padding(4);
             this.btnReexam.Name = "btnReexam";
             this.btnReexam.Size = new System.Drawing.Size(161, 28);
             this.btnReexam.TabIndex = 6;
@@ -452,7 +470,7 @@
             this.dgvStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvStudents.Dock = System.Windows.Forms.DockStyle.Right;
             this.dgvStudents.Location = new System.Drawing.Point(386, 28);
-            this.dgvStudents.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvStudents.Margin = new System.Windows.Forms.Padding(4);
             this.dgvStudents.Name = "dgvStudents";
             this.dgvStudents.RowHeadersVisible = false;
             this.dgvStudents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.ColumnHeaderSelect;
@@ -461,20 +479,27 @@
             this.dgvStudents.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStudents_CellEndEdit);
             this.dgvStudents.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvStudents_ColumnHeaderMouseClick);
             // 
-            // настройкиToolStripMenuItem
+            // btnPickCPs
             // 
-            this.настройкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiPickReportFolder});
-            this.настройкиToolStripMenuItem.Name = "настройкиToolStripMenuItem";
-            this.настройкиToolStripMenuItem.Size = new System.Drawing.Size(96, 24);
-            this.настройкиToolStripMenuItem.Text = "Настройки";
+            this.btnPickCPs.Location = new System.Drawing.Point(7, 65);
+            this.btnPickCPs.Margin = new System.Windows.Forms.Padding(4);
+            this.btnPickCPs.Name = "btnPickCPs";
+            this.btnPickCPs.Size = new System.Drawing.Size(143, 28);
+            this.btnPickCPs.TabIndex = 11;
+            this.btnPickCPs.Text = "Выбрать КТ";
+            this.btnPickCPs.UseVisualStyleBackColor = true;
+            this.btnPickCPs.Click += new System.EventHandler(this.btnPickCPs_Click);
             // 
-            // tsmiPickReportFolder
+            // groupBox1
             // 
-            this.tsmiPickReportFolder.Name = "tsmiPickReportFolder";
-            this.tsmiPickReportFolder.Size = new System.Drawing.Size(333, 26);
-            this.tsmiPickReportFolder.Text = "Выбрать папку сохранения отчетов";
-            this.tsmiPickReportFolder.Click += new System.EventHandler(this.tsmiPickReportFolder_Click);
+            this.groupBox1.Controls.Add(this.btnCreateCP);
+            this.groupBox1.Controls.Add(this.btnPickCPs);
+            this.groupBox1.Location = new System.Drawing.Point(15, 137);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(161, 101);
+            this.groupBox1.TabIndex = 12;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Работа с КТ";
             // 
             // usrMainForm
             // 
@@ -501,6 +526,7 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStudents)).EndInit();
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -548,6 +574,8 @@
         private System.Windows.Forms.Button btnAddExam;
         private System.Windows.Forms.ToolStripMenuItem настройкиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tsmiPickReportFolder;
+        private System.Windows.Forms.Button btnPickCPs;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }
 

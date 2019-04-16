@@ -1,6 +1,6 @@
 ﻿#define LOGINLESS
-//#define USR
-#define ADM
+#define USR
+//#define ADM
 using MainLib.Session;
 using System;
 using System.Windows.Forms;

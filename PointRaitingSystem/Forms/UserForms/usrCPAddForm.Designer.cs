@@ -105,7 +105,7 @@
             this.statusStrip1.Location = new System.Drawing.Point(0, 229);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(401, 25);
+            this.statusStrip1.Size = new System.Drawing.Size(408, 25);
             this.statusStrip1.TabIndex = 10;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -118,7 +118,7 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(185, 20);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(192, 20);
             this.toolStripStatusLabel1.Spring = true;
             // 
             // tsslPointsRemain
@@ -159,7 +159,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(401, 254);
+            this.ClientSize = new System.Drawing.Size(408, 254);
             this.Controls.Add(this.lblValidationInfo);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.cbDiscipline);
