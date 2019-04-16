@@ -1358,5 +1358,27 @@ namespace MainLib.DBServices
                 return connection.ExecuteScalar<int>("UpdateExamStudentPoints", parameters, commandType: CommandType.StoredProcedure);
             }
         }
+
+        // DELETE
+        public static bool DeleteCPTemplate(int templateID)
+        {
+            using (MySqlConnection connection = GetConnectionInstance())
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@templateID", templateID);
+                return connection.ExecuteScalar<int>("UpdateExamStudentPoints", parameters, commandType: CommandType.StoredProcedure) > 0 ? true : false; ;
+            }
+            //DeleteCPTemplate
+        }
     }
 }

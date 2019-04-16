@@ -184,14 +184,22 @@
     <Compile Include="Forms\UserForms\usrShowAllBindings.Designer.cs">
       <DependentUpon>usrShowAllBindings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UserForms\usrTemplateList.cs">
+    <Compile Include="Forms\UserForms\usrTemplateListRankingForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\UserForms\usrTemplateList.Designer.cs">
-      <DependentUpon>usrTemplateList.cs</DependentUpon>
+    <Compile Include="Forms\UserForms\usrTemplateListRankingForm.Designer.cs">
+      <DependentUpon>usrTemplateListRankingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserForms\usrTemplateListMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UserForms\usrTemplateListMain.Designer.cs">
+      <DependentUpon>usrTemplateListMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="bin\Debug\resources\uArrow.png" />
+    <None Include="bin\Debug\resources\dArrow.png" />
     <EmbeddedResource Include="Controls\tabDisciplines.resx">
       <DependentUpon>tabDisciplines.cs</DependentUpon>
     </EmbeddedResource>
@@ -243,18 +251,16 @@
     <EmbeddedResource Include="Forms\UserForms\usrShowAllBindings.resx">
       <DependentUpon>usrShowAllBindings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UserForms\usrTemplateList.resx">
-      <DependentUpon>usrTemplateList.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\UserForms\usrTemplateListMain.resx">
+      <DependentUpon>usrTemplateListMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserForms\usrTemplateListRankingForm.resx">
+      <DependentUpon>usrTemplateListRankingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Content Include="App.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
