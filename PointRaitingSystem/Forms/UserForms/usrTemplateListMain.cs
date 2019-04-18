@@ -84,21 +84,6 @@ namespace PointRaitingSystem
                 this.Close();
             }
         }
-
-        private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if(DataService.DeleteCPTemplate(((ControlPointTemplate)clbTemplates.SelectedItem).id))
-                {
-                    clbTemplates.Items.RemoveAt(clbTemplates.SelectedIndex);
-                }
-            }
-            catch(Exception ex)
-            {
-                logger.Error(ex);
-            }
-        }
         private void clbTemplates_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             if(e.NewValue == CheckState.Checked)
