@@ -30,6 +30,13 @@ namespace PointRaitingSystem
             try
             {
                 cbDiscipline.DataSource = DataService.SelectDisciplinesByTeacherIdAndGroupId(Session.GetCurrentSession().ID, (int)cbGroups.SelectedValue);
+
+                if (cbDiscipline.Items.Count == 0)
+                {
+                    dgvStudents.Rows.Clear();
+                    dgvStudents.Columns.Clear();
+                    return;
+                }
                 mainDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
                 mainDataGridViewFactory.InsertCertifications(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, out certificationIndexes);
                 pointsUsed = DataService.GetSumOfPointsUsed((int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
@@ -38,7 +45,7 @@ namespace PointRaitingSystem
             catch(Exception ex)
             {
                 logger.Error(ex);
-                MessageBox.Show("Произошла ошибка при перерисовки интерфейса.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show("Произошла ошибка при перерисовки интерфейса.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void cbDiscipline_SelectionChangeCommitted(object sender, EventArgs e)
@@ -62,13 +69,39 @@ namespace PointRaitingSystem
         {
             usrCPAddForm form = new usrCPAddForm((Discipline)cbDiscipline.SelectedItem, (int)cbGroups.SelectedValue, cbDiscipline.SelectedValue);
             form.ShowDialog();
-            mainDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
-            mainDataGridViewFactory.InsertCertifications(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, out certificationIndexes);
+            try
+            {
+                mainDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
+                mainDataGridViewFactory.InsertCertifications(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, out certificationIndexes);
+                BlockCreation(DataService.GetSumOfPointsUsed((int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue));
+            }
+            catch(Exception ex)
+            {
+                logger.Error(ex);
+            }
         }
         private void btnShowCP_Click(object sender, EventArgs e)
         {
             usrCPShowForm form2 = new usrCPShowForm((Discipline)cbDiscipline.SelectedItem);
             form2.Show();
+        }
+        private void btnAddExam_Click(object sender, EventArgs e)
+        {
+            usrReExamFrom form = new usrReExamFrom((int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, ExamType.Exam);
+            //usrAddExamForm form = new usrAddExamForm((int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
+            form.ShowDialog();
+
+            if (form.IsCommited)
+            {
+                btnCertification.Enabled = false;
+                btnAddExam.Enabled = false;
+                btnReexam.Enabled = true;
+            }
+        }
+        private void btnReExam_Click(object sender, EventArgs e)
+        {
+            usrReExamFrom form = new usrReExamFrom((int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, ExamType.Reexam);
+            form.ShowDialog();
         }
         private void cbGroups_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -76,7 +109,6 @@ namespace PointRaitingSystem
             isCellsHiden = false;
             cbGroupsPrevIndex = cbGroups.SelectedIndex;
         }
-
 
         private void InitializeDataSets()
         {
@@ -111,6 +143,12 @@ namespace PointRaitingSystem
             btnPickCPs.Enabled = true;
             btnAddExam.Enabled = true;
 
+            if (pointsUsed == 80d)
+            {
+                btnCreateCP.Enabled = false;
+                btnPickCPs.Enabled = false;
+            }
+
             if (certificationIndexes == null)
                 return;
 
@@ -129,12 +167,6 @@ namespace PointRaitingSystem
                 btnCreateCP.Enabled = false;
                 btnPickCPs.Enabled = false;
                 btnAddExam.Enabled = false;
-            }
-
-            if (pointsUsed == 80d)
-            {
-                btnCreateCP.Enabled = false;
-                btnPickCPs.Enabled = false;
             }
         }
         private void FillControlPointInfo(bool isVisible = false)
@@ -180,7 +212,6 @@ namespace PointRaitingSystem
             lblMaxPointsSum.Text = studentCertification.GetMaxSumOfPointsForCurCP().ToString();
             lblDate.Text = studentCertification.date.ToShortDateString();
         }
-
 
         private void bindingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -231,16 +262,17 @@ namespace PointRaitingSystem
                     return;
                 }
 
-                for (int i = 0; i < certificationIndexes.Length; i++)
-                {
-                    if (selectedColIndex == certificationIndexes[i])
+                if(certificationIndexes != null)
+                    for (int i = 0; i < certificationIndexes.Length; i++)
                     {
-                        FillControlPointInfo();
-                        FillCertificationInfo(true, i);
-                        isCellsHiden = false;
-                        return;
+                        if (selectedColIndex == certificationIndexes[i])
+                        {
+                            FillControlPointInfo();
+                            FillCertificationInfo(true, i);
+                            isCellsHiden = false;
+                            return;
+                        }
                     }
-                }
 
 
                 if (!isCellsHiden)
@@ -288,7 +320,10 @@ namespace PointRaitingSystem
             mainDataGridViewFactory.InsertCertifications(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, out certificationIndexes);
 
             if (certificationIndexes.Length == 2)
+            {
+                btnAddExam.Enabled = true;
                 btnCertification.Enabled = false;
+            }
         }
         private void tsmiCertification_Click(object sender, EventArgs e)
         {
@@ -304,19 +339,6 @@ namespace PointRaitingSystem
             else
                 MessageBox.Show("Отчет не сформирован", "Вот", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-        private void btnAddExam_Click(object sender, EventArgs e)
-        {
-            usrAddExamForm form = new usrAddExamForm((int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
-            form.ShowDialog();
-
-            if (form.IsCommited)
-                btnCertification.Enabled = false;
-        }
-        private void btnReExam_Click(object sender, EventArgs e)
-        {
-            usrReExamFrom form = new usrReExamFrom((int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
-            form.ShowDialog();
-        }
         private void tsmiPickReportFolder_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog folderBrowser = new FolderBrowserDialog();
@@ -331,10 +353,18 @@ namespace PointRaitingSystem
         }
         private void btnPickCPs_Click(object sender, EventArgs e)
         {
-            usrTemplateList form = new usrTemplateList((int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
-            form.ShowDialog();
-            mainDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
-            mainDataGridViewFactory.InsertCertifications(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, out certificationIndexes);
-        }
+            try
+            { 
+                usrTemplateList form = new usrTemplateList((int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
+                form.ShowDialog();
+                mainDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
+                mainDataGridViewFactory.InsertCertifications(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, out certificationIndexes);
+                BlockCreation(DataService.GetSumOfPointsUsed((int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue));
+            }
+            catch(Exception ex)
+            {
+                logger.Error(ex);
+            }
+}
     }
 }

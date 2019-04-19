@@ -8,13 +8,18 @@ namespace PointRaitingSystem
 {
     public static class reexamStudentCPsDataGridViewFactory
     {
-        public static void CreateStudentCPsDataGridView(ref DataGridView dgv, out List<StudentsWithCP> studentsCPs, int[] studentsIDs, int groupId, int disciplineId)
+        public static void CreateStudentCPsDataGridView(ref DataGridView dgv, out List<StudentsWithCP> studentsCPs, int groupId, int disciplineId, int[] studentsIDs = null)
         {
             dgv.Columns.Clear();
 
             int cpIter = 0;
             double sum = 0;
-            studentsCPs = GetStudentsCPs(groupId, disciplineId, studentsIDs);
+
+            if(studentsIDs == null)
+                studentsCPs = GetStudentsCPs(groupId, disciplineId);
+            else
+                studentsCPs = GetStudentsCPs(groupId, disciplineId, studentsIDs);
+
             DataGridViewColumn[] columns = CreateColumns(ref dgv, studentsCPs);
 
             if (columns == null)
@@ -105,6 +110,39 @@ namespace PointRaitingSystem
             try
             {
                 students = DataService.SelectStudentsByGroupId(groupId).Where(x => studentsIDs.Contains(x.id)).ToList();
+                pointsOfStudents = DataService.SelectStudentControPointsGroupDisc(groupId, dId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            if (students == null || pointsOfStudents == null)
+                throw new NullReferenceException($"In method 'studentCPsDataGridViewFactory'.'GetStudentsCPs' object 'students' = {students == null} or 'pointsOfStudents' = {pointsOfStudents == null}");
+
+            foreach (Student student in students)
+            {
+                studentsCPs.Add(new StudentsWithCP()
+                {
+                    id = student.id,
+                    name = student.name,
+                    studentCPs = (from cp in pointsOfStudents
+                                  where cp.id_of_student == student.id
+                                  select cp).ToList()
+                });
+
+            }
+            return studentsCPs;
+        }
+        private static List<StudentsWithCP> GetStudentsCPs(int groupId, int dId)
+        {
+            List<StudentsWithCP> studentsCPs = new List<StudentsWithCP>();
+            List<Student> students = null;
+            List<StudentControlPoint> pointsOfStudents = null;
+
+            try
+            {
+                students = DataService.SelectStudentsByGroupId(groupId);
                 pointsOfStudents = DataService.SelectStudentControPointsGroupDisc(groupId, dId);
             }
             catch (Exception ex)

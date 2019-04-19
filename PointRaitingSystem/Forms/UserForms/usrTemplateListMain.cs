@@ -15,7 +15,7 @@ namespace PointRaitingSystem
     public partial class usrTemplateList : Form
     {
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
-        private int groupID;
+        private int groupID, disciplineID;
         private double pointsLeft = 80d,
                        sumOfUsedPoints = 0d;
 
@@ -23,6 +23,7 @@ namespace PointRaitingSystem
         {
             InitializeComponent();
             this.groupID = groupID;
+            this.disciplineID = disciplineID;
             IntializeDataSets(disciplineID);
             tsslPointsLeft.Text = $"Осталось баллов: {pointsLeft}";
         }
@@ -50,7 +51,9 @@ namespace PointRaitingSystem
         }
         private void btnCommit_Click(object sender, EventArgs e)
         {
-            //NOTE: добавить сюда валидацию данных
+            if (clbTemplates.CheckedItems.Count == 0)
+                return;
+
             List<ControlPointTemplate> templates = clbTemplates.CheckedItems.Cast<ControlPointTemplate>().ToList();
             List<ControlPoint> points;
 
@@ -83,6 +86,28 @@ namespace PointRaitingSystem
                 MessageBox.Show("Использованы все баллы", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
+        }
+        private void tssmDeleteSelecteTemplate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MessageBox.Show("Удалить выбранный элемент", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    return;
+
+                if (DataService.DeleteCPTemplate(((ControlPointTemplate)clbTemplates.SelectedItem).id))
+                {
+                    List<ControlPointTemplate> templates = DataService.SelectUserControlPointsTemplate(disciplineID, Session.GetCurrentSession().ID);
+                    DataSetInitializer.clbDataSetInitialize<ControlPointTemplate>(ref clbTemplates, templates, "id", "GetFormatedString");
+                }
+            }
+            catch(Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
+        private void tsmiAddNewTemplate_Click(object sender, EventArgs e)
+        {
+
         }
         private void clbTemplates_ItemCheck(object sender, ItemCheckEventArgs e)
         {

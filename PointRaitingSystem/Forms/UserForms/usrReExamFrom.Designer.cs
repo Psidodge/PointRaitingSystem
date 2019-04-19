@@ -260,7 +260,8 @@
             this.Controls.Add(this.btnCommit);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "usrReExamFrom";
-            this.Text = "usrReExamFrom";
+            this.Text = "usrRe/ExamFrom";
+            this.Load += new System.EventHandler(this.usrReExamFrom_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvStudentsCPs)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();

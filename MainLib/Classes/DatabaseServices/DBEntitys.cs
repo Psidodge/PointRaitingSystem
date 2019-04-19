@@ -68,6 +68,16 @@ namespace MainLib.DBServices
         {
             return this.GetType();
         }
+        public StudentControlPoint ConvertToStudentControlPoint()
+        {
+            return new StudentControlPoint()
+            {
+                id = this.id,
+                id_of_student = this.id_of_student,
+                id_of_controlPoint = this.id_of_controlPoint,
+                points = this.points
+            };
+        }
     }
     public class Group : DBEntity
     {
@@ -88,16 +98,7 @@ namespace MainLib.DBServices
         public int semestr { get; set; }
         public int prevDisciplineId { get; set; }
         public string full_name { get => string.Concat(name, " ", semestr, " семестр"); }
-        public override Type GetEntityType()
-        {
-            return this.GetType();
-        }
-    }
-    public class GroupDiscipline : DBEntity
-    {
-        public int id { get; }
-        public int GroupId { get; }
-        public int DisciplineId { get; }
+
         public override Type GetEntityType()
         {
             return this.GetType();
@@ -456,5 +457,20 @@ namespace MainLib.DBServices
         {
             return this.GetType();
         }
+    }
+
+
+
+    public class GroupDiscipline
+    {
+        public int id { get; set; }
+        public int GroupId { get; set; }
+        public int DisciplineId { get; set; }
+    }
+    public class TeacherDiscipline
+    {
+        public int id_of_group { get; set; }
+        public int id_of_discipline { get; set; }
+        public int id_of_user { get; set; }
     }
 }

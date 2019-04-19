@@ -172,6 +172,12 @@
     <Compile Include="Forms\UserForms\usrBindingsForm.Designer.cs">
       <DependentUpon>usrBindingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\UserForms\_usrMissingStudentsCPs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UserForms\_usrMissingStudentsCPs.Designer.cs">
+      <DependentUpon>_usrMissingStudentsCPs.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\UserForms\usrReExamFrom.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -245,6 +251,9 @@
     <EmbeddedResource Include="Forms\UserForms\usrBindingsForm.resx">
       <DependentUpon>usrBindingsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserForms\_usrMissingStudentsCPs.resx">
+      <DependentUpon>_usrMissingStudentsCPs.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserForms\usrReExamFrom.resx">
       <DependentUpon>usrReExamFrom.cs</DependentUpon>
     </EmbeddedResource>
@@ -258,8 +267,9 @@
       <DependentUpon>usrTemplateListRankingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Content Include="App.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -270,6 +280,11 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>

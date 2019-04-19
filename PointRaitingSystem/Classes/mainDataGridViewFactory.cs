@@ -19,9 +19,13 @@ namespace PointRaitingSystem
             double sum = 0;
             List<StudentExam> exams = null;
             List<StudentsWithCP> studentsCPs = GetStudentsCPs(groupId, disciplineId, out exams);
-            DataGridViewColumn[] columns = CreateColumns(ref dgv, studentsCPs);
 
-            if(columns == null)
+            if (isHavingNullPoints(ref studentsCPs))
+                return;
+
+            DataGridViewColumn[] columns = CreateColumns(ref dgv, studentsCPs);
+            
+            if (columns == null)
                 throw new NullReferenceException($"In  'studentCPsDataGridViewFactory'.'CreateStudentCPsDataGridView' object 'columns' = {columns == null}");
 
             dgv.Columns.AddRange(columns);
@@ -65,8 +69,19 @@ namespace PointRaitingSystem
                 throw;
             }
 
+            if (studentsControlPoints.Count == 0)
+            {
+                certificationIndexes = null;
+                return;
+            }
             // indexes of certification
             distinctStudentCertifications = studentCertifications.GroupBy(x => x.id_of_prev_cp).Select(item => item.First()).ToList();
+
+            if (distinctStudentCertifications.Count == 0)
+            {
+                certificationIndexes = null;
+                return;
+            }
 
             int amountOfCert = distinctStudentCertifications.Count(),
                 certIter = 0;
@@ -74,9 +89,17 @@ namespace PointRaitingSystem
 
             foreach(StudentCertification certification in distinctStudentCertifications)
             {
-                int idOfSCP = (from scp in studentsControlPoints
-                              where scp.id_of_controlPoint == certification.id_of_prev_cp
-                              select scp.id).First();
+                int idOfSCP = 0;
+                try
+                {
+                    idOfSCP = (from scp in studentsControlPoints
+                                   where scp.id_of_controlPoint == certification.id_of_prev_cp
+                                   select scp.id).First();
+                }
+                catch(Exception ex)
+                {
+                    throw ex;
+                }
 
                 /* (dgv.Columns.Count - 3); -3 - потому что, первые 2 это id, и ФИО + последняя Всего */
                 for (int i = 0; i < (dgv.Columns.Count - 3); i++)
@@ -127,17 +150,56 @@ namespace PointRaitingSystem
         }
         private static void FillStudentsCertificationsCells(ref DataGridView dgv, ref List<StudentCertification> certifications, ref int[] columnIndexes)
         {
+            List<StudentCertification> tempCertifications = null;
             int certIter = 0;
+            int stID;
 
-            foreach (DataGridViewRow row in dgv.Rows)
+            foreach(DataGridViewRow row in dgv.Rows)
             {
-                foreach (int colIndex in columnIndexes)
+                stID = (int)row.Cells[0].Value;
+                tempCertifications = certifications.Where(x => x.id_of_student == stID).ToList();
+
+                if (tempCertifications.Count == columnIndexes.Length)
                 {
-                    row.Cells[colIndex].Style.BackColor = Color.LightGreen;
-                    row.Cells[colIndex].Value = certifications[certIter].grade;
-                    certIter++;
+                    for(int i = 0; i < columnIndexes.Length; i++)
+                    {
+                        row.Cells[columnIndexes[i]].Value = tempCertifications[i].grade;
+                        row.Cells[columnIndexes[i]].Style.BackColor = Color.LightGreen;
+                    }
+                }
+
+                if (tempCertifications.Count == 1 && columnIndexes.Length == 2)
+                {
+                    if (columnIndexes.Length == 1)
+                    {
+                        row.Cells[columnIndexes[0]].Value = "-";
+                        row.Cells[columnIndexes[0]].Style.BackColor = Color.LightGreen;
+                    }
+                    else
+                    {
+                        row.Cells[columnIndexes.Min()].Value = "-";
+                        row.Cells[columnIndexes.Min()].Style.BackColor = Color.LightGreen;
+                        row.Cells[columnIndexes.Max()].Value = tempCertifications[0].grade;
+                        row.Cells[columnIndexes.Max()].Style.BackColor = Color.LightGreen;
+                    }
                 }
             }
+
+            //foreach (DataGridViewRow row in dgv.Rows)
+            //{
+            //    foreach (int colIndex in columnIndexes)
+            //    {
+            //        row.Cells[colIndex].Style.BackColor = Color.LightGreen;
+            //        if (certifications[certIter].id_of_student == (int)row.Cells[0].Value)
+            //            row.Cells[colIndex].Value = certifications[certIter].grade;
+            //        else
+            //        {
+            //            row.Cells[colIndex].Value = "-";
+            //            certIter--;
+            //        }
+            //        certIter++;
+            //    }
+            //}
         }
         private static DataGridViewColumn[] CreateColumns(ref DataGridView dgv, List<StudentsWithCP> stCPs)
         {
@@ -204,12 +266,58 @@ namespace PointRaitingSystem
                     id = student.id,
                     name = student.name,
                     studentCPs = (from cp in pointsOfStudents
-                                 where cp.id_of_student == student.id
-                                 select cp).ToList()
-                });
-
+                                  where cp.id_of_student == student.id
+                                  select cp).ToList()
+                });   
             }
+            
             return studentsCPs;
+        }
+
+        private static bool isHavingNullPoints(ref List<StudentsWithCP> studentsCPs)
+        {
+            List<StudentsWithCP> tempListOfStudentsWithNulls = new List<StudentsWithCP>();
+
+            foreach(StudentsWithCP student in studentsCPs)
+            {
+                if (student.studentCPs.Count == 0)
+                    tempListOfStudentsWithNulls.Add(student);
+            }
+
+            if (tempListOfStudentsWithNulls.Count == 0 || studentsCPs.Count == tempListOfStudentsWithNulls.Count)
+                return false;
+
+            if (MessageBox.Show($"У {tempListOfStudentsWithNulls.Count} студентов отсутствуют КТ. Сгенерировать для них КТ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                return true;
+
+            List<StudentControlPoint> studentControlPoints = studentsCPs.Except(tempListOfStudentsWithNulls).ToList()[0].studentCPs;
+
+            foreach(StudentsWithCP st in tempListOfStudentsWithNulls)
+            {
+                try
+                {
+                    foreach(StudentControlPoint stCP in studentControlPoints)
+                    {
+                        //st.studentCPs.Add
+                        var stCPToIns = new ControlPointsOfStudents
+                        {
+                            id_of_controlPoint = stCP.id_of_controlPoint,
+                            id_of_student = st.id,
+                            points = 0
+                        };
+
+                        st.studentCPs.Add(stCPToIns.ConvertToStudentControlPoint());
+                        DataService.InsertIntoStudentCPTable(stCPToIns);
+                    }
+                }
+                catch(Exception ex)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Error(ex);
+                    return true;
+                }
+                studentsCPs[studentsCPs.IndexOf(st)].studentCPs = st.studentCPs;
+            }
+            return false;
         }
     }
 }

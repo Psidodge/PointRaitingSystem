@@ -710,7 +710,7 @@ namespace MainLib.DBServices
                 return connection.QueryFirst<bool>("IsLoginExists", parameters, commandType: CommandType.StoredProcedure);
             }
         }
-        public static bool isTeacherDiscipline(int disciplineId, int teacherId)
+        public static bool isTeacherDiscipline(int disciplineId, int teacherId, int groupID)
         {
             using (MySqlConnection connection = GetConnectionInstance())
             {
@@ -727,6 +727,7 @@ namespace MainLib.DBServices
                 var parameters = new DynamicParameters();
                 parameters.Add("@userID", teacherId);
                 parameters.Add("@dID", disciplineId);
+                parameters.Add("@groupID", groupID);
 
                 return connection.QueryFirst<bool>("IsTeacherDiscipline", parameters, commandType: CommandType.StoredProcedure);
             }
@@ -934,7 +935,7 @@ namespace MainLib.DBServices
                 return connection.ExecuteScalar<int>("InsertIntoStudentCertification", parameters, commandType: CommandType.StoredProcedure);
             }
         }
-        public static int InsertIntoTeacherDisciplines(int teacherId, int disciplineId)
+        public static int InsertIntoTeacherDisciplines(int teacherId, int disciplineId, int groupID)
         {
             using (MySqlConnection connection = GetConnectionInstance())
             {
@@ -951,6 +952,7 @@ namespace MainLib.DBServices
                 var parameters = new DynamicParameters();
                 parameters.Add("@userID", teacherId);
                 parameters.Add("@disID", disciplineId);
+                parameters.Add("@groupID", groupID);
                 //parameters.Add(name: "@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
                 return connection.ExecuteScalar<int>("InsertIntoUserDisciplines", parameters, commandType: CommandType.StoredProcedure);
@@ -1376,9 +1378,76 @@ namespace MainLib.DBServices
 
                 var parameters = new DynamicParameters();
                 parameters.Add("@templateID", templateID);
-                return connection.ExecuteScalar<int>("UpdateExamStudentPoints", parameters, commandType: CommandType.StoredProcedure) > 0 ? true : false; ;
+                return connection.Execute("DeleteCPTemplate", parameters, commandType: CommandType.StoredProcedure) > 0 ? true : false;
             }
-            //DeleteCPTemplate
+        }
+        public static bool DeleteDisciplineBinding(int disciplineID, int userID, int groupID)
+        {
+            using (MySqlConnection connection = GetConnectionInstance())
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@disciplineID", disciplineID);
+                parameters.Add("@userID", userID);
+                parameters.Add("@groupID", groupID);
+
+                return connection.Execute("DeletFromUserDisciplines", parameters, commandType: CommandType.StoredProcedure) > 0 ? true : false;
+            }
+        }
+        public static bool DeleteGroupBindingsTransact(List<Discipline> disciplines, int userID, int groupID)
+        {
+            using (MySqlConnection connection = GetConnectionInstance())
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        DynamicParameters parameters = new DynamicParameters();
+                        foreach (Discipline discipline in disciplines)
+                        {
+                            parameters = new DynamicParameters();
+                            parameters.Add("@disciplineID", discipline.id);
+                            parameters.Add("@userID", userID);
+                            parameters.Add("@groupID", groupID);
+
+                            connection.Execute("DeleteFromUserDisciplines", parameters, commandType: CommandType.StoredProcedure, transaction: transaction);
+                        }
+
+                        parameters = new DynamicParameters();
+                        parameters.Add("@groupID", groupID);
+                        parameters.Add("@userID", userID);
+
+                        connection.Execute("DeleteFromUserGroups", parameters, commandType: CommandType.StoredProcedure, transaction: transaction);
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        logger.Error(ex);
+                        return false;
+                    }
+                }
+            }
         }
     }
 }

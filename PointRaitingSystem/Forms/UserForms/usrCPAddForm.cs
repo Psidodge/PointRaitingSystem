@@ -24,6 +24,7 @@ namespace PointRaitingSystem
         private double sumOfUsedPoints,
                        maxSumOfCPs = 80;
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private ControlPoint tempCP = null;
 
 
         private void InitializeDataSets(object selectedDisciplineValue, Discipline selectedDiscipline = null)
@@ -55,10 +56,10 @@ namespace PointRaitingSystem
                 weight = int.Parse(txtCPWeight.Text),
                 Description = txtDescription.Text
             };
-
+            tempCP = cp;
             try
             {
-                DataService.InsertIntoControlPointsTable(cp);
+                tempCP.id = DataService.InsertIntoControlPointsTable(cp);
                 if (MessageBox.Show("Сохранить как шаблон?", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     DataService.InsertIntoControlPointTemplateTable(cp.ConvertToTemplate());
             }
@@ -76,11 +77,15 @@ namespace PointRaitingSystem
         {
             try
             {
-                int indexOfCP = DataService.GetIndexOfLastControlPoint();
+                if (tempCP == null)
+                    return;
+
+                int idOfCP = tempCP.id;
+                //int indexOfCP = DataService.GetIndexOfLastControlPoint();
                 foreach (Student student in DataService.SelectStudentsByGroupId(groupId))
                 {
                     DataService.InsertIntoStudentCPTable(new ControlPointsOfStudents{
-                        id_of_controlPoint = indexOfCP,
+                        id_of_controlPoint = idOfCP,
                         id_of_student = student.id,
                         points = 0
                     });

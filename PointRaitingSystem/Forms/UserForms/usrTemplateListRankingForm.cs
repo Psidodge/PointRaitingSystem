@@ -42,8 +42,6 @@ namespace PointRaitingSystem
             pointTemplates.Insert(lbTemplates.SelectedIndex - 1, (ControlPointTemplate)lbTemplates.SelectedItem);
             pointTemplates.RemoveAt(lbTemplates.SelectedIndex + 1);
             lbTemplates.SelectedIndex = lbTemplates.SelectedIndex - 1;
-            //lbTemplates.DataSource = pointTemplates;
-            //lbTemplates.Refresh();
             DataSetInitializer.lbDataSetInitialize(ref lbTemplates, pointTemplates, "id", "GetFormatedString");
         }
         private void btnMoveDown_Click(object sender, EventArgs e)

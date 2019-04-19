@@ -55,8 +55,15 @@ namespace PointRaitingSystem
         }
         private void PrintListOfGroupDiscipline()
         {
-            List<Discipline> disciplines = DataService.SelectDisciplinesByTeacherIdAndGroupId(Session.GetCurrentSession().ID, ((GroupInfo)clbGroups.SelectedItem).id);
-            DataSetInitializer.lbDataSetInitialize<Discipline>(ref lbDisciplines, disciplines, "id", "full_name");
+            try
+            {
+                List<Discipline> disciplines = DataService.SelectDisciplinesByTeacherIdAndGroupId(Session.GetCurrentSession().ID, ((GroupInfo)clbGroups.SelectedItem).id);
+                DataSetInitializer.lbDataSetInitialize<Discipline>(ref lbDisciplines, disciplines, "id", "full_name");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+            }
         }
         
         private void InitializeDataSets()
@@ -81,36 +88,39 @@ namespace PointRaitingSystem
         {
             this.Close();
         }
-        //REF: инкапсулировть
-        //HACK: добавлять только не привязанные данные, сделал хаком путем сравнивания
         private void btnSave_Click(object sender, EventArgs e)
         {
             List<Discipline> teacherDisciplines = DataService.SelectDisciplinesByTeacherID(Session.GetCurrentSession().ID);
             List<Group> teacherGroups = DataService.SelectGroupsByTeacherId(Session.GetCurrentSession().ID);
 
-            foreach (var checkedGroup in clbGroups.CheckedItems)
+            try
             {
-                if(!teacherGroups.Any(item => item.id == ((GroupInfo)checkedGroup).id))
-                    DataService.InsertIntoTeacherGroups(Session.GetCurrentSession().ID, ((GroupInfo)checkedGroup).id);
+                foreach (var checkedGroup in clbGroups.CheckedItems)
+                    if (!teacherGroups.Any(item => item.id == ((GroupInfo)checkedGroup).id))
+                        DataService.InsertIntoTeacherGroups(Session.GetCurrentSession().ID, ((GroupInfo)checkedGroup).id);
+            }   
+            catch(Exception ex)
+            {
+                logger.Error(ex);
+                statusLabel.Text = "Произошла ошибка";
             }
             statusLabel.Text = "Сохранено";
             InitializeDataSets();
         }
-
         private void clbGroups_SelectedIndexChanged(object sender, EventArgs e)
         {
             PrintListOfGroupDiscipline();
         }
-        private void btbBind_Click(object sender, EventArgs e)
+        private void btnBind_Click(object sender, EventArgs e)
         {
+            GroupInfo selecteGroupInfo = (GroupInfo)clbGroups.SelectedItem;
             try
             {
-                if (DataService.isGroupDiscipline((int)cbDisciplines.SelectedValue, ((GroupInfo)clbGroups.SelectedItem).id))
-                    return;
+                if (!DataService.isGroupDiscipline((int)cbDisciplines.SelectedValue, selecteGroupInfo.id))
+                    DataService.InsertIntoGroupDiscipline((int)cbDisciplines.SelectedValue, selecteGroupInfo.id);
+                if (!DataService.isTeacherDiscipline((int)cbDisciplines.SelectedValue, Session.GetCurrentSession().ID, selecteGroupInfo.id))
+                    DataService.InsertIntoTeacherDisciplines(Session.GetCurrentSession().ID, (int)cbDisciplines.SelectedValue, selecteGroupInfo.id);
 
-                DataService.InsertIntoGroupDiscipline((int)cbDisciplines.SelectedValue, ((GroupInfo)clbGroups.SelectedItem).id);
-                if (!DataService.isTeacherDiscipline((int)cbDisciplines.SelectedValue, Session.GetCurrentSession().ID))
-                    DataService.InsertIntoTeacherDisciplines(Session.GetCurrentSession().ID, (int)cbDisciplines.SelectedValue);
                 PrintListOfGroupDiscipline();
                 clbGroups.SetItemChecked(clbGroups.SelectedIndex, true);
             }
@@ -120,7 +130,6 @@ namespace PointRaitingSystem
                 logger.Error(ex);
             }
         }
-        //HACK: придумать что-нибудь получше
         private void txtGroupsFilter_TextChanged(object sender, EventArgs e)
         {
             DataSetInitializer.clbDataSetInitialize<GroupInfo>(ref clbGroups, clbGroupsDataSource, "id", "name");
@@ -135,11 +144,11 @@ namespace PointRaitingSystem
             DataSetInitializer.clbDataSetInitialize<GroupInfo>(ref clbGroups, groups, "id", "name");
             CheckAlreadyAttachedGroups(groups);
         }
-
         private void showAllBindingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             usrShowAllBindings usrShowAllBindings = new usrShowAllBindings();
             usrShowAllBindings.ShowDialog();
+            InitializeDataSets();
         }
     }
 }
