@@ -1,4 +1,6 @@
-﻿using System;
+﻿//#undef DEBUG
+
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using MainLib.DBServices;
@@ -13,6 +15,9 @@ namespace PointRaitingSystem
         public usrMainForm() 
         {
             InitializeComponent();
+#if DEBUG
+            tsmDeb.Visible = true;
+#endif
             InitializeDataSets();
             tsslCurrentDate.Text = DateTime.Now.ToShortDateString();
         }
@@ -124,7 +129,8 @@ namespace PointRaitingSystem
                 //dgvStudents dataset
                 mainDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
                 //insert certification
-                mainDataGridViewFactory.InsertCertifications(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, out certificationIndexes);
+                if (dgvStudents.Columns.Count != 0)
+                    mainDataGridViewFactory.InsertCertifications(ref dgvStudents, (int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue, out certificationIndexes);
                 pointsUsed = DataService.GetSumOfPointsUsed((int)cbGroups.SelectedValue, (int)cbDiscipline.SelectedValue);
             }
             catch (Exception ex)
@@ -157,6 +163,9 @@ namespace PointRaitingSystem
 
             if(certificationIndexes.Length != 2)
                 btnAddExam.Enabled = false;
+
+            if (dgvStudents.Columns.Count == 0)
+                return;
 
             if (!dgvStudents.Columns[dgvStudents.Columns.Count - 1].Visible)
                 btnReexam.Enabled = false;
@@ -366,5 +375,29 @@ namespace PointRaitingSystem
                 logger.Error(ex);
             }
 }
+
+        //NOTE: не забдь удалить
+        private void NullControlsDataSources()
+        {
+            cbGroups.DataSource = null;
+            cbDiscipline.DataSource = null;
+            dgvStudents.Columns.Clear();
+            dgvStudents.DataSource = null;
+        }
+        private void tsmiAdm_Click(object sender, EventArgs e)
+        {
+#if DEBUG
+            admMainForm form = new admMainForm();
+            form.Show();
+#endif
+        }
+        private void tscbDebUserList_TextChanged(object sender, EventArgs e)
+        {
+#if DEBUG
+            Session.CreateSessionInstance(tscbDebUserList.SelectedItem.ToString());
+            NullControlsDataSources();
+            InitializeDataSets();
+#endif
+        }
     }
 }

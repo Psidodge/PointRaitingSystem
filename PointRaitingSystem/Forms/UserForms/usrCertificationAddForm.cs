@@ -37,7 +37,7 @@ namespace PointRaitingSystem
         {
             try
             {
-                List<StudentControlPoint> controlPoints = DataService.SelectStudentControPointsGroupDisc(groupID, disciplineID)
+                List<StudentControlPoint> controlPoints = DataService.SelectStudentControPointsGroupDisc(groupID, disciplineID, MainLib.Session.Session.GetCurrentSession().ID)
                                                         .GroupBy(g => g.id_of_controlPoint)
                                                         .Select(s => s.First())
                                                         .ToList();

@@ -161,9 +161,9 @@ namespace PointRaitingSystem
             List<StudentInfo> students = null;
             try
             {
-                students = DataService.SelectAllStudentsInfo();
+                students = (List<StudentInfo>)dgvStudents.DataSource;//DataService.SelectAllStudentsInfo();
                 students = (from st in students
-                            where st.groupID == (int)cbGroupFrom.SelectedValue
+                            where st.id_of_group == (int)cbGroupFrom.SelectedValue
                             select st).ToList();
             }
             catch(Exception e)

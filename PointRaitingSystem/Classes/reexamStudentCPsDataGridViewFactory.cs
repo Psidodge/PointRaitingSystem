@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using MainLib.DBServices;
+using MainLib.Session;
 
 namespace PointRaitingSystem
 {
@@ -110,7 +111,7 @@ namespace PointRaitingSystem
             try
             {
                 students = DataService.SelectStudentsByGroupId(groupId).Where(x => studentsIDs.Contains(x.id)).ToList();
-                pointsOfStudents = DataService.SelectStudentControPointsGroupDisc(groupId, dId);
+                pointsOfStudents = DataService.SelectStudentControPointsGroupDisc(groupId, dId, Session.GetCurrentSession().ID);
             }
             catch (Exception ex)
             {
@@ -143,7 +144,7 @@ namespace PointRaitingSystem
             try
             {
                 students = DataService.SelectStudentsByGroupId(groupId);
-                pointsOfStudents = DataService.SelectStudentControPointsGroupDisc(groupId, dId);
+                pointsOfStudents = DataService.SelectStudentControPointsGroupDisc(groupId, dId, MainLib.Session.Session.GetCurrentSession().ID);
             }
             catch (Exception ex)
             {

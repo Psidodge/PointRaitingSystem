@@ -1,6 +1,6 @@
-﻿using System;
+﻿//#undef DEBUG
+using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Configuration;
 using Dapper;
 using System.Linq;
@@ -547,7 +547,7 @@ namespace MainLib.DBServices
                 return connection.Query<ControlPointsOfStudents>("SelectStudentControlPoints", parameters, commandType: CommandType.StoredProcedure).ToList();
             }
         }
-        public static List<StudentControlPoint> SelectStudentControPointsGroupDisc(int grId, int discId)
+        public static List<StudentControlPoint> SelectStudentControPointsGroupDisc(int grId, int discId, int teacherID)
         {
             using (MySqlConnection connection = GetConnectionInstance())
             {
@@ -564,6 +564,7 @@ namespace MainLib.DBServices
                 var parameters = new DynamicParameters();
                 parameters.Add("@grId", grId);
                 parameters.Add("@dId", discId);
+                parameters.Add("@usrID", teacherID);
 
                 return connection.Query<StudentControlPoint>("SelectStudentControlPointsInfos", parameters, commandType: CommandType.StoredProcedure).ToList();
             }
@@ -571,10 +572,11 @@ namespace MainLib.DBServices
 
         public static List<UserInfo> SelectAllUsers()
         {
+#if !DEBUG
             //NOTE: Если пользователь не админ, то не выполняем, нужно как-то это сообщить пользователю
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return null;
-
+#endif
             using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
@@ -592,10 +594,11 @@ namespace MainLib.DBServices
         }
         public static List<StudentInfo> SelectAllStudentsInfo()
         {
+#if !DEBUG
             //NOTE: Если пользователь не админ, то не выполняем, нужно как-то это сообщить пользователю
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return null;
-
+#endif
             using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
@@ -1069,9 +1072,10 @@ namespace MainLib.DBServices
         }
         public static int InsertIntoStudentsTable(Student stToIns)
         {
+#if !DEBUG
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
-
+#endif
             using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
@@ -1094,9 +1098,10 @@ namespace MainLib.DBServices
         }
         public static int InsertIntoTeachersTable(UserInfo teacher)
         {
+#if !DEBUG
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
-
+#endif
             using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
@@ -1118,10 +1123,11 @@ namespace MainLib.DBServices
         }
         public static int InsertIntoGroupsTable(Group grToIns)
         {
+#if !DEBUG
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
+#endif
 
-            
             using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
@@ -1143,8 +1149,10 @@ namespace MainLib.DBServices
         }
         public static int InsertIntoDisciplinesTable(Discipline disciplineToIns)
         {
+#if !DEBUG
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
+#endif
 
             using (MySqlConnection connection = GetConnectionInstance())
             {
@@ -1170,9 +1178,10 @@ namespace MainLib.DBServices
         // UPDATE
         public static int UpdateAuthInfo(AuthInfoAdmin authInfo)
         {
+#if !DEBUG
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
-
+#endif
             using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
@@ -1190,9 +1199,10 @@ namespace MainLib.DBServices
         }
         public static int UpdateAuthInfo(StudentExam exam)
         {
+#if !DEBUG
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
-
+#endif
             using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
@@ -1216,9 +1226,10 @@ namespace MainLib.DBServices
         }
         public static int UpdateStudents(Student student)
         {
+#if !DEBUG
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
-
+#endif
             using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
@@ -1241,9 +1252,10 @@ namespace MainLib.DBServices
         }
         public static int UpdateTeachers(UserInfo teacher)
         {
+#if !DEBUG
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
-
+#endif
             using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
@@ -1267,9 +1279,10 @@ namespace MainLib.DBServices
         }
         public static int UpdateGroups(Group group)
         {
+#if !DEBUG
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
-
+#endif
             using (MySqlConnection connection = GetConnectionInstance())
             {
                 try
@@ -1292,9 +1305,10 @@ namespace MainLib.DBServices
         }
         public static int UpdateDisciplines(Discipline discipline)
         {
+#if !DEBUG
             if (!SelectTeacherById(Session.Session.GetCurrentSession().ID).isAdmin)
                 return -1;
-
+#endif
             using (MySqlConnection connection = GetConnectionInstance())
             {
                 try

@@ -70,6 +70,10 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsslCurrentDate = new System.Windows.Forms.ToolStripStatusLabel();
             this.dgvStudents = new System.Windows.Forms.DataGridView();
+            this.tsmDeb = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiAdm = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiDebChangeUser = new System.Windows.Forms.ToolStripMenuItem();
+            this.tscbDebUserList = new System.Windows.Forms.ToolStripComboBox();
             this.menuStrip1.SuspendLayout();
             this.menuPanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -85,7 +89,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.bindingsToolStripMenuItem,
             this.отчетыToolStripMenuItem,
-            this.настройкиToolStripMenuItem});
+            this.настройкиToolStripMenuItem,
+            this.tsmDeb});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
@@ -162,7 +167,7 @@
             this.menuPanel.Controls.Add(this.cbGroups);
             this.menuPanel.Controls.Add(this.label1);
             this.menuPanel.Location = new System.Drawing.Point(0, 24);
-            this.menuPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.menuPanel.Margin = new System.Windows.Forms.Padding(2);
             this.menuPanel.Name = "menuPanel";
             this.menuPanel.Size = new System.Drawing.Size(284, 556);
             this.menuPanel.TabIndex = 2;
@@ -172,9 +177,9 @@
             this.groupBox1.Controls.Add(this.btnCreateCP);
             this.groupBox1.Controls.Add(this.btnPickCPs);
             this.groupBox1.Location = new System.Drawing.Point(11, 111);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(121, 82);
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
@@ -389,7 +394,7 @@
             this.cbDiscipline.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbDiscipline.FormattingEnabled = true;
             this.cbDiscipline.Location = new System.Drawing.Point(11, 77);
-            this.cbDiscipline.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbDiscipline.Margin = new System.Windows.Forms.Padding(2);
             this.cbDiscipline.Name = "cbDiscipline";
             this.cbDiscipline.Size = new System.Drawing.Size(219, 21);
             this.cbDiscipline.TabIndex = 5;
@@ -410,7 +415,7 @@
             this.cbGroups.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbGroups.FormattingEnabled = true;
             this.cbGroups.Location = new System.Drawing.Point(11, 27);
-            this.cbGroups.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbGroups.Margin = new System.Windows.Forms.Padding(2);
             this.cbGroups.Name = "cbGroups";
             this.cbGroups.Size = new System.Drawing.Size(99, 21);
             this.cbGroups.TabIndex = 1;
@@ -480,6 +485,40 @@
             this.dgvStudents.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStudents_CellEndEdit);
             this.dgvStudents.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvStudents_ColumnHeaderMouseClick);
             // 
+            // tsmDeb
+            // 
+            this.tsmDeb.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiAdm,
+            this.tsmiDebChangeUser});
+            this.tsmDeb.Name = "tsmDeb";
+            this.tsmDeb.Size = new System.Drawing.Size(53, 20);
+            this.tsmDeb.Text = "debug";
+            this.tsmDeb.Visible = false;
+            // 
+            // tsmiAdm
+            // 
+            this.tsmiAdm.Name = "tsmiAdm";
+            this.tsmiAdm.Size = new System.Drawing.Size(180, 22);
+            this.tsmiAdm.Text = "open admin form";
+            this.tsmiAdm.Click += new System.EventHandler(this.tsmiAdm_Click);
+            // 
+            // tsmiDebChangeUser
+            // 
+            this.tsmiDebChangeUser.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tscbDebUserList});
+            this.tsmiDebChangeUser.Name = "tsmiDebChangeUser";
+            this.tsmiDebChangeUser.Size = new System.Drawing.Size(180, 22);
+            this.tsmiDebChangeUser.Text = "change user";
+            // 
+            // tscbDebUserList
+            // 
+            this.tscbDebUserList.Items.AddRange(new object[] {
+            "cep.ds",
+            "ncep.ds"});
+            this.tscbDebUserList.Name = "tscbDebUserList";
+            this.tscbDebUserList.Size = new System.Drawing.Size(121, 23);
+            this.tscbDebUserList.TextChanged += new System.EventHandler(this.tscbDebUserList_TextChanged);
+            // 
             // usrMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -490,7 +529,7 @@
             this.Controls.Add(this.menuPanel);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "usrMainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Меню";
@@ -554,6 +593,10 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiPickReportFolder;
         private System.Windows.Forms.Button btnPickCPs;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ToolStripMenuItem tsmDeb;
+        private System.Windows.Forms.ToolStripMenuItem tsmiAdm;
+        private System.Windows.Forms.ToolStripMenuItem tsmiDebChangeUser;
+        private System.Windows.Forms.ToolStripComboBox tscbDebUserList;
     }
 }
 

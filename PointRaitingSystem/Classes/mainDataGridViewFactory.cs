@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using MainLib.DBServices;
+using MainLib.Session;
 
 namespace PointRaitingSystem
 {
@@ -54,19 +55,21 @@ namespace PointRaitingSystem
                 sum = 0;
             }
         }
-        public static void InsertCertifications(ref DataGridView dgv, int groupId, int disciplineId, out int[] certificationIndexes)
+        public static void InsertCertifications(ref DataGridView dgv, int groupId, int disciplineId, out int[] certificationIndexes, int rowIndex = 0, List<StudentCertification> studentCertifications = null, List<StudentControlPoint> studentsControlPoints = null)
         {
-            List<StudentCertification> studentCertifications;
             List<StudentCertification> distinctStudentCertifications;
-            List<StudentControlPoint> studentsControlPoints;
-            try
+
+            if (studentCertifications == null && studentsControlPoints == null)
             {
-                studentCertifications = DataService.SelectStudentsCertifications(groupId, disciplineId);
-                studentsControlPoints = DataService.SelectStudentControPointsGroupDisc(groupId, disciplineId);
-            }
-            catch(Exception)
-            {
-                throw;
+                try
+                {
+                    studentCertifications = DataService.SelectStudentsCertifications(groupId, disciplineId);
+                    studentsControlPoints = DataService.SelectStudentControPointsGroupDisc(groupId, disciplineId, Session.GetCurrentSession().ID);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
             }
 
             if (studentsControlPoints.Count == 0)
@@ -102,9 +105,9 @@ namespace PointRaitingSystem
                 }
 
                 /* (dgv.Columns.Count - 3); -3 - потому что, первые 2 это id, и ФИО + последняя Всего */
-                for (int i = 0; i < (dgv.Columns.Count - 3); i++)
+                for (int i = 0; i < (dgv.Columns.Count - 4) / 2; i++)
                 {
-                    if ((int)dgv.Rows[0].Cells[string.Format("idOfCP{0}", i)].Value == idOfSCP)
+                    if ((int)dgv.Rows[rowIndex].Cells[string.Format("idOfCP{0}", i)].Value == idOfSCP)
                     {
                         certificationIndexes[certIter] = dgv.Columns[string.Format("idOfCP{0}", i)].Index + 2;
 
@@ -124,6 +127,9 @@ namespace PointRaitingSystem
                 }
                 certIter++;
             }
+
+            if (certificationIndexes.Contains(0))
+                InsertCertifications(ref dgv, groupId, disciplineId, out certificationIndexes, ++rowIndex, studentCertifications, studentsControlPoints);
             FillStudentsCertificationsCells(ref dgv, ref studentCertifications, ref certificationIndexes);
         }
         public static void CalculateSum(ref DataGridView dgv)
@@ -151,7 +157,6 @@ namespace PointRaitingSystem
         private static void FillStudentsCertificationsCells(ref DataGridView dgv, ref List<StudentCertification> certifications, ref int[] columnIndexes)
         {
             List<StudentCertification> tempCertifications = null;
-            int certIter = 0;
             int stID;
 
             foreach(DataGridViewRow row in dgv.Rows)
@@ -159,30 +164,46 @@ namespace PointRaitingSystem
                 stID = (int)row.Cells[0].Value;
                 tempCertifications = certifications.Where(x => x.id_of_student == stID).ToList();
 
-                if (tempCertifications.Count == columnIndexes.Length)
+                if(tempCertifications.Count == columnIndexes.Length)
                 {
-                    for(int i = 0; i < columnIndexes.Length; i++)
+                    for (int i = 0; i < columnIndexes.Length; i++)
                     {
                         row.Cells[columnIndexes[i]].Value = tempCertifications[i].grade;
                         row.Cells[columnIndexes[i]].Style.BackColor = Color.LightGreen;
                     }
                 }
-
-                if (tempCertifications.Count == 1 && columnIndexes.Length == 2)
+                else if(tempCertifications.Count == 0 && columnIndexes.Length != 0)
                 {
-                    if (columnIndexes.Length == 1)
-                    {
-                        row.Cells[columnIndexes[0]].Value = "-";
-                        row.Cells[columnIndexes[0]].Style.BackColor = Color.LightGreen;
-                    }
-                    else
-                    {
-                        row.Cells[columnIndexes.Min()].Value = "-";
-                        row.Cells[columnIndexes.Min()].Style.BackColor = Color.LightGreen;
-                        row.Cells[columnIndexes.Max()].Value = tempCertifications[0].grade;
-                        row.Cells[columnIndexes.Max()].Style.BackColor = Color.LightGreen;
-                    }
+                    row.Cells[columnIndexes.Max()].Value = "-";
+                    row.Cells[columnIndexes.Max()].Style.BackColor = Color.LightGreen;
                 }
+
+
+
+                //if (tempCertifications.Count == columnIndexes.Length)
+                //{
+                //    for(int i = 0; i < columnIndexes.Length; i++)
+                //    {
+                //        row.Cells[columnIndexes[i]].Value = tempCertifications[i].grade;
+                //        row.Cells[columnIndexes[i]].Style.BackColor = Color.LightGreen;
+                //    }
+                //}
+
+                //if (tempCertifications.Count == 1 && columnIndexes.Length == 2)
+                //{
+                //    if (columnIndexes.Length == 1)
+                //    {
+                //        row.Cells[columnIndexes[0]].Value = "-";
+                //        row.Cells[columnIndexes[0]].Style.BackColor = Color.LightGreen;
+                //    }
+                //    else
+                //    {
+                //        row.Cells[columnIndexes.Min()].Value = "-";
+                //        row.Cells[columnIndexes.Min()].Style.BackColor = Color.LightGreen;
+                //        row.Cells[columnIndexes.Max()].Value = tempCertifications[0].grade;
+                //        row.Cells[columnIndexes.Max()].Style.BackColor = Color.LightGreen;
+                //    }
+                //}
             }
 
             //foreach (DataGridViewRow row in dgv.Rows)
@@ -248,7 +269,7 @@ namespace PointRaitingSystem
             try
             {
                 students = DataService.SelectStudentsByGroupId(groupId);
-                pointsOfStudents = DataService.SelectStudentControPointsGroupDisc(groupId, dId);
+                pointsOfStudents = DataService.SelectStudentControPointsGroupDisc(groupId, dId, Session.GetCurrentSession().ID);
                 exams = DataService.SelectStudentsExams(groupId, dId);
             }
             catch (Exception ex)

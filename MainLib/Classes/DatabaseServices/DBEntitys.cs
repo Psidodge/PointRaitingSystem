@@ -343,6 +343,7 @@ namespace MainLib.DBServices
             return this.GetType();
         }
     }
+
     public class StudentsWithCP : DBEntity
     {
         public int id { get; set; }
@@ -353,6 +354,8 @@ namespace MainLib.DBServices
             return this.GetType();
         }
     }
+    
+
     public class AuthInfo : DBEntity
     {
         public byte[] salt { get; }
@@ -420,7 +423,7 @@ namespace MainLib.DBServices
         public int id { get; }
         public string name { get; }
         public string group_name { get; }
-        public int groupID { get; }
+        public int id_of_group { get; }
         public override Type GetEntityType()
         {
             return this.GetType();

@@ -1,4 +1,6 @@
-﻿using System;
+﻿//#undef DEBUG
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,8 +29,12 @@ namespace MainLib.Session
 
         public static void CreateSessionInstance(string login)
         {
+#if DEBUG
+            currentSession = new SessionInfo(login);
+#else
             if(currentSession == null)
                 currentSession = new SessionInfo(login);
+#endif
         }
 
 
