@@ -53,10 +53,10 @@ namespace PointRaitingSystem
                 Student student = new Student
                 {
                     name = txtName.Text,
-                    id_of_group = (int)cbGroup.SelectedValue
+                    id_of_group = (uint)cbGroup.SelectedValue
                 };
 
-                int recAffected = DataService.InsertIntoStudentsTable(student);
+                uint recAffected = DataService.InsertIntoStudentsTable(student);
 
                 if (recAffected > 0)
                 {
@@ -75,9 +75,9 @@ namespace PointRaitingSystem
             {
                 Student student = new Student
                 {
-                    id = int.Parse(txtStId.Text),
+                    id = uint.Parse(txtStId.Text),
                     name = txtName.Text,
-                    id_of_group = (int)cbGroup.SelectedValue
+                    id_of_group = (uint)cbGroup.SelectedValue
                 };
 
                 int recAffected = DataService.UpdateStudents(student);
@@ -138,9 +138,9 @@ namespace PointRaitingSystem
             {
                 Student student = new Student
                 {
-                    id = int.Parse(txtStId.Text),
+                    id = uint.Parse(txtStId.Text),
                     name = txtName.Text,
-                    id_of_group = (int)cbGroupTo.SelectedValue
+                    id_of_group = (uint)cbGroupTo.SelectedValue
                 };
 
                 int recAffected = DataService.UpdateStudents(student);
@@ -163,7 +163,7 @@ namespace PointRaitingSystem
             {
                 students = (List<StudentInfo>)dgvStudents.DataSource;//DataService.SelectAllStudentsInfo();
                 students = (from st in students
-                            where st.id_of_group == (int)cbGroupFrom.SelectedValue
+                            where st.id_of_group == (uint)cbGroupFrom.SelectedValue
                             select st).ToList();
             }
             catch(Exception e)
@@ -180,7 +180,7 @@ namespace PointRaitingSystem
                     {
                         id = student.id,
                         name = student.name,
-                        id_of_group = (int)cbGroupTo.SelectedValue
+                        id_of_group = (uint)cbGroupTo.SelectedValue
                     };
 
                     if (DataService.UpdateStudents(studentToUpdate) > 0)

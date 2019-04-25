@@ -13,14 +13,14 @@ namespace PointRaitingSystem
             InitializeComponent();
         }
 
-        public usrCPAddForm(Discipline selectedDiscipline, int SelectedGroupId, object selectedDisciplineIndex)
+        public usrCPAddForm(Discipline selectedDiscipline, uint SelectedGroupId, object selectedDisciplineID)
         {
             InitializeComponent();
             groupId = SelectedGroupId;
-            InitializeDataSets(selectedDisciplineIndex, selectedDiscipline);
+            InitializeDataSets(selectedDisciplineID, selectedDiscipline);
         }
 
-        private int groupId;
+        private uint groupId;
         private double sumOfUsedPoints,
                        maxSumOfCPs = 80;
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
@@ -34,7 +34,7 @@ namespace PointRaitingSystem
                 List<Discipline> disciplines = DataService.SelectDisciplinesByTeacherIdAndGroupId(Session.GetCurrentSession().ID, groupId);
                 DataSetInitializer.ComboBoxDataSetInitializer<Discipline>(ref cbDiscipline, disciplines, "id", "full_name");
                 cbDiscipline.SelectedValue = selectedDisciplineValue;
-                sumOfUsedPoints = DataService.GetSumOfPointsUsed(groupId, (int)selectedDisciplineValue);
+                sumOfUsedPoints = DataService.GetSumOfPointsUsed(groupId, (uint)selectedDisciplineValue);
                 tsslPointsLeft.Text = string.Format("{0} {1} баллов", tsslPointsLeft.Text, sumOfUsedPoints.ToString());
 
             }
@@ -52,7 +52,7 @@ namespace PointRaitingSystem
             ControlPoint cp = new ControlPoint
             {
                 id_of_user = Session.GetCurrentSession().ID,
-                id_of_discipline = (int)cbDiscipline.SelectedValue,
+                id_of_discipline = (uint)cbDiscipline.SelectedValue,
                 weight = int.Parse(txtCPWeight.Text),
                 Description = txtDescription.Text
             };
@@ -80,7 +80,7 @@ namespace PointRaitingSystem
                 if (tempCP == null)
                     return;
 
-                int idOfCP = tempCP.id;
+                uint idOfCP = tempCP.id;
                 //int indexOfCP = DataService.GetIndexOfLastControlPoint();
                 foreach (Student student in DataService.SelectStudentsByGroupId(groupId))
                 {

@@ -30,7 +30,7 @@
         {
             this.dgvStudentsCPs = new System.Windows.Forms.DataGridView();
             this.btnCommit = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsslInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl = new System.Windows.Forms.TabControl();
@@ -81,16 +81,18 @@
             this.btnCommit.TabIndex = 1;
             this.btnCommit.Text = "Принять";
             this.btnCommit.UseVisualStyleBackColor = true;
+            this.btnCommit.Click += new System.EventHandler(this.btnCommit_Click);
             // 
-            // button2
+            // btnCancel
             // 
-            this.button2.Location = new System.Drawing.Point(841, 401);
-            this.button2.Margin = new System.Windows.Forms.Padding(2);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(103, 23);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnCancel.Location = new System.Drawing.Point(841, 401);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(2);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(103, 23);
+            this.btnCancel.TabIndex = 2;
+            this.btnCancel.Text = "Отмена";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // statusStrip1
             // 
@@ -256,7 +258,7 @@
             this.ClientSize = new System.Drawing.Size(1055, 457);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnCommit);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "usrReExamFrom";
@@ -280,7 +282,7 @@
 
         private System.Windows.Forms.DataGridView dgvStudentsCPs;
         private System.Windows.Forms.Button btnCommit;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tpCP;

@@ -86,6 +86,10 @@ namespace PointRaitingSystem
                 logger.Error(dbEx);
                 MessageBox.Show("Не удается подкючиться к базе данных.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch(ArgumentOutOfRangeException)
+            {
+                cbLogin.SelectedIndex = 0;
+            }
             catch (Exception ex)
             {
                 logger.Error(ex);

@@ -18,7 +18,7 @@ namespace PointRaitingSystem
         {
             InitializeComponent();
         }
-        public usrCertificationAddForm(string groupName, int groupID, int disciplineID)
+        public usrCertificationAddForm(string groupName, uint groupID, uint disciplineID)
         {
             InitializeComponent();
             txtGroupName.Text = groupName;
@@ -27,13 +27,13 @@ namespace PointRaitingSystem
             this.disciplineID = disciplineID;
         }
 
-        private int groupID,
+        private uint groupID,
                     disciplineID;
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
 
 
-        private void dataSetInitializer(int groupID, int disciplineID)
+        private void dataSetInitializer(uint groupID, uint disciplineID)
         {
             try
             {
@@ -74,14 +74,15 @@ namespace PointRaitingSystem
                 var certification = new StudentCertification()
                                     {
                                         id_of_student = student.id,
-                                        id_of_prev_cp = (int)cbPrevCP.SelectedValue,
+                                        id_of_prev_cp = (uint)cbPrevCP.SelectedValue,
                                         id_of_discipline = disciplineID,
                                         id_of_user = Session.GetCurrentSession().ID,
                                         date = dtpDate.Value.Date
                                     };
                 try
                 {
-                    certification.CountGrade(disciplineID, (int)cbPrevCP.SelectedValue);
+                    certification.CountStudentScore();
+                    certification.CountGrade(disciplineID, (uint)cbPrevCP.SelectedValue);
                     DataService.InsertIntoStudentCertification(certification);
                     tsslInfo.Text = "Аттестация создана успешно.";
                 }

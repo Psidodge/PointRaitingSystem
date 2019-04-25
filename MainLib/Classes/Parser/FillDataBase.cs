@@ -85,8 +85,8 @@ namespace MainLib.Parsing
         }
         private static void FillStudents(List<Student> students, List<ParserEntity> obj)
         {
-            int objIter = 0,
-                groupID = 0;
+            int objIter = 0;
+            uint groupID = 0;
             foreach(Student student in students)
             {
                 if (student.id_of_group == 0)

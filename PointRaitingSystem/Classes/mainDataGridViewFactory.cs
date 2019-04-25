@@ -12,13 +12,14 @@ namespace PointRaitingSystem
     // NOTE: Медленно работает, попробывать оптимизировать или нет
     public static class mainDataGridViewFactory
     {
-        public static void CreateStudentCPsDataGridView(ref DataGridView dgv, int groupId, int disciplineId)
+        public static void CreateStudentCPsDataGridView(ref DataGridView dgv, uint groupId, uint disciplineId)
         {
             dgv.Columns.Clear();
 
             int cpIter = 0; 
             double sum = 0;
             List<StudentExam> exams = null;
+            StudentReexam tempReexam = null;
             List<StudentsWithCP> studentsCPs = GetStudentsCPs(groupId, disciplineId, out exams);
 
             if (isHavingNullPoints(ref studentsCPs))
@@ -47,7 +48,24 @@ namespace PointRaitingSystem
                 }
                 if (exams.Count != 0)
                 {
-                    dgv.Rows[i].Cells[dgv.Columns.Count - 1].Value = exams[i].CountRecommendedGrade();
+                    if (exams[i].id_of_reexam != 0)
+                    {
+                        tempReexam = GetReexam(exams[i].id_of_reexam);
+                        if (tempReexam.points == 0)
+                        {
+                            dgv.Rows[i].Cells[dgv.Columns.Count - 1].Value = "неуд.";
+                            dgv.Rows[i].Cells[dgv.Columns.Count - 1].Style.BackColor = Color.IndianRed;
+                        }
+                        else if(tempReexam.points != 0)
+                        {
+                            dgv.Rows[i].Cells[dgv.Columns.Count - 1].Value = $"{tempReexam.CountRecommendedGrade(studentsCPs[i].id, disciplineId)}*";
+                            dgv.Rows[i].Cells[dgv.Columns.Count - 1].Style.BackColor = Color.White;
+                        }
+                    }
+                    else if(exams[i].id_of_reexam == 0)
+                    {
+                        dgv.Rows[i].Cells[dgv.Columns.Count - 1].Value = exams[i].CountRecommendedGrade();
+                    }
                     //dgv.Rows[i].Cells[dgv.Columns.Count - 1].Style.BackColor = Color.LightSeaGreen;
                 }
                 dgv.Rows[i].Cells[dgv.Columns.Count - 2].Value = sum;
@@ -55,7 +73,7 @@ namespace PointRaitingSystem
                 sum = 0;
             }
         }
-        public static void InsertCertifications(ref DataGridView dgv, int groupId, int disciplineId, out int[] certificationIndexes, int rowIndex = 0, List<StudentCertification> studentCertifications = null, List<StudentControlPoint> studentsControlPoints = null)
+        public static void InsertCertifications(ref DataGridView dgv, uint groupId, uint disciplineId, out int[] certificationIndexes, int rowIndex = 0, List<StudentCertification> studentCertifications = null, List<StudentControlPoint> studentsControlPoints = null)
         {
             List<StudentCertification> distinctStudentCertifications;
 
@@ -92,11 +110,11 @@ namespace PointRaitingSystem
 
             foreach(StudentCertification certification in distinctStudentCertifications)
             {
-                int idOfSCP = 0;
+                uint idOfSCP = 0;
                 try
                 {
                     idOfSCP = (from scp in studentsControlPoints
-                                   where scp.id_of_controlPoint == certification.id_of_prev_cp
+                                   where scp.id_of_controlPoint == certification.id_of_prev_cp && scp.id_of_student == certification.id_of_student
                                    select scp.id).First();
                 }
                 catch(Exception ex)
@@ -107,7 +125,7 @@ namespace PointRaitingSystem
                 /* (dgv.Columns.Count - 3); -3 - потому что, первые 2 это id, и ФИО + последняя Всего */
                 for (int i = 0; i < (dgv.Columns.Count - 4) / 2; i++)
                 {
-                    if ((int)dgv.Rows[rowIndex].Cells[string.Format("idOfCP{0}", i)].Value == idOfSCP)
+                    if ((uint)dgv.Rows[rowIndex].Cells[string.Format("idOfCP{0}", i)].Value == idOfSCP)
                     {
                         certificationIndexes[certIter] = dgv.Columns[string.Format("idOfCP{0}", i)].Index + 2;
 
@@ -157,11 +175,11 @@ namespace PointRaitingSystem
         private static void FillStudentsCertificationsCells(ref DataGridView dgv, ref List<StudentCertification> certifications, ref int[] columnIndexes)
         {
             List<StudentCertification> tempCertifications = null;
-            int stID;
+            uint stID;
 
             foreach(DataGridViewRow row in dgv.Rows)
             {
-                stID = (int)row.Cells[0].Value;
+                stID = (uint)row.Cells[0].Value;
                 tempCertifications = certifications.Where(x => x.id_of_student == stID).ToList();
 
                 if(tempCertifications.Count == columnIndexes.Length)
@@ -259,7 +277,7 @@ namespace PointRaitingSystem
             columns[columns.Length - 1] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "grade", HeaderText = "Итоговая оценка", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader };
             return columns;
         }
-        private static List<StudentsWithCP> GetStudentsCPs(int groupId, int dId, out List<StudentExam> exams)
+        private static List<StudentsWithCP> GetStudentsCPs(uint groupId, uint dId, out List<StudentExam> exams)
         {
             List<StudentsWithCP> studentsCPs = new List<StudentsWithCP>();
             List<Student> students = null;
@@ -293,6 +311,17 @@ namespace PointRaitingSystem
             }
             
             return studentsCPs;
+        }
+        private static StudentReexam GetReexam(uint reexamID)
+        {
+            try
+            {
+                return DataService.SelectReexamsByID(reexamID);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private static bool isHavingNullPoints(ref List<StudentsWithCP> studentsCPs)

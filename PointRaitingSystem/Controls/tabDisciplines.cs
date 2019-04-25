@@ -47,7 +47,7 @@ namespace PointRaitingSystem
                     semestr = int.Parse(txtSemestr.Text)
                 };
 
-                int recAffected = DataService.InsertIntoDisciplinesTable(discipline);
+                uint recAffected = DataService.InsertIntoDisciplinesTable(discipline);
 
                 if (recAffected > 0)
                 {
@@ -66,7 +66,7 @@ namespace PointRaitingSystem
             {
                 Discipline discipline = new Discipline
                 {
-                    id = int.Parse(txtId.Text),
+                    id = uint.Parse(txtId.Text),
                     name = txtName.Text,
                     semestr = int.Parse(txtSemestr.Text)
                 };

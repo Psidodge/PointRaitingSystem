@@ -54,7 +54,7 @@ namespace MainLib.Parsing
         public string group { get; set; }
         public Student ConvertToDataBaseRep()
         {
-            Func<int> func = () => { return DataService.GetIdOfGroupByGroupName(Name); };
+            Func<uint> func = () => { return DataService.GetIdOfGroupByGroupName(group); };
 
             return new Student()
             {

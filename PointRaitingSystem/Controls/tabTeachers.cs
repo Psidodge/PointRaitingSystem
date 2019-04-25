@@ -67,7 +67,7 @@ namespace PointRaitingSystem
 
             try
             {
-                auth = DataService.SelectAuthInfoByUserID(int.Parse(txtId.Text));
+                auth = DataService.SelectAuthInfoByUserID(uint.Parse(txtId.Text));
             }
             catch (Exception)
             {
@@ -90,7 +90,7 @@ namespace PointRaitingSystem
                     isAdmin = checkBoxIsAdmin.Checked
                 };
 
-                int recordId = DataService.InsertIntoTeachersTable(userInfo);
+                uint recordId = DataService.InsertIntoTeachersTable(userInfo);
 
                 if (recordId > 0)
                 {
@@ -108,7 +108,7 @@ namespace PointRaitingSystem
             {
                 UserInfo userInfo = new UserInfo
                 {
-                    id = (int)dgvTeachers.CurrentRow.Cells["id"].Value,
+                    id = (uint)dgvTeachers.CurrentRow.Cells["id"].Value,
                     Name = txtName.Text,
                     isAdmin = checkBoxIsAdmin.Checked
                 };
@@ -139,7 +139,7 @@ namespace PointRaitingSystem
 
             AuthInfoAdmin auth = new AuthInfoAdmin()
             {
-                id = int.Parse(txtAuthID.Text),
+                id = uint.Parse(txtAuthID.Text),
                 hash = PasswordHashing.GetHashedPassword(txtPass.Text, out genSalt),
                 salt = genSalt
             };
@@ -177,7 +177,7 @@ namespace PointRaitingSystem
             {
                 UserInfo userInfo = new UserInfo
                 {
-                    id      =   int.Parse(txtId.Text),
+                    id      =   uint.Parse(txtId.Text),
                     Name    =   txtName.Text,
                     isAdmin =   checkBoxIsAdmin.Checked,
                     authID  =   DataService.InsertIntoAuthInfo(auth)

@@ -37,6 +37,10 @@
             this.tsmiExam = new System.Windows.Forms.ToolStripMenuItem();
             this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiPickReportFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmDeb = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiAdm = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiDebChangeUser = new System.Windows.Forms.ToolStripMenuItem();
+            this.tscbDebUserList = new System.Windows.Forms.ToolStripComboBox();
             this.menuPanel = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnCreateCP = new System.Windows.Forms.Button();
@@ -70,10 +74,6 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsslCurrentDate = new System.Windows.Forms.ToolStripStatusLabel();
             this.dgvStudents = new System.Windows.Forms.DataGridView();
-            this.tsmDeb = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiAdm = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiDebChangeUser = new System.Windows.Forms.ToolStripMenuItem();
-            this.tscbDebUserList = new System.Windows.Forms.ToolStripComboBox();
             this.menuStrip1.SuspendLayout();
             this.menuPanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -150,6 +150,40 @@
             this.tsmiPickReportFolder.Size = new System.Drawing.Size(269, 22);
             this.tsmiPickReportFolder.Text = "Выбрать папку сохранения отчетов";
             this.tsmiPickReportFolder.Click += new System.EventHandler(this.tsmiPickReportFolder_Click);
+            // 
+            // tsmDeb
+            // 
+            this.tsmDeb.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiAdm,
+            this.tsmiDebChangeUser});
+            this.tsmDeb.Name = "tsmDeb";
+            this.tsmDeb.Size = new System.Drawing.Size(53, 20);
+            this.tsmDeb.Text = "debug";
+            this.tsmDeb.Visible = false;
+            // 
+            // tsmiAdm
+            // 
+            this.tsmiAdm.Name = "tsmiAdm";
+            this.tsmiAdm.Size = new System.Drawing.Size(167, 22);
+            this.tsmiAdm.Text = "open admin form";
+            this.tsmiAdm.Click += new System.EventHandler(this.tsmiAdm_Click);
+            // 
+            // tsmiDebChangeUser
+            // 
+            this.tsmiDebChangeUser.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tscbDebUserList});
+            this.tsmiDebChangeUser.Name = "tsmiDebChangeUser";
+            this.tsmiDebChangeUser.Size = new System.Drawing.Size(167, 22);
+            this.tsmiDebChangeUser.Text = "change user";
+            // 
+            // tscbDebUserList
+            // 
+            this.tscbDebUserList.Items.AddRange(new object[] {
+            "cep.ds",
+            "ncep.ds"});
+            this.tscbDebUserList.Name = "tscbDebUserList";
+            this.tscbDebUserList.Size = new System.Drawing.Size(121, 23);
+            this.tscbDebUserList.TextChanged += new System.EventHandler(this.tscbDebUserList_TextChanged);
             // 
             // menuPanel
             // 
@@ -460,13 +494,13 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(961, 17);
             this.toolStripStatusLabel1.Spring = true;
             // 
             // tsslCurrentDate
             // 
             this.tsslCurrentDate.Name = "tsslCurrentDate";
+            this.tsslCurrentDate.Overflow = System.Windows.Forms.ToolStripItemOverflow.Always;
             this.tsslCurrentDate.Size = new System.Drawing.Size(31, 17);
             this.tsslCurrentDate.Text = "Date";
             // 
@@ -484,40 +518,6 @@
             this.dgvStudents.TabIndex = 4;
             this.dgvStudents.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStudents_CellEndEdit);
             this.dgvStudents.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvStudents_ColumnHeaderMouseClick);
-            // 
-            // tsmDeb
-            // 
-            this.tsmDeb.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiAdm,
-            this.tsmiDebChangeUser});
-            this.tsmDeb.Name = "tsmDeb";
-            this.tsmDeb.Size = new System.Drawing.Size(53, 20);
-            this.tsmDeb.Text = "debug";
-            this.tsmDeb.Visible = false;
-            // 
-            // tsmiAdm
-            // 
-            this.tsmiAdm.Name = "tsmiAdm";
-            this.tsmiAdm.Size = new System.Drawing.Size(180, 22);
-            this.tsmiAdm.Text = "open admin form";
-            this.tsmiAdm.Click += new System.EventHandler(this.tsmiAdm_Click);
-            // 
-            // tsmiDebChangeUser
-            // 
-            this.tsmiDebChangeUser.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tscbDebUserList});
-            this.tsmiDebChangeUser.Name = "tsmiDebChangeUser";
-            this.tsmiDebChangeUser.Size = new System.Drawing.Size(180, 22);
-            this.tsmiDebChangeUser.Text = "change user";
-            // 
-            // tscbDebUserList
-            // 
-            this.tscbDebUserList.Items.AddRange(new object[] {
-            "cep.ds",
-            "ncep.ds"});
-            this.tscbDebUserList.Name = "tscbDebUserList";
-            this.tscbDebUserList.Size = new System.Drawing.Size(121, 23);
-            this.tscbDebUserList.TextChanged += new System.EventHandler(this.tscbDebUserList_TextChanged);
             // 
             // usrMainForm
             // 

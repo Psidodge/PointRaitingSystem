@@ -9,31 +9,31 @@ namespace PointRaitingSystem
 {
     class reexamStudentsExamsDataGridViewFactory
     {
-        public static void CreateStudentCPsDataGridView(ref DataGridView dgv, out int[] studentsIDs, out List<StudentWithExam> studentWithExams, int groupId, int disciplineID)
+        public static void CreateStudentCPsDataGridView(ref DataGridView dgv, out uint[] studentsIDs, out List<StudentWithReexam> studentWithReexams, uint groupId, uint disciplineID)
         {
             studentsIDs = null;
             dgv.Columns.Clear();
 
-            studentWithExams = GenerateStudentWithExamsList(groupId, disciplineID);
-            DataGridViewColumn[] columns = CreateColumns(ref dgv, studentWithExams);
+            studentWithReexams = GenerateStudentWithExamsList(groupId, disciplineID);
+            DataGridViewColumn[] columns = CreateColumns(ref dgv, studentWithReexams.Count);
             if (columns == null)
                 return;
 
             dgv.Columns.AddRange(columns);
-            dgv.Rows.Add(studentWithExams.Count);
+            dgv.Rows.Add(studentWithReexams.Count);
 
-            studentsIDs = new int[studentWithExams.Count];
+            studentsIDs = new uint[studentWithReexams.Count];
 
-            for (int i = 0; i < studentWithExams.Count; i++)
+            for (int i = 0; i < studentWithReexams.Count; i++)
             {
-                studentsIDs[i] = studentWithExams[i].studentID;
-                dgv.Rows[i].Cells[0].Value = studentWithExams[i].studentID;
-                dgv.Rows[i].Cells[1].Value = studentWithExams[i].studentName;
-                dgv.Rows[i].Cells[2].Value = studentWithExams[i].examInfo.GetMaxStudentScore();
+                studentsIDs[i] = studentWithReexams[i].studentID;
+                dgv.Rows[i].Cells[0].Value = studentWithReexams[i].studentID;
+                dgv.Rows[i].Cells[1].Value = studentWithReexams[i].studentName;
+                dgv.Rows[i].Cells[2].Value = studentWithReexams[i].examInfo.GetMaxStudentScore();
                 if ((double)dgv.Rows[i].Cells[2].Value < 50)
                     dgv.Rows[i].Cells[2].Style.BackColor = Color.IndianRed;
-                dgv.Rows[i].Cells[3].Value = studentWithExams[i].examInfo.id;
-                dgv.Rows[i].Cells[4].Value = studentWithExams[i].examInfo.points;
+                dgv.Rows[i].Cells[3].Value = studentWithReexams[i].examInfo.id;
+                dgv.Rows[i].Cells[4].Value = studentWithReexams[i].examInfo.points;
                 dgv.Rows[i].Cells[5].Value = 2;
                 dgv.Rows[i].Cells[6].Style.BackColor = Color.LightGreen;
                 dgv.Rows[i].Cells[6].Value = 2;
@@ -55,12 +55,11 @@ namespace PointRaitingSystem
                     dgvExams.Rows[i].Cells[2].Style.BackColor = Color.IndianRed;
             }
         }
-
-        private static List<StudentWithExam> GenerateStudentWithExamsList(int groupID, int disciplineID)
+        private static List<StudentWithReexam> GenerateStudentWithExamsList(uint groupID, uint disciplineID)
         {
             List<Student> students;
             List<StudentExam> exams;
-            List<StudentWithExam> studentsExams = null;
+            List<StudentWithReexam> studentsReexams = null;
             Student student;
 
 
@@ -72,13 +71,13 @@ namespace PointRaitingSystem
             catch (Exception ex)
             {
                 //NOTE: Not handled exception
-                return studentsExams;
+                return studentsReexams;
             }
 
-            studentsExams = new List<StudentWithExam>();
+            studentsReexams = new List<StudentWithReexam>();
 
             exams = (from stExams in exams
-                     where stExams.isNotPassed
+                     where stExams.id_of_reexam != 0
                      select stExams).ToList();
 
             foreach(var exam in exams)
@@ -87,32 +86,34 @@ namespace PointRaitingSystem
                            where st.id == exam.id_of_student
                            select st).Single();
 
-                studentsExams.Add(new StudentWithExam()
+                studentsReexams.Add(new StudentWithReexam()
                 {
                     examInfo = exam,
+                    reexamInfo = DataService.SelectReexamsByID(exam.id_of_reexam),
                     studentID = student.id,
                     studentName = student.name
                 });
+                studentsReexams[studentsReexams.Count - 1].reexamInfo.date = DateTime.Now.Date;
             }
-            return studentsExams;
+            return studentsReexams;
         }
-        private static DataGridViewColumn[] CreateColumns(ref DataGridView dgv, List<StudentWithExam> studentsExams)
+        private static DataGridViewColumn[] CreateColumns(ref DataGridView dgv, int amountOfStudents)
         {
-            if (studentsExams.Count == 0)
+            if (amountOfStudents == 0)
                 return null;
 
             DataGridViewColumn[] columns = new DataGridViewTextBoxColumn[7];
             columns[0] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "stID", HeaderText = "stid", ReadOnly = true, Visible = false };
             columns[1] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "name", HeaderText = "ФИО", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill };
             columns[2] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "sum", HeaderText = "Всего получено", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader };
-            columns[3] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "examID", HeaderText = "examid", ReadOnly = true, Visible = false };
-            columns[4] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "examPoints", HeaderText = "Баллы за экзамен", AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader };
-            columns[5] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "examGrade", HeaderText = "Оценка за экзамен", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader };
+            columns[3] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "reexamID", HeaderText = "examid", ReadOnly = true, Visible = false };
+            columns[4] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "reexamPoints", HeaderText = "Баллы за переэкзаменовку", AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader };
+            columns[5] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "reexamGrade", HeaderText = "Оценка за переэкзаменовку", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader };
             columns[6] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "recGrade", HeaderText = "Рек. оценка", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader };
 
             return columns;
         }
-        private static List<StudentExam> GetStudentExams(int groupID, int disciplineID)
+        private static List<StudentExam> GetStudentExams(uint groupID, uint disciplineID)
         {
             List<StudentExam> studentExams;
             try

@@ -15,11 +15,11 @@ namespace PointRaitingSystem
     public partial class usrTemplateList : Form
     {
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
-        private int groupID, disciplineID;
+        private uint groupID, disciplineID;
         private double pointsLeft = 80d,
                        sumOfUsedPoints = 0d;
 
-        public usrTemplateList(int groupID, int disciplineID)
+        public usrTemplateList(uint groupID, uint disciplineID)
         {
             InitializeComponent();
             this.groupID = groupID;
@@ -35,7 +35,7 @@ namespace PointRaitingSystem
                 clbTemplates.SetItemChecked(elementIndex, false);
             }
         }
-        private void IntializeDataSets(int disciplineID)
+        private void IntializeDataSets(uint disciplineID)
         {
             try
             {

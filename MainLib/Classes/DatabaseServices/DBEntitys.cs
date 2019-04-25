@@ -11,9 +11,9 @@ namespace MainLib.DBServices
 
     public class ControlPoint : DBEntity
     {
-        public int id { get; set; }
-        public int id_of_user { get; set; }
-        public int id_of_discipline { get; set; }
+        public uint id { get; set; }
+        public uint id_of_user { get; set; }
+        public uint id_of_discipline { get; set; }
         public double weight { get; set; }
         public string Description { get; set; }
         public override Type GetEntityType()
@@ -34,9 +34,9 @@ namespace MainLib.DBServices
     }
     public class ControlPointTemplate : DBEntity
     {
-        public int id { get; set; }
-        public int id_of_user { get; set; }
-        public int id_of_discipline { get; set; }
+        public uint id { get; set; }
+        public uint id_of_user { get; set; }
+        public uint id_of_discipline { get; set; }
         public double weight { get; set; }
         public string description { get; set; }
 
@@ -59,9 +59,9 @@ namespace MainLib.DBServices
     }
     public class ControlPointsOfStudents : DBEntity
     {
-        public int id { get; set; }
-        public int id_of_student { get; set; }
-        public int id_of_controlPoint { get; set; }
+        public uint id { get; set; }
+        public uint id_of_student { get; set; }
+        public uint id_of_controlPoint { get; set; }
         public double points { get; set; }
         public bool readOnly { get; set; }
         public override Type GetEntityType()
@@ -81,7 +81,7 @@ namespace MainLib.DBServices
     }
     public class Group : DBEntity
     {
-        public int id { get; set; }
+        public uint id { get; set; }
         public string name { get; set; }
         public string type { get; set; } //NOTE: ?
         public int course { get; set; }
@@ -92,7 +92,7 @@ namespace MainLib.DBServices
     }
     public class Discipline : DBEntity
     {
-        public int id { get; set; }
+        public uint id { get; set; }
         public string name { get; set; }
         public string type { get; set; } //NOTE: ?
         public int semestr { get; set; }
@@ -106,9 +106,9 @@ namespace MainLib.DBServices
     }
     public class Student : DBEntity
     {
-        public int id { get; set; }
+        public uint id { get; set; }
         public string name { get; set; }
-        public int id_of_group { get; set; }
+        public uint id_of_group { get; set; }
         public override Type GetEntityType()
         {
             return this.GetType();
@@ -116,13 +116,14 @@ namespace MainLib.DBServices
     }
     public class StudentCertification : DBEntity
     {
-        public int id { get; set; }
-        public int id_of_student { get; set; }
-        public int id_of_prev_cp { get; set; }
-        public int id_of_discipline { get; set; }
-        public int id_of_user { get; set; }
+        public uint id { get; set; }
+        public uint id_of_student { get; set; }
+        public uint id_of_prev_cp { get; set; }
+        public uint id_of_discipline { get; set; }
+        public uint id_of_user { get; set; }
         public int grade { get; private set; }
         public DateTime date { get; set; }
+        public double sum_of_points { get; set; }
 
 
         public override Type GetEntityType()
@@ -130,7 +131,7 @@ namespace MainLib.DBServices
             return this.GetType();
         }
 
-        public void CountGrade(int disciplineID, int previousControlPoinID)
+        public void CountGrade(uint disciplineID, uint previousControlPoinID)
         {
             double sumOfPoints = 0,
                    sumOfWeights = 0;
@@ -176,11 +177,11 @@ namespace MainLib.DBServices
                 throw;
             }
         }
-        public double GetStudentScore()
+        public void CountStudentScore()
         {
             try
             {
-                return DataService.GetStudentPointsSum(this.id_of_student, id_of_prev_cp, id_of_discipline);
+                sum_of_points = DataService.GetStudentPointsSum(this.id_of_student, id_of_prev_cp, id_of_discipline);
             }
             catch (Exception)
             {
@@ -190,14 +191,14 @@ namespace MainLib.DBServices
     }
     public class StudentExam : DBEntity
     {
-        public int id { get; set; }
-        public int id_of_student { get; set; }
-        public int id_of_discipline { get; set; }
-        public int id_of_user { get; set; }
+        public uint id { get; set; }
+        public uint id_of_student { get; set; }
+        public uint id_of_discipline { get; set; }
+        public uint id_of_user { get; set; }
         public DateTime date { get; set; }
         public int grade { get; set; }
         public double points { get; set; }
-        public bool isNotPassed { get; set; }
+        public uint id_of_reexam{ get; set; }
 
         public override Type GetEntityType()
         {
@@ -319,12 +320,71 @@ namespace MainLib.DBServices
             }
         }
     }
+    public class StudentReexam : DBEntity
+    {
+        public uint id { get; set; }
+        public DateTime date { get; set; }
+        public double points { get; set; }
+        public int grade { get; set; }
+
+        public override Type GetEntityType()
+        {
+            return this.GetType();
+        }
+
+        public int CountRecommendedGrade(uint stID, uint disID)
+        {
+            double maxSumOfPoint = GetMaxSumOfPoints(stID, disID) + 20,
+                   studentScore = GetMaxStudentScore(stID, disID) + points;
+
+            if (studentScore >= (maxSumOfPoint * 0.85))
+            {
+                return 5;
+            }
+            if (studentScore >= (maxSumOfPoint * 0.65))
+            {
+                return 4;
+            }
+            if (studentScore >= (maxSumOfPoint * 0.50))
+            {
+                return 3;
+            }
+            if (studentScore < (maxSumOfPoint * 0.50))
+            {
+                return 2;
+            }
+            return -1;
+        }
+        public double GetMaxSumOfPoints(uint stID, uint disID)
+        {
+            try
+            {
+                return DataService.GetSumOfMaxWeights(stID, disID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public double GetMaxStudentScore(uint stID, uint disID)
+        {
+            try
+            {
+                return DataService.GetMaxSumOfStudentPoints(stID, disID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+    }
+
 
     public class StudentControlPoint : DBEntity
     {
-        public int id { get; set; }
-        public int id_of_student { get; set; }
-        public int id_of_controlPoint { get; set; }
+        public uint id { get; set; }
+        public uint id_of_student { get; set; }
+        public uint id_of_controlPoint { get; set; }
         public double points { get; set; }
         public string description { get; set; }
         public string pseudonym { get; set; }
@@ -335,7 +395,7 @@ namespace MainLib.DBServices
     }
     public class StudentWithExam : DBEntity
     {
-        public int studentID { get; set; }
+        public uint studentID { get; set; }
         public string studentName { get; set; }
         public StudentExam examInfo { get; set; }
         public override Type GetEntityType()
@@ -343,10 +403,137 @@ namespace MainLib.DBServices
             return this.GetType();
         }
     }
+    public class StudentWithReexam : DBEntity
+    {
+        public uint studentID { get; set; }
+        public string studentName { get; set; }
+        public StudentExam examInfo { get; set; }
+        public StudentReexam reexamInfo { get; set; }
 
+        public override Type GetEntityType()
+        {
+            return this.GetType();
+        }
+
+        public int CountRecommendedGrade()
+        {
+            double maxSumOfPoint = GetMaxSumOfPoints() + 20,
+                   studentScore = GetMaxStudentScore() + reexamInfo.points;
+
+            if (studentScore >= (maxSumOfPoint * 0.85))
+            {
+                return 5;
+            }
+            if (studentScore >= (maxSumOfPoint * 0.65))
+            {
+                return 4;
+            }
+            if (studentScore >= (maxSumOfPoint * 0.50))
+            {
+                return 3;
+            }
+            if (studentScore < (maxSumOfPoint * 0.50))
+            {
+                return 2;
+            }
+            return -1;
+        }
+        public int CountRecommendedGrade(double currentPoints)
+        {
+            double maxSumOfPoint = GetMaxSumOfPoints() + 20;
+            currentPoints += reexamInfo.points;
+
+            if (currentPoints >= (maxSumOfPoint * 0.85))
+            {
+                return 5;
+            }
+            if (currentPoints >= (maxSumOfPoint * 0.65))
+            {
+                return 4;
+            }
+            if (currentPoints >= (maxSumOfPoint * 0.50))
+            {
+                return 3;
+            }
+            if (currentPoints < (maxSumOfPoint * 0.50))
+            {
+                return 2;
+            }
+            return -1;
+        }
+        public void CountExamGrade()
+        {
+            double sumOfWeights = 20;
+
+            if (reexamInfo.points >= (sumOfWeights * 0.85))
+            {
+                reexamInfo.grade = 5;
+                return;
+            }
+            if (reexamInfo.points >= (sumOfWeights * 0.65))
+            {
+                reexamInfo.grade = 4;
+                return;
+            }
+            if (reexamInfo.points >= (sumOfWeights * 0.50))
+            {
+                reexamInfo.grade = 3;
+                return;
+            }
+            if (reexamInfo.points < (sumOfWeights * 0.50))
+            {
+                reexamInfo.grade = 2;
+                return;
+            }
+        }
+        public int GetExamGrade()
+        {
+            double sumOfWeights = 20;
+
+            if (reexamInfo.points >= (sumOfWeights * 0.85))
+            {
+                return 5;
+            }
+            if (reexamInfo.points >= (sumOfWeights * 0.65))
+            {
+                return 4;
+            }
+            if (reexamInfo.points >= (sumOfWeights * 0.50))
+            {
+                return 3;
+            }
+            if (reexamInfo.points < (sumOfWeights * 0.50))
+            {
+                return 2;
+            }
+            return -1;
+        }
+        public double GetMaxSumOfPoints()
+        {
+            try
+            {
+                return DataService.GetSumOfMaxWeights(examInfo.id_of_student, examInfo.id_of_discipline);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public double GetMaxStudentScore()
+        {
+            try
+            {
+                return DataService.GetMaxSumOfStudentPoints(examInfo.id_of_student, examInfo.id_of_discipline);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+    }
     public class StudentsWithCP : DBEntity
     {
-        public int id { get; set; }
+        public uint id { get; set; }
         public string name { get; set; }
         public List<StudentControlPoint> studentCPs { get; set; } 
         public override Type GetEntityType()
@@ -367,7 +554,7 @@ namespace MainLib.DBServices
     }
     public class AuthInfoAdmin : DBEntity
     {
-        public int id { get; set; }
+        public uint id { get; set; }
         public string login { get; set; }
         public byte[] salt { get; set; }
         public byte[] hash { get; set; }
@@ -378,10 +565,10 @@ namespace MainLib.DBServices
     }
     public class UserInfo : DBEntity
     {
-        public int id { get; set; }
+        public uint id { get; set; }
         public string Name { get; set; }
         public bool isAdmin { get; set; }
-        public int authID { get; set; }
+        public uint authID { get; set; }
         //NOTE: Test getter
         public override Type GetEntityType()
         {
@@ -390,7 +577,7 @@ namespace MainLib.DBServices
     }
     public class UserFullInfo : DBEntity
     {
-        public int id { get; set; }
+        public uint id { get; set; }
         public string Name { get; set; }
         public string login { get; set; }
         //NOTE: Test getter
@@ -420,10 +607,10 @@ namespace MainLib.DBServices
     }
     public class StudentInfo : DBEntity
     {
-        public int id { get; }
+        public uint id { get; }
         public string name { get; }
         public string group_name { get; }
-        public int id_of_group { get; }
+        public uint id_of_group { get; }
         public override Type GetEntityType()
         {
             return this.GetType();
@@ -431,7 +618,7 @@ namespace MainLib.DBServices
     }
     public class GroupInfo : DBEntity
     {
-        public int id { get; }
+        public uint id { get; }
         public string name { get; }
         public int course { get; }
         public override Type GetEntityType()
@@ -441,7 +628,7 @@ namespace MainLib.DBServices
     }
     public class DisciplineInfo : DBEntity
     {
-        public int id { get; }
+        public uint id { get; }
         public string name { get; }
         public int semestr { get; }
         public string disciplineFullName { get => string.Concat(name, " " , semestr, " семестр"); }
@@ -454,7 +641,7 @@ namespace MainLib.DBServices
     {
         public string name { get; }
         public string discipline_name { get; }
-        public int weight { get; }
+        public uint weight { get; }
         public string description { get; }
         public override Type GetEntityType()
         {
@@ -466,14 +653,14 @@ namespace MainLib.DBServices
 
     public class GroupDiscipline
     {
-        public int id { get; set; }
-        public int GroupId { get; set; }
-        public int DisciplineId { get; set; }
+        public uint id { get; set; }
+        public uint GroupId { get; set; }
+        public uint DisciplineId { get; set; }
     }
     public class TeacherDiscipline
     {
-        public int id_of_group { get; set; }
-        public int id_of_discipline { get; set; }
-        public int id_of_user { get; set; }
+        public uint id_of_group { get; set; }
+        public uint id_of_discipline { get; set; }
+        public uint id_of_user { get; set; }
     }
 }

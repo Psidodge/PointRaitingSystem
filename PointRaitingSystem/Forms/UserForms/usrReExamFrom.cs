@@ -1,6 +1,7 @@
 ﻿using MainLib.DBServices;
 using MainLib.Session;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -11,16 +12,18 @@ namespace PointRaitingSystem
     public partial class usrReExamFrom : Form
     {
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        ExamType currentType;
         private bool isCellsHiden = false;
         private bool isCommited = false;
         private List<StudentExam> tempStudentExams;
-        private List<StudentWithExam> studentWithExams;
-        private List<StudentsWithCP> studentsWithCPs;
+        private List<StudentWithReexam> tempStudentWithReexams;
+        private List<StudentsWithCP> tempStudentsWithCPs;
 
-        public usrReExamFrom(int groupID, int disciplineID, ExamType type)
+        public usrReExamFrom(uint groupID, uint disciplineID, ExamType type)
         {
             InitializeComponent();
-            switch(type)
+            currentType = type;
+            switch (type)
             {
                 case ExamType.Exam:
                     GenerateExamEntitiesForStudents(groupID, disciplineID);
@@ -42,7 +45,7 @@ namespace PointRaitingSystem
             ControlPointInfo cpInfo = null;
             try
             {
-                int id = (int)dgvStudentsCPs.CurrentRow.Cells[dgvStudentsCPs.SelectedColumns[0].Index - 1].Value;
+                uint id = (uint)dgvStudentsCPs.CurrentRow.Cells[dgvStudentsCPs.SelectedColumns[0].Index - 1].Value;
                 cpInfo = DataService.SelectControlPointInfo(id);
             }
             catch (Exception ex)
@@ -54,33 +57,32 @@ namespace PointRaitingSystem
             lblWeight.Text = cpInfo.weight.ToString();
             txtDescription.Text = cpInfo.description;
         }
-        private void InitializeDataSetsReexam(int groupID, int disciplineID)
+        private void InitializeDataSetsReexam(uint groupID, uint disciplineID)
         {
-            int[] studentsIDs;
+            uint[] studentsIDs;
             try
             {
-                reexamStudentsExamsDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvExams, out studentsIDs, out studentWithExams, groupID, disciplineID);
-                reexamStudentCPsDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudentsCPs, out studentsWithCPs, groupID, disciplineID, studentsIDs);
+                reexamStudentsExamsDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvExams, out studentsIDs, out tempStudentWithReexams, groupID, disciplineID);
+                reexamStudentCPsDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudentsCPs, out tempStudentsWithCPs, groupID, disciplineID, studentsIDs);
             }
             catch (Exception ex)
             {
                 logger.Error(ex);
             }
         }
-        private void InitializeDataSetsExam(int groupID, int disciplineID)
+        private void InitializeDataSetsExam(uint groupID, uint disciplineID)
         {
             try
             {
                 studentExamDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvExams, groupID, tempStudentExams);
-                //reexamStudentsExamsDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvExams, out studentsIDs, out studentWithExams, groupID, disciplineID);
-                reexamStudentCPsDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudentsCPs, out studentsWithCPs, groupID, disciplineID);
+                reexamStudentCPsDataGridViewFactory.CreateStudentCPsDataGridView(ref dgvStudentsCPs, out tempStudentsWithCPs, groupID, disciplineID);
             }
             catch(Exception ex)
             {
                 logger.Error(ex);
             }
         }
-        private void GenerateExamEntitiesForStudents(int groupID, int disciplineID)
+        private void GenerateExamEntitiesForStudents(uint groupID, uint disciplineID)
         {
             UserInfo teacher = Session.GetCurrentSession().UserSession;
             tempStudentExams = new List<StudentExam>();
@@ -102,12 +104,35 @@ namespace PointRaitingSystem
                     id_of_discipline = disciplineID,
                     id_of_student = student.id,
                     id_of_user = teacher.id,
-                    date = DateTime.Now.Date,
-                    isNotPassed = true
+                    date = DateTime.Now.Date
                 });
             }
         }
-
+        private bool CommitExam()
+        {
+            try
+            {
+                DataService.InsertIntoStudentExam(tempStudentExams);
+                return true;
+            }
+            catch(Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
+        }
+        private bool CommitReexam()
+        {
+            try
+            {
+                return DataService.UpdateStudentReexamTransact(tempStudentWithReexams.Select(x => x.reexamInfo).ToList());
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
+        }
 
         private void dgvStudentsCPs_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
@@ -121,7 +146,7 @@ namespace PointRaitingSystem
 
             try
             {
-                int idOfCP = Convert.ToInt32(dgvStudentsCPs.CurrentRow.Cells[dgvStudentsCPs.CurrentCell.ColumnIndex - 1].Value);
+                uint idOfCP = Convert.ToUInt32(dgvStudentsCPs.CurrentRow.Cells[dgvStudentsCPs.CurrentCell.ColumnIndex - 1].Value);
                 ControlPointInfo cpInfo = DataService.SelectControlPointInfo(idOfCP);
 
                 if (pointsToIns < 0 || pointsToIns > cpInfo.weight)
@@ -130,10 +155,10 @@ namespace PointRaitingSystem
                     dgvStudentsCPs.CurrentCell.Value = 0;
                     return;
                 }
-                var cpIndex = studentsWithCPs[dgvStudentsCPs.CurrentRow.Index].studentCPs.FindIndex(x => x.id == id);
-                studentsWithCPs[dgvStudentsCPs.CurrentRow.Index].studentCPs[cpIndex].points = pointsToIns;
+                var cpIndex = tempStudentsWithCPs[dgvStudentsCPs.CurrentRow.Index].studentCPs.FindIndex(x => x.id == id);
+                tempStudentsWithCPs[dgvStudentsCPs.CurrentRow.Index].studentCPs[cpIndex].points = pointsToIns;
                 reexamStudentCPsDataGridViewFactory.CalculateSum(ref dgvStudentsCPs);
-                
+                reexamStudentsExamsDataGridViewFactory.ChangeStudentCurrentPoints(ref dgvExams, ref dgvStudentsCPs);
                 //DataService.UpdateStudentCP(pointsToIns, id);
             }
             catch (Exception ex)
@@ -212,11 +237,20 @@ namespace PointRaitingSystem
             try
             {
                 dgvExams.CurrentCell.Value = points;
-                studentWithExams[dgvExams.CurrentRow.Index].examInfo.points = points;
-                studentWithExams[dgvExams.CurrentRow.Index].examInfo.CountExamGrade();
-                dgvExams.CurrentRow.Cells["examGrade"].Value = studentWithExams[dgvExams.CurrentRow.Index].examInfo.grade;
-                dgvExams.CurrentRow.Cells["recGrade"].Value = studentWithExams[dgvExams.CurrentRow.Index].examInfo.CountRecommendedGrade((double)dgvExams.CurrentRow.Cells["sum"].Value);
-                //DataService.UpdateStudentExamsResults();
+                if (currentType == ExamType.Reexam)
+                {
+                    tempStudentWithReexams[dgvExams.CurrentRow.Index].reexamInfo.points = points;
+                    tempStudentWithReexams[dgvExams.CurrentRow.Index].CountExamGrade();
+                    dgvExams.CurrentRow.Cells["reexamGrade"].Value = tempStudentWithReexams[dgvExams.CurrentRow.Index].reexamInfo.grade;
+                    dgvExams.CurrentRow.Cells["recGrade"].Value = tempStudentWithReexams[dgvExams.CurrentRow.Index].CountRecommendedGrade((double)dgvExams.CurrentRow.Cells["sum"].Value);
+                }
+                else
+                {
+                    tempStudentExams[dgvExams.CurrentRow.Index].points = points;
+                    tempStudentExams[dgvExams.CurrentRow.Index].CountExamGrade();
+                    dgvExams.CurrentRow.Cells["examGrade"].Value = tempStudentExams[dgvExams.CurrentRow.Index].grade;
+                    dgvExams.CurrentRow.Cells["recGrade"].Value = tempStudentExams[dgvExams.CurrentRow.Index].CountRecommendedGrade((double)dgvExams.CurrentRow.Cells["sum"].Value);
+                }
             }
             catch (Exception)
             {
@@ -227,8 +261,11 @@ namespace PointRaitingSystem
         {
             if (tabControl.SelectedIndex == 1)
             {
-                reexamStudentsExamsDataGridViewFactory.ChangeStudentCurrentPoints(ref dgvExams, ref dgvStudentsCPs);
-                dgvExams.CurrentRow.Cells["recGrade"].Value = studentWithExams[dgvExams.CurrentRow.Index].examInfo.CountRecommendedGrade((double)dgvExams.CurrentRow.Cells["sum"].Value);
+                if (currentType == ExamType.Reexam)
+                {
+                    reexamStudentsExamsDataGridViewFactory.ChangeStudentCurrentPoints(ref dgvExams, ref dgvStudentsCPs);
+                    dgvExams.CurrentRow.Cells["recGrade"].Value = tempStudentWithReexams[dgvExams.CurrentRow.Index].examInfo.CountRecommendedGrade((double)dgvExams.CurrentRow.Cells["sum"].Value);
+                }
             }
         }
         private void dgvExams_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -243,6 +280,32 @@ namespace PointRaitingSystem
         private void usrReExamFrom_Load(object sender, EventArgs e)
         {
 
+        }
+        private void btnCommit_Click(object sender, EventArgs e)
+        {
+            if (!isCommited)
+            {
+                switch (currentType)
+                {
+                    case ExamType.Exam:
+                        if (CommitExam())
+                            isCommited = true;
+                        break;
+                    case ExamType.Reexam:
+                        if (CommitReexam())
+                            isCommited = true;
+                        break;
+                }
+                MessageBox.Show("Данные успешно зафиксированы", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Данные уже зафиксированы", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

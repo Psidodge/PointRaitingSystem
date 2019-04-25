@@ -9,7 +9,7 @@ namespace PointRaitingSystem
 {
     public static class reexamStudentCPsDataGridViewFactory
     {
-        public static void CreateStudentCPsDataGridView(ref DataGridView dgv, out List<StudentsWithCP> studentsCPs, int groupId, int disciplineId, int[] studentsIDs = null)
+        public static void CreateStudentCPsDataGridView(ref DataGridView dgv, out List<StudentsWithCP> studentsCPs, uint groupId, uint disciplineId, uint[] studentsIDs = null)
         {
             dgv.Columns.Clear();
 
@@ -102,7 +102,7 @@ namespace PointRaitingSystem
             columns[columns.Length - 1] = new DataGridViewTextBoxColumn() { SortMode = DataGridViewColumnSortMode.NotSortable, Name = "sum", HeaderText = "Всего", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader };
             return columns;
         }
-        private static List<StudentsWithCP> GetStudentsCPs(int groupId, int dId, int[] studentsIDs)
+        private static List<StudentsWithCP> GetStudentsCPs(uint groupId, uint dId, uint[] studentsIDs)
         {
             List<StudentsWithCP> studentsCPs = new List<StudentsWithCP>();
             List<Student> students = null;
@@ -135,7 +135,7 @@ namespace PointRaitingSystem
             }
             return studentsCPs;
         }
-        private static List<StudentsWithCP> GetStudentsCPs(int groupId, int dId)
+        private static List<StudentsWithCP> GetStudentsCPs(uint groupId, uint dId)
         {
             List<StudentsWithCP> studentsCPs = new List<StudentsWithCP>();
             List<Student> students = null;

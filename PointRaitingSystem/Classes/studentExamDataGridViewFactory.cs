@@ -11,7 +11,7 @@ namespace PointRaitingSystem
 {
     class studentExamDataGridViewFactory
     {
-        public static void CreateStudentCPsDataGridView(ref DataGridView dgv, int groupId, List<StudentExam> exams)
+        public static void CreateStudentCPsDataGridView(ref DataGridView dgv, uint groupId, List<StudentExam> exams)
         {
             dgv.Columns.Clear();
 
@@ -38,7 +38,7 @@ namespace PointRaitingSystem
             }
         }
 
-        private static List<StudentWithExam> GenerateStudentWithExamsList(int groupID, List<StudentExam> exams)
+        private static List<StudentWithExam> GenerateStudentWithExamsList(uint groupID, List<StudentExam> exams)
         {
             List<Student> students;
 

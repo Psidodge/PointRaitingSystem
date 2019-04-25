@@ -20,7 +20,7 @@ namespace MainLib.ReportsFactory.Reports
 
         private BaseFont bFont = BaseFont.CreateFont(@"resources\tnr.ttf", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
 
-        public bool GenerateReport(string folderPath, int groupID, int disciplineID, int teacherID, DateTime? date = null)
+        public bool GenerateReport(string folderPath, uint groupID, uint disciplineID, uint teacherID, DateTime? date = null)
         {
 
             if (!InitializeReportData(groupID, disciplineID, teacherID))
@@ -118,7 +118,7 @@ namespace MainLib.ReportsFactory.Reports
             stTable.SpacingAfter = 25;
             doc.Add(stTable);
         }
-        private bool InitializeReportData(int groupID, int disciplineID, int teacherID)
+        private bool InitializeReportData(uint groupID, uint disciplineID, uint teacherID)
         {
             try
             {

@@ -13,11 +13,11 @@ namespace PointRaitingSystem
     public partial class usrCertReportGenForm : Form
     {
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
-        private int groupID, disciplineID;
+        private uint groupID, disciplineID;
         private string path;
 
 
-        public usrCertReportGenForm(int groupID, int disciplineID)
+        public usrCertReportGenForm(uint groupID, uint disciplineID)
         {
             InitializeComponent();
             DataSetsInitializer(groupID, disciplineID);
@@ -26,7 +26,7 @@ namespace PointRaitingSystem
             path = ConfigurationManager.AppSettings["reportFilePath"];
         }
 
-        private void DataSetsInitializer(int groupID, int disciplineID)
+        private void DataSetsInitializer(uint groupID, uint disciplineID)
         {
             try
             {

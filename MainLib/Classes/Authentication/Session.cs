@@ -50,7 +50,7 @@ namespace MainLib.Session
             }
 
             public UserInfo UserSession { get => currentSession; }
-            public int ID { get => currentSession.id; }
+            public uint ID { get => currentSession.id; }
             public string UserLogin { get => login; }
             public string UserName { get => currentSession.Name; }
             public bool isAdmin { get => currentSession.isAdmin; }

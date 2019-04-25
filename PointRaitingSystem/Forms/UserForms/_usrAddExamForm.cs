@@ -16,10 +16,10 @@ namespace PointRaitingSystem
     {
         private List<StudentExam> tempStudentExams;
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
-        private int _disciplineID;
+        private uint _disciplineID;
         private bool isCommited = false;
 
-        public usrAddExamForm(int groupID, int disciplineID)
+        public usrAddExamForm(uint groupID, uint disciplineID)
         {
             InitializeComponent();
             _disciplineID = disciplineID;
@@ -28,7 +28,7 @@ namespace PointRaitingSystem
         }
         public bool IsCommited { get => isCommited; }
 
-        private void InitializeDataSets(int groupID)
+        private void InitializeDataSets(uint groupID)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace PointRaitingSystem
                 logger.Error(ex);
             }
         }
-        private void GenerateExamEntitiesForStudents(int groupID, int disciplineID)
+        private void GenerateExamEntitiesForStudents(uint groupID, uint disciplineID)
         {
             UserInfo teacher = Session.GetCurrentSession().UserSession;
             tempStudentExams = new List<StudentExam>();
@@ -61,8 +61,7 @@ namespace PointRaitingSystem
                     id_of_discipline = disciplineID,
                     id_of_student = student.id,
                     id_of_user = teacher.id,
-                    date = DateTime.Now.Date,
-                    isNotPassed = true
+                    date = DateTime.Now.Date
                 });
             }
         }
@@ -87,10 +86,10 @@ namespace PointRaitingSystem
             dgvStudentExams.CurrentRow.Cells["examGrade"].Value = tempStudentExams[dgvStudentExams.CurrentRow.Index].grade;
             dgvStudentExams.CurrentRow.Cells["recGrade"].Value = tempStudentExams[dgvStudentExams.CurrentRow.Index].CountRecommendedGrade();
 
-            if (tempStudentExams[dgvStudentExams.CurrentRow.Index].points == 0 || (int)dgvStudentExams.CurrentRow.Cells["recGrade"].Value == 2)
-                tempStudentExams[dgvStudentExams.CurrentRow.Index].isNotPassed = true;
-            else
-                tempStudentExams[dgvStudentExams.CurrentRow.Index].isNotPassed = false;
+            //if (tempStudentExams[dgvStudentExams.CurrentRow.Index].points == 0 || (int)dgvStudentExams.CurrentRow.Cells["recGrade"].Value == 2)
+              //  tempStudentExams[dgvStudentExams.CurrentRow.Index].isNotPassed = true;
+            //else
+            //    tempStudentExams[dgvStudentExams.CurrentRow.Index].isNotPassed = false;
 
         }
         private void btnSave_Click(object sender, EventArgs e)

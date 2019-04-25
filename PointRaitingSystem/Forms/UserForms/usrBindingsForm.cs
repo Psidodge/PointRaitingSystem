@@ -116,10 +116,10 @@ namespace PointRaitingSystem
             GroupInfo selecteGroupInfo = (GroupInfo)clbGroups.SelectedItem;
             try
             {
-                if (!DataService.isGroupDiscipline((int)cbDisciplines.SelectedValue, selecteGroupInfo.id))
-                    DataService.InsertIntoGroupDiscipline((int)cbDisciplines.SelectedValue, selecteGroupInfo.id);
-                if (!DataService.isTeacherDiscipline((int)cbDisciplines.SelectedValue, Session.GetCurrentSession().ID, selecteGroupInfo.id))
-                    DataService.InsertIntoTeacherDisciplines(Session.GetCurrentSession().ID, (int)cbDisciplines.SelectedValue, selecteGroupInfo.id);
+                if (!DataService.isGroupDiscipline((uint)cbDisciplines.SelectedValue, selecteGroupInfo.id))
+                    DataService.InsertIntoGroupDiscipline((uint)cbDisciplines.SelectedValue, selecteGroupInfo.id);
+                if (!DataService.isTeacherDiscipline((uint)cbDisciplines.SelectedValue, Session.GetCurrentSession().ID, selecteGroupInfo.id))
+                    DataService.InsertIntoTeacherDisciplines(Session.GetCurrentSession().ID, (uint)cbDisciplines.SelectedValue, selecteGroupInfo.id);
 
                 PrintListOfGroupDiscipline();
                 clbGroups.SetItemChecked(clbGroups.SelectedIndex, true);

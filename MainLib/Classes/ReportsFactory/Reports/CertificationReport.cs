@@ -20,7 +20,7 @@ namespace MainLib.ReportsFactory.Reports
 
         private BaseFont bFont = BaseFont.CreateFont(@"resources\tnr.ttf", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
 
-        public bool GenerateReport(string folderPath, int groupID, int disciplineID, int teacherID, DateTime? certDate)
+        public bool GenerateReport(string folderPath, uint groupID, uint disciplineID, uint teacherID, DateTime? certDate)
         {
 
             if (!InitializeReportData(groupID, disciplineID, teacherID, (DateTime)certDate))
@@ -99,20 +99,26 @@ namespace MainLib.ReportsFactory.Reports
                 trCell.AddElement(new Paragraph(student.name, trFont) { Alignment = Element.ALIGN_LEFT });
                 stTable.AddCell(trCell);
                 trCell = new PdfPCell();
-                trCell.AddElement(new Paragraph(certifications[iter].GetStudentScore().ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
+                trCell.AddElement(new Paragraph(certifications[iter].sum_of_points.ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
                 stTable.AddCell(trCell);
                 trCell = new PdfPCell();
                 trCell.AddElement(new Paragraph(certifications[iter].GetMaxSumOfPointsForCurCP().ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
                 stTable.AddCell(trCell);
                 trCell = new PdfPCell();
-                trCell.AddElement(new Paragraph(certifications[iter].grade.ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
+                if (certifications[iter].id_of_student == student.id)
+                    trCell.AddElement(new Paragraph(certifications[iter].grade.ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
+                else
+                {
+                    trCell.AddElement(new Paragraph("-", trFont) { Alignment = Element.ALIGN_CENTER });
+                    iter--;
+                }
                 stTable.AddCell(trCell);
                 iter++;
             }
             stTable.SpacingAfter = 25;
             doc.Add(stTable);
         }
-        private bool InitializeReportData(int groupID, int disciplineID, int teacherID, DateTime certDate)
+        private bool InitializeReportData(uint groupID, uint disciplineID, uint teacherID, DateTime certDate)
         {
             try
             {

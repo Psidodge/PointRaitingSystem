@@ -63,7 +63,7 @@ namespace PointRaitingSystem
                     course = int.Parse(txtCourse.Text)
                 };
 
-                int recAffected = DataService.InsertIntoGroupsTable(group);
+                uint recAffected = DataService.InsertIntoGroupsTable(group);
 
                 if (recAffected > 0)
                 {
@@ -82,7 +82,7 @@ namespace PointRaitingSystem
             {
                 Group group = new Group
                 {
-                    id = int.Parse(txtId.Text),
+                    id = uint.Parse(txtId.Text),
                     name = txtName.Text,
                     course = int.Parse(txtCourse.Text)
                 };
