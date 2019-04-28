@@ -31,17 +31,18 @@
             this.clbColumns = new System.Windows.Forms.CheckedListBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtFilter1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // clbColumns
             // 
-            this.clbColumns.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.clbColumns.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.clbColumns.FormattingEnabled = true;
             this.clbColumns.Location = new System.Drawing.Point(12, 12);
             this.clbColumns.Name = "clbColumns";
-            this.clbColumns.Size = new System.Drawing.Size(131, 140);
+            this.clbColumns.Size = new System.Drawing.Size(131, 156);
             this.clbColumns.TabIndex = 0;
+            this.clbColumns.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbColumns_ItemCheck);
             // 
             // button1
             // 
@@ -61,19 +62,21 @@
             this.button2.Text = "Отмена";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // txtFilter1
             // 
-            this.textBox1.Location = new System.Drawing.Point(150, 13);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 3;
+            this.txtFilter1.Location = new System.Drawing.Point(150, 13);
+            this.txtFilter1.MinimumSize = new System.Drawing.Size(0, 15);
+            this.txtFilter1.Name = "txtFilter1";
+            this.txtFilter1.Size = new System.Drawing.Size(149, 20);
+            this.txtFilter1.TabIndex = 3;
+            this.txtFilter1.Visible = false;
             // 
             // admFIlterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(311, 230);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtFilter1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.clbColumns);
@@ -91,6 +94,6 @@
         private System.Windows.Forms.CheckedListBox clbColumns;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtFilter1;
     }
 }
