@@ -245,7 +245,7 @@
             this.btnAddExam.Name = "btnAddExam";
             this.btnAddExam.Size = new System.Drawing.Size(121, 23);
             this.btnAddExam.TabIndex = 10;
-            this.btnAddExam.Text = "Создать экзамен";
+            this.btnAddExam.Text = "Экзамен";
             this.btnAddExam.UseVisualStyleBackColor = true;
             this.btnAddExam.Click += new System.EventHandler(this.btnAddExam_Click);
             // 
@@ -530,6 +530,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2);
+            this.MaximizeBox = false;
             this.Name = "usrMainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Меню";

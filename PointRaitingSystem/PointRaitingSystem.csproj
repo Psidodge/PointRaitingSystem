@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\admDataGridViewFIlter.cs" />
     <Compile Include="Classes\DataSetInitializer.cs" />
     <Compile Include="Classes\mainDataGridViewFactory.cs" />
     <Compile Include="Classes\reexamStudentCPsDataGridViewFactory.cs" />
@@ -105,6 +106,12 @@
     </Compile>
     <Compile Include="Controls\tabTeachers.Designer.cs">
       <DependentUpon>tabTeachers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AdminForms\admFIlterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AdminForms\admFIlterForm.Designer.cs">
+      <DependentUpon>admFIlterForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\AdminForms\admMainForm.cs">
       <SubType>Form</SubType>
@@ -178,11 +185,11 @@
     <Compile Include="Forms\UserForms\_usrMissingStudentsCPs.Designer.cs">
       <DependentUpon>_usrMissingStudentsCPs.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UserForms\usrReExamFrom.cs">
+    <Compile Include="Forms\UserForms\usrExmaNReexamFrom.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\UserForms\usrReExamFrom.Designer.cs">
-      <DependentUpon>usrReExamFrom.cs</DependentUpon>
+    <Compile Include="Forms\UserForms\usrExmaNReexamFrom.Designer.cs">
+      <DependentUpon>usrExmaNReexamFrom.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\UserForms\usrShowAllBindings.cs">
       <SubType>Form</SubType>
@@ -217,6 +224,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\tabTeachers.resx">
       <DependentUpon>tabTeachers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AdminForms\admFIlterForm.resx">
+      <DependentUpon>admFIlterForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AdminForms\admMainForm.resx">
       <DependentUpon>admMainForm.cs</DependentUpon>
@@ -254,8 +264,8 @@
     <EmbeddedResource Include="Forms\UserForms\_usrMissingStudentsCPs.resx">
       <DependentUpon>_usrMissingStudentsCPs.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UserForms\usrReExamFrom.resx">
-      <DependentUpon>usrReExamFrom.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\UserForms\usrExmaNReexamFrom.resx">
+      <DependentUpon>usrExmaNReexamFrom.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserForms\usrShowAllBindings.resx">
       <DependentUpon>usrShowAllBindings.cs</DependentUpon>

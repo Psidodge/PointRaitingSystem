@@ -28,9 +28,12 @@ namespace PointRaitingSystem
                 case ExamType.Exam:
                     GenerateExamEntitiesForStudents(groupID, disciplineID);
                     InitializeDataSetsExam(groupID, disciplineID);
+                    this.Text = "Проведение экзамена";
                     break;
                 case ExamType.Reexam:
                     InitializeDataSetsReexam(groupID, disciplineID);
+                    this.Text = "Проведение переэкзаменовки";
+                    tabControl.TabPages[1].Text = "Переэкзаменовка";
                     break;
             }
         }
@@ -133,6 +136,24 @@ namespace PointRaitingSystem
                 return false;
             }
         }
+        private void UpdateStudentsControlPoints()
+        {
+            foreach(var student in tempStudentsWithCPs)
+            {
+                foreach (var studentControlPoints in student.studentCPs)
+                {
+                    try
+                    {
+                        DataService.UpdateStudentCP(studentControlPoints.points, studentControlPoints.id);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Error(ex);
+                        return;
+                    }
+                }
+            }
+        }
 
         private void dgvStudentsCPs_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
@@ -159,7 +180,6 @@ namespace PointRaitingSystem
                 tempStudentsWithCPs[dgvStudentsCPs.CurrentRow.Index].studentCPs[cpIndex].points = pointsToIns;
                 reexamStudentCPsDataGridViewFactory.CalculateSum(ref dgvStudentsCPs);
                 reexamStudentsExamsDataGridViewFactory.ChangeStudentCurrentPoints(ref dgvExams, ref dgvStudentsCPs);
-                //DataService.UpdateStudentCP(pointsToIns, id);
             }
             catch (Exception ex)
             {
@@ -285,15 +305,24 @@ namespace PointRaitingSystem
         {
             if (!isCommited)
             {
+                if (MessageBox.Show("Вы уверены, что хотите продолжить?", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    return;
+
                 switch (currentType)
                 {
                     case ExamType.Exam:
                         if (CommitExam())
+                        {
+                            UpdateStudentsControlPoints();
                             isCommited = true;
+                        }
                         break;
                     case ExamType.Reexam:
                         if (CommitReexam())
+                        {
+                            UpdateStudentsControlPoints();
                             isCommited = true;
+                        }
                         break;
                 }
                 MessageBox.Show("Данные успешно зафиксированы", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);

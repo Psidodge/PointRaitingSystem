@@ -71,5 +71,14 @@ namespace PointRaitingSystem
             });
             tabControl.SelectedIndex = 0;
         }
+
+        private void tabControl_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.F)
+            {
+                admFIlterForm form = new admFIlterForm(((CustomTabPage)tabControl.SelectedTab).GetColumnNames());
+                form.Show();
+            }
+        }
     }
 }

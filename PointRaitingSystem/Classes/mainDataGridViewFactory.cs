@@ -12,10 +12,10 @@ namespace PointRaitingSystem
     // NOTE: Медленно работает, попробывать оптимизировать или нет
     public static class mainDataGridViewFactory
     {
-        public static void CreateStudentCPsDataGridView(ref DataGridView dgv, uint groupId, uint disciplineId)
+        public static void CreateStudentCPsDataGridView(ref DataGridView dgv, uint groupId, uint disciplineId, out bool isReexamCommited)
         {
             dgv.Columns.Clear();
-
+            isReexamCommited = false;
             int cpIter = 0; 
             double sum = 0;
             List<StudentExam> exams = null;
@@ -60,6 +60,7 @@ namespace PointRaitingSystem
                         {
                             dgv.Rows[i].Cells[dgv.Columns.Count - 1].Value = $"{tempReexam.CountRecommendedGrade(studentsCPs[i].id, disciplineId)}*";
                             dgv.Rows[i].Cells[dgv.Columns.Count - 1].Style.BackColor = Color.White;
+                            isReexamCommited = true;
                         }
                     }
                     else if(exams[i].id_of_reexam == 0)

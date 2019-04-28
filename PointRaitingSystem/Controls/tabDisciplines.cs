@@ -9,12 +9,15 @@ namespace PointRaitingSystem
     public partial class tabDisciplines : UserControl
     {
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private readonly string[] columnNames = {"Название", "Семестр" };
+        private List<DisciplineInfo> tempDataSource;
 
         private void InitializeDataSets()
         {
             try
             {
                 List<DisciplineInfo> disciplines = DataService.SelectAllDisciplinesInfo();
+                tempDataSource = disciplines;
                 DataSetInitializer.dgvDataSetInitializer<DisciplineInfo>(ref dgvDisciplines, disciplines, new int[] { 0 }, new string[] { "name" });
             }
             catch (Exception ex)
@@ -32,7 +35,12 @@ namespace PointRaitingSystem
         {
             InitializeDataSets();
         }
+        public void Filter()
+        {
 
+        }
+        public string[] GetColumnNames { get => columnNames; }
+        
         private void tabDisciplines_Load(object sender, EventArgs e)
         {
             InitializeDataSets();
