@@ -89,6 +89,7 @@ namespace MainLib.ReportsFactory.Reports
         }
         private void GenerateReportColumns(ref Document doc, ref PdfPTable stTable)
         {
+            StudentReexam bufReexam = null;
             Font trFont = new Font(bFont, 13, Font.NORMAL, BaseColor.BLACK);
             PdfPCell trCell;
             int iter = 0;
@@ -102,21 +103,55 @@ namespace MainLib.ReportsFactory.Reports
                 trCell.AddElement(new Paragraph(student.name, trFont) { Alignment = Element.ALIGN_LEFT });
                 stTable.AddCell(trCell);
                 trCell = new PdfPCell();
-                trCell.AddElement(new Paragraph(exams[iter].points.ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
-                stTable.AddCell(trCell);
-                trCell = new PdfPCell();
-                trCell.AddElement(new Paragraph((exams[iter].GetMaxStudentScore() + exams[iter].points).ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
-                stTable.AddCell(trCell);
-                trCell = new PdfPCell();
-                trCell.AddElement(new Paragraph((exams[iter].GetMaxSumOfPoints() + 20).ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
-                stTable.AddCell(trCell);
-                trCell = new PdfPCell();
-                trCell.AddElement(new Paragraph(exams[iter].GetExamGrade().ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
-                stTable.AddCell(trCell);
+                if (exams[iter].id_of_reexam == 0)
+                {
+                    trCell.AddElement(new Paragraph(exams[iter].points.ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
+                    stTable.AddCell(trCell);
+                    trCell = new PdfPCell();
+                    trCell.AddElement(new Paragraph((exams[iter].GetMaxStudentScore() + exams[iter].points).ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
+                    stTable.AddCell(trCell);
+                    trCell = new PdfPCell();
+                    trCell.AddElement(new Paragraph((exams[iter].GetMaxSumOfPoints() + 20).ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
+                    stTable.AddCell(trCell);
+                    trCell = new PdfPCell();
+                    trCell.AddElement(new Paragraph(exams[iter].GetExamGrade().ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
+                    stTable.AddCell(trCell);
+                }
+                else
+                {
+                    bufReexam = GetStudentReexam(exams[iter].id_of_reexam);
+
+                    if (bufReexam == null)
+                        return;
+
+                    trCell.AddElement(new Paragraph(bufReexam.points.ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
+                    stTable.AddCell(trCell);
+                    trCell = new PdfPCell();
+                    trCell.AddElement(new Paragraph((bufReexam.GetMaxStudentScore(exams[iter].id_of_student, exams[iter].id_of_discipline) + bufReexam.points).ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
+                    stTable.AddCell(trCell);
+                    trCell = new PdfPCell();
+                    trCell.AddElement(new Paragraph((bufReexam.GetMaxSumOfPoints(exams[iter].id_of_student, exams[iter].id_of_discipline) + 20).ToString(), trFont) { Alignment = Element.ALIGN_CENTER });
+                    stTable.AddCell(trCell);
+                    trCell = new PdfPCell();
+                    trCell.AddElement(new Paragraph((bufReexam.points != 0?bufReexam.grade.ToString() + "*":"неуд."), trFont) { Alignment = Element.ALIGN_CENTER });
+                    stTable.AddCell(trCell);
+                }
                 iter++;
             }
             stTable.SpacingAfter = 25;
             doc.Add(stTable);
+        }
+        private StudentReexam GetStudentReexam(uint reexamID)
+        {
+            try
+            {
+                return DataService.SelectReexamsByID(reexamID);
+            }
+            catch(Exception ex)
+            {
+                logger.Error(ex);
+                return null;
+            }
         }
         private bool InitializeReportData(uint groupID, uint disciplineID, uint teacherID)
         {
