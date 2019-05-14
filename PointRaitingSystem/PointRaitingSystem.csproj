@@ -107,11 +107,11 @@
     <Compile Include="Controls\tabTeachers.Designer.cs">
       <DependentUpon>tabTeachers.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AdminForms\admFIlterForm.cs">
+    <Compile Include="Forms\AdminForms\_admFIlterForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\AdminForms\admFIlterForm.Designer.cs">
-      <DependentUpon>admFIlterForm.cs</DependentUpon>
+    <Compile Include="Forms\AdminForms\_admFIlterForm.Designer.cs">
+      <DependentUpon>_admFIlterForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\AdminForms\admMainForm.cs">
       <SubType>Form</SubType>
@@ -225,8 +225,8 @@
     <EmbeddedResource Include="Controls\tabTeachers.resx">
       <DependentUpon>tabTeachers.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\AdminForms\admFIlterForm.resx">
-      <DependentUpon>admFIlterForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\AdminForms\_admFIlterForm.resx">
+      <DependentUpon>_admFIlterForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AdminForms\admMainForm.resx">
       <DependentUpon>admMainForm.cs</DependentUpon>

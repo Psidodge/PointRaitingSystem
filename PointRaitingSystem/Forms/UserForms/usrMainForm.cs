@@ -23,6 +23,8 @@ namespace PointRaitingSystem
         }
 
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private string selectedCPDescription = null;
+        public uint selectedCPID;
         private int cbGroupsPrevIndex = 0;
         private int[] certificationIndexes = null;
         private bool isCellsHiden = false,
@@ -66,7 +68,7 @@ namespace PointRaitingSystem
         }
         private void btnCreateCP_Click(object sender, EventArgs e)
         {
-            usrCPAddForm form = new usrCPAddForm((Discipline)cbDiscipline.SelectedItem, (uint)cbGroups.SelectedValue, cbDiscipline.SelectedValue);
+            usrCPAddForm form = new usrCPAddForm((uint)cbGroups.SelectedValue, cbDiscipline.SelectedValue);
             form.ShowDialog();
             try
             {
@@ -176,6 +178,7 @@ namespace PointRaitingSystem
             }
             else
             {
+                btnReexam.Enabled = false;
                 btnAddExam.Enabled = false;
             }
 
@@ -210,6 +213,9 @@ namespace PointRaitingSystem
             lblDiscipline.Text = cpInfo.discipline_name;
             lblWeight.Text = cpInfo.weight.ToString();
             txtDescription.Text = cpInfo.description;
+
+            selectedCPDescription = cpInfo.description;
+            selectedCPID = cpInfo.id;
         }
         private void FillCertificationInfo(bool isVisible = false, int certIndex = -1)
         {
@@ -393,6 +399,20 @@ namespace PointRaitingSystem
                 logger.Error(ex);
             }
 }
+        private void txtDescription_Leave(object sender, EventArgs e)
+        {
+            if(txtDescription.Text != selectedCPDescription)
+            {
+                try
+                {
+                    DataService.UpdateCPDescription(txtDescription.Text, selectedCPID);
+                }
+                catch(Exception ex)
+                {
+                    logger.Error(ex);
+                }
+            }
+        }
 
         //NOTE: не забдь удалить
         private void NullControlsDataSources()

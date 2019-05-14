@@ -31,13 +31,13 @@
             this.components = new System.ComponentModel.Container();
             this.clbTemplates = new System.Windows.Forms.CheckedListBox();
             this.clbContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiAddNewTemplate = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiEditTemplate = new System.Windows.Forms.ToolStripMenuItem();
             this.tssmDeleteSelecteTemplate = new System.Windows.Forms.ToolStripMenuItem();
             this.btnCommit = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsslPointsLeft = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tsmiAddNewTemplate = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiEditTemplate = new System.Windows.Forms.ToolStripMenuItem();
             this.clbContextMenuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -48,11 +48,12 @@
             this.clbTemplates.Dock = System.Windows.Forms.DockStyle.Top;
             this.clbTemplates.FormattingEnabled = true;
             this.clbTemplates.Location = new System.Drawing.Point(0, 0);
-            this.clbTemplates.Margin = new System.Windows.Forms.Padding(2);
+            this.clbTemplates.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.clbTemplates.Name = "clbTemplates";
-            this.clbTemplates.Size = new System.Drawing.Size(328, 304);
+            this.clbTemplates.Size = new System.Drawing.Size(437, 361);
             this.clbTemplates.TabIndex = 0;
             this.clbTemplates.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbTemplates_ItemCheck);
+            this.clbTemplates.KeyDown += new System.Windows.Forms.KeyEventHandler(this.clbTemplates_KeyDown);
             // 
             // clbContextMenuStrip
             // 
@@ -62,21 +63,35 @@
             this.tsmiEditTemplate,
             this.tssmDeleteSelecteTemplate});
             this.clbContextMenuStrip.Name = "clbContextMenuStrip";
-            this.clbContextMenuStrip.Size = new System.Drawing.Size(181, 92);
+            this.clbContextMenuStrip.Size = new System.Drawing.Size(211, 104);
+            // 
+            // tsmiAddNewTemplate
+            // 
+            this.tsmiAddNewTemplate.Name = "tsmiAddNewTemplate";
+            this.tsmiAddNewTemplate.Size = new System.Drawing.Size(210, 24);
+            this.tsmiAddNewTemplate.Text = "Добавить";
+            this.tsmiAddNewTemplate.Click += new System.EventHandler(this.tsmiAddNewTemplate_Click);
+            // 
+            // tsmiEditTemplate
+            // 
+            this.tsmiEditTemplate.Name = "tsmiEditTemplate";
+            this.tsmiEditTemplate.Size = new System.Drawing.Size(210, 24);
+            this.tsmiEditTemplate.Text = "Редактировать";
+            this.tsmiEditTemplate.Click += new System.EventHandler(this.tsmiEditTemplate_Click);
             // 
             // tssmDeleteSelecteTemplate
             // 
             this.tssmDeleteSelecteTemplate.Name = "tssmDeleteSelecteTemplate";
-            this.tssmDeleteSelecteTemplate.Size = new System.Drawing.Size(180, 22);
+            this.tssmDeleteSelecteTemplate.Size = new System.Drawing.Size(210, 24);
             this.tssmDeleteSelecteTemplate.Text = "Удалить";
             this.tssmDeleteSelecteTemplate.Click += new System.EventHandler(this.tssmDeleteSelecteTemplate_Click);
             // 
             // btnCommit
             // 
-            this.btnCommit.Location = new System.Drawing.Point(227, 312);
-            this.btnCommit.Margin = new System.Windows.Forms.Padding(2);
+            this.btnCommit.Location = new System.Drawing.Point(303, 384);
+            this.btnCommit.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCommit.Name = "btnCommit";
-            this.btnCommit.Size = new System.Drawing.Size(92, 21);
+            this.btnCommit.Size = new System.Drawing.Size(123, 26);
             this.btnCommit.TabIndex = 1;
             this.btnCommit.Text = "Принять";
             this.btnCommit.UseVisualStyleBackColor = true;
@@ -84,10 +99,10 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(9, 312);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(2);
+            this.btnCancel.Location = new System.Drawing.Point(12, 384);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(92, 21);
+            this.btnCancel.Size = new System.Drawing.Size(123, 26);
             this.btnCancel.TabIndex = 2;
             this.btnCancel.Text = "Назад";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -98,44 +113,30 @@
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsslPointsLeft});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 338);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 418);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(328, 22);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(437, 25);
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // tsslPointsLeft
             // 
             this.tsslPointsLeft.Name = "tsslPointsLeft";
-            this.tsslPointsLeft.Size = new System.Drawing.Size(105, 17);
+            this.tsslPointsLeft.Size = new System.Drawing.Size(130, 20);
             this.tsslPointsLeft.Text = "Осталось баллов:";
-            // 
-            // tsmiAddNewTemplate
-            // 
-            this.tsmiAddNewTemplate.Enabled = false;
-            this.tsmiAddNewTemplate.Name = "tsmiAddNewTemplate";
-            this.tsmiAddNewTemplate.Size = new System.Drawing.Size(180, 22);
-            this.tsmiAddNewTemplate.Text = "Добавить";
-            this.tsmiAddNewTemplate.Click += new System.EventHandler(this.tsmiAddNewTemplate_Click);
-            // 
-            // tsmiEditTemplate
-            // 
-            this.tsmiEditTemplate.Enabled = false;
-            this.tsmiEditTemplate.Name = "tsmiEditTemplate";
-            this.tsmiEditTemplate.Size = new System.Drawing.Size(180, 22);
-            this.tsmiEditTemplate.Text = "Редактировать";
             // 
             // usrTemplateList
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(328, 360);
+            this.ClientSize = new System.Drawing.Size(437, 443);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnCommit);
             this.Controls.Add(this.clbTemplates);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "usrTemplateList";

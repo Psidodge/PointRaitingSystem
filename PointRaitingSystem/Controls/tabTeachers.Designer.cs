@@ -54,9 +54,10 @@
             // 
             // btnUpdateUser
             // 
-            this.btnUpdateUser.Location = new System.Drawing.Point(136, 106);
+            this.btnUpdateUser.Location = new System.Drawing.Point(181, 130);
+            this.btnUpdateUser.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnUpdateUser.Name = "btnUpdateUser";
-            this.btnUpdateUser.Size = new System.Drawing.Size(107, 23);
+            this.btnUpdateUser.Size = new System.Drawing.Size(143, 28);
             this.btnUpdateUser.TabIndex = 3;
             this.btnUpdateUser.Text = "Изменить";
             this.btnUpdateUser.UseVisualStyleBackColor = true;
@@ -64,9 +65,10 @@
             // 
             // btnAddUser
             // 
-            this.btnAddUser.Location = new System.Drawing.Point(9, 106);
+            this.btnAddUser.Location = new System.Drawing.Point(12, 130);
+            this.btnAddUser.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnAddUser.Name = "btnAddUser";
-            this.btnAddUser.Size = new System.Drawing.Size(107, 23);
+            this.btnAddUser.Size = new System.Drawing.Size(143, 28);
             this.btnAddUser.TabIndex = 2;
             this.btnAddUser.Text = "Добавить";
             this.btnAddUser.UseVisualStyleBackColor = true;
@@ -78,13 +80,14 @@
             this.dgvTeachers.AllowUserToDeleteRows = false;
             this.dgvTeachers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTeachers.Dock = System.Windows.Forms.DockStyle.Right;
-            this.dgvTeachers.Location = new System.Drawing.Point(249, 0);
+            this.dgvTeachers.Location = new System.Drawing.Point(332, 0);
+            this.dgvTeachers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dgvTeachers.MultiSelect = false;
             this.dgvTeachers.Name = "dgvTeachers";
             this.dgvTeachers.ReadOnly = true;
             this.dgvTeachers.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dgvTeachers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTeachers.Size = new System.Drawing.Size(507, 484);
+            this.dgvTeachers.Size = new System.Drawing.Size(676, 596);
             this.dgvTeachers.TabIndex = 7;
             this.dgvTeachers.ColumnAdded += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dgvTeachers_ColumnAdded);
             this.dgvTeachers.SelectionChanged += new System.EventHandler(this.dgvTeachers_SelectionChanged);
@@ -100,8 +103,10 @@
             this.groupBox1.Controls.Add(this.btnUpdateUser);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(249, 145);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(332, 178);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Информация о преподавателе:";
@@ -109,44 +114,49 @@
             // checkBoxIsAdmin
             // 
             this.checkBoxIsAdmin.AutoSize = true;
-            this.checkBoxIsAdmin.Location = new System.Drawing.Point(9, 83);
+            this.checkBoxIsAdmin.Location = new System.Drawing.Point(12, 102);
+            this.checkBoxIsAdmin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBoxIsAdmin.Name = "checkBoxIsAdmin";
-            this.checkBoxIsAdmin.Size = new System.Drawing.Size(238, 17);
+            this.checkBoxIsAdmin.Size = new System.Drawing.Size(307, 21);
             this.checkBoxIsAdmin.TabIndex = 1;
             this.checkBoxIsAdmin.Text = "Обладает привилегиями администратора";
             this.checkBoxIsAdmin.UseVisualStyleBackColor = true;
             // 
             // txtId
             // 
-            this.txtId.Location = new System.Drawing.Point(47, 31);
+            this.txtId.Location = new System.Drawing.Point(63, 38);
+            this.txtId.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtId.Name = "txtId";
             this.txtId.ReadOnly = true;
-            this.txtId.Size = new System.Drawing.Size(31, 20);
+            this.txtId.Size = new System.Drawing.Size(40, 22);
             this.txtId.TabIndex = 12;
             this.txtId.TabStop = false;
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(47, 57);
+            this.txtName.Location = new System.Drawing.Point(63, 70);
+            this.txtName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(196, 20);
+            this.txtName.Size = new System.Drawing.Size(260, 22);
             this.txtName.TabIndex = 0;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 60);
+            this.label2.Location = new System.Drawing.Point(4, 74);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(34, 13);
+            this.label2.Size = new System.Drawing.Size(42, 17);
             this.label2.TabIndex = 8;
             this.label2.Text = "ФИО";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 34);
+            this.label1.Location = new System.Drawing.Point(8, 42);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(18, 13);
+            this.label1.Size = new System.Drawing.Size(21, 17);
             this.label1.TabIndex = 7;
             this.label1.Text = "ID";
             // 
@@ -161,9 +171,11 @@
             this.groupBox2.Controls.Add(this.txtAuthID);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Location = new System.Drawing.Point(9, 180);
+            this.groupBox2.Location = new System.Drawing.Point(12, 222);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(204, 213);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Size = new System.Drawing.Size(272, 215);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Данные авторизации";
@@ -171,16 +183,18 @@
             // lblInfo
             // 
             this.lblInfo.AutoSize = true;
-            this.lblInfo.Location = new System.Drawing.Point(6, 173);
+            this.lblInfo.Location = new System.Drawing.Point(8, 213);
+            this.lblInfo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblInfo.Name = "lblInfo";
-            this.lblInfo.Size = new System.Drawing.Size(0, 13);
+            this.lblInfo.Size = new System.Drawing.Size(0, 17);
             this.lblInfo.TabIndex = 15;
             // 
             // btnUpdateAuth
             // 
-            this.btnUpdateAuth.Location = new System.Drawing.Point(6, 137);
+            this.btnUpdateAuth.Location = new System.Drawing.Point(8, 169);
+            this.btnUpdateAuth.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnUpdateAuth.Name = "btnUpdateAuth";
-            this.btnUpdateAuth.Size = new System.Drawing.Size(192, 28);
+            this.btnUpdateAuth.Size = new System.Drawing.Size(256, 34);
             this.btnUpdateAuth.TabIndex = 7;
             this.btnUpdateAuth.Text = "Изменить";
             this.btnUpdateAuth.UseVisualStyleBackColor = true;
@@ -188,18 +202,20 @@
             // 
             // txtPass
             // 
-            this.txtPass.Location = new System.Drawing.Point(57, 77);
+            this.txtPass.Location = new System.Drawing.Point(76, 95);
+            this.txtPass.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtPass.Name = "txtPass";
             this.txtPass.PasswordChar = '*';
-            this.txtPass.Size = new System.Drawing.Size(141, 20);
+            this.txtPass.Size = new System.Drawing.Size(187, 22);
             this.txtPass.TabIndex = 5;
             this.txtPass.Validating += new System.ComponentModel.CancelEventHandler(this.txtPass_Validating);
             // 
             // btnAddAuth
             // 
-            this.btnAddAuth.Location = new System.Drawing.Point(6, 103);
+            this.btnAddAuth.Location = new System.Drawing.Point(8, 127);
+            this.btnAddAuth.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnAddAuth.Name = "btnAddAuth";
-            this.btnAddAuth.Size = new System.Drawing.Size(192, 28);
+            this.btnAddAuth.Size = new System.Drawing.Size(256, 34);
             this.btnAddAuth.TabIndex = 6;
             this.btnAddAuth.Text = "Добавить и привязать";
             this.btnAddAuth.UseVisualStyleBackColor = true;
@@ -208,56 +224,62 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 80);
+            this.label5.Location = new System.Drawing.Point(8, 98);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(45, 13);
+            this.label5.Size = new System.Drawing.Size(57, 17);
             this.label5.TabIndex = 16;
             this.label5.Text = "Пароль";
             // 
             // txtLogin
             // 
-            this.txtLogin.Location = new System.Drawing.Point(57, 51);
+            this.txtLogin.Location = new System.Drawing.Point(76, 63);
+            this.txtLogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtLogin.Name = "txtLogin";
-            this.txtLogin.Size = new System.Drawing.Size(141, 20);
+            this.txtLogin.Size = new System.Drawing.Size(187, 22);
             this.txtLogin.TabIndex = 4;
             this.txtLogin.Validating += new System.ComponentModel.CancelEventHandler(this.txtLogin_Validating);
             // 
             // txtAuthID
             // 
-            this.txtAuthID.Location = new System.Drawing.Point(57, 23);
+            this.txtAuthID.Location = new System.Drawing.Point(76, 28);
+            this.txtAuthID.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtAuthID.Name = "txtAuthID";
             this.txtAuthID.ReadOnly = true;
-            this.txtAuthID.Size = new System.Drawing.Size(31, 20);
+            this.txtAuthID.Size = new System.Drawing.Size(40, 22);
             this.txtAuthID.TabIndex = 15;
             this.txtAuthID.TabStop = false;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 54);
+            this.label4.Location = new System.Drawing.Point(8, 66);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(38, 13);
+            this.label4.Size = new System.Drawing.Size(47, 17);
             this.label4.TabIndex = 1;
             this.label4.Text = "Логин";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 26);
+            this.label3.Location = new System.Drawing.Point(8, 32);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(18, 13);
+            this.label3.Size = new System.Drawing.Size(21, 17);
             this.label3.TabIndex = 0;
             this.label3.Text = "ID";
             // 
             // tabTeachers
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgvTeachers);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "tabTeachers";
-            this.Size = new System.Drawing.Size(756, 484);
+            this.Size = new System.Drawing.Size(1008, 596);
             this.Load += new System.EventHandler(this.tabTeachers_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTeachers)).EndInit();
             this.groupBox1.ResumeLayout(false);

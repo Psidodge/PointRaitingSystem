@@ -1308,6 +1308,27 @@ namespace MainLib.DBServices
                 return connection.ExecuteScalar<int>("UpdateGroups", parameters, commandType: CommandType.StoredProcedure);
             }
         }
+        public static int UpdateCPDescription(string description, uint cpID)
+        {
+            using (MySqlConnection connection = GetConnectionInstance())
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@descriptionText", description);
+                parameters.Add("@cpID", cpID);
+
+                return connection.ExecuteScalar<int>("UpdateCPDescription", parameters, commandType: CommandType.StoredProcedure);
+            }
+        }
         public static int UpdateDisciplines(Discipline discipline)
         {
 #if !DEBUG

@@ -8,16 +8,24 @@ namespace PointRaitingSystem
 {
     public partial class usrCPAddForm : Form
     {
+        public enum FormType { cp_creation, cpTemplate_creation }
+
         public usrCPAddForm()
         {
             InitializeComponent();
         }
-
-        public usrCPAddForm(Discipline selectedDiscipline, uint SelectedGroupId, object selectedDisciplineID)
-        {
+        public usrCPAddForm(uint SelectedGroupId, object selectedDisciplineID, FormType type = FormType.cp_creation)
+        { 
             InitializeComponent();
             groupId = SelectedGroupId;
-            InitializeDataSets(selectedDisciplineID, selectedDiscipline);
+            currentType = type;
+            InitializeDataSets(selectedDisciplineID);
+
+            if(type == FormType.cpTemplate_creation)
+            {
+                tsslPointsLeft.Visible = false;
+                tsslPointsRemain.Visible = false;
+            }
         }
 
         private uint groupId;
@@ -25,17 +33,22 @@ namespace PointRaitingSystem
                        maxSumOfCPs = 80;
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private ControlPoint tempCP = null;
+        private FormType currentType;
 
 
-        private void InitializeDataSets(object selectedDisciplineValue, Discipline selectedDiscipline = null)
+        private void InitializeDataSets(object selectedDisciplineValue)
         {
             try
             {
                 List<Discipline> disciplines = DataService.SelectDisciplinesByTeacherIdAndGroupId(Session.GetCurrentSession().ID, groupId);
                 DataSetInitializer.ComboBoxDataSetInitializer<Discipline>(ref cbDiscipline, disciplines, "id", "full_name");
                 cbDiscipline.SelectedValue = selectedDisciplineValue;
-                sumOfUsedPoints = DataService.GetSumOfPointsUsed(groupId, (uint)selectedDisciplineValue);
-                tsslPointsLeft.Text = string.Format("{0} {1} баллов", tsslPointsLeft.Text, sumOfUsedPoints.ToString());
+
+                if (currentType == FormType.cp_creation)
+                {
+                    sumOfUsedPoints = DataService.GetSumOfPointsUsed(groupId, (uint)selectedDisciplineValue);
+                    tsslPointsLeft.Text = string.Format("{0} {1} баллов", tsslPointsLeft.Text, sumOfUsedPoints.ToString());
+                }
 
             }
             catch (Exception ex)
@@ -44,8 +57,8 @@ namespace PointRaitingSystem
                 MessageBox.Show("Произошла ошибка при инициализации набора данных.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            if (selectedDiscipline != null)
-                cbDiscipline.SelectedItem = selectedDiscipline;
+            //if (selectedDiscipline != null)
+               // cbDiscipline.SelectedItem = selectedDiscipline;
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -57,19 +70,27 @@ namespace PointRaitingSystem
                 Description = txtDescription.Text
             };
             tempCP = cp;
-            try
+
+            if (currentType == FormType.cp_creation)
             {
-                tempCP.id = DataService.InsertIntoControlPointsTable(cp);
-                if (MessageBox.Show("Сохранить как шаблон?", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                try
+                {
+                    tempCP.id = DataService.InsertIntoControlPointsTable(cp);
+                    if (MessageBox.Show("Сохранить как шаблон?", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        DataService.InsertIntoControlPointTemplateTable(cp.ConvertToTemplate());
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex);
+                    MessageBox.Show("Произошла ошибка при создании контрольной точки.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                createStudentsControlPoints();
+            }
+            else
+            {
+                if (MessageBox.Show("Сохранить?", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     DataService.InsertIntoControlPointTemplateTable(cp.ConvertToTemplate());
             }
-            catch(Exception ex)
-            {
-                logger.Error(ex);
-                MessageBox.Show("Произошла ошибка при создании контрольной точки.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            createStudentsControlPoints();
             this.Close();
         }
         //NOTE: Здесь, возможно, нужно использовать транзакцию.
@@ -108,20 +129,31 @@ namespace PointRaitingSystem
                 return;
             }
 
-            if((maxSumOfCPs - (sumOfUsedPoints + weight)) < 0)
+            if (currentType == FormType.cp_creation)
             {
-                txtCPWeight.Text = string.Empty;
-                lblValidationInfo.Text = "Вводимый вес КТ превышает 80 баллов.";
-                return;
+                if ((maxSumOfCPs - (sumOfUsedPoints + weight)) < 0)
+                {
+                    txtCPWeight.Text = string.Empty;
+                    lblValidationInfo.Text = "Вводимый вес КТ превышает 80 баллов.";
+                    return;
+                }
+            }
+            else
+            {
+                if(weight < 0 || weight > 80)
+                    lblValidationInfo.Text = "Неверный формат.";
             }
         }
         private void txtCPWeight_TextChanged(object sender, EventArgs e)
         {
-            double weight = 0;
-            if (!double.TryParse(txtCPWeight.Text.Replace('.','.'), out weight))
-                return;//NOTE: генерить исключение
+            if (currentType == FormType.cp_creation)
+            {
+                double weight = 0;
+                if (!double.TryParse(txtCPWeight.Text.Replace('.', '.'), out weight))
+                    return;//NOTE: генерить исключение
 
-            tsslPointsRemain.Text = string.Format("Останется: {0} баллов", (maxSumOfCPs - (sumOfUsedPoints + weight)).ToString());
+                tsslPointsRemain.Text = string.Format("Останется: {0} баллов", (maxSumOfCPs - (sumOfUsedPoints + weight)).ToString());
+            }
         }
     }
 }

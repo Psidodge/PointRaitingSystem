@@ -639,6 +639,7 @@ namespace MainLib.DBServices
     }
     public class ControlPointInfo : DBEntity
     {
+        public uint id { get; }
         public string name { get; }
         public string discipline_name { get; }
         public uint weight { get; }

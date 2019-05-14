@@ -28,6 +28,44 @@ namespace PointRaitingSystem
             tsslPointsLeft.Text = $"Осталось баллов: {pointsLeft}";
         }
 
+        private void RemoveSelectedTemplate()
+        {
+            try
+            {
+                if (MessageBox.Show("Удалить выбранный элемент", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    return;
+
+                if (DataService.DeleteCPTemplate(((ControlPointTemplate)clbTemplates.SelectedItem).id))
+                {
+                    DSRefresh();
+                    //List<ControlPointTemplate> templates = DataService.SelectUserControlPointsTemplate(disciplineID, Session.GetCurrentSession().ID);
+                    //DataSetInitializer.clbDataSetInitialize<ControlPointTemplate>(ref clbTemplates, templates, "id", "GetFormatedString");
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
+        private void AddNewTemplate()
+        {
+            usrCPAddForm form = new usrCPAddForm(groupID, disciplineID, usrCPAddForm.FormType.cpTemplate_creation);
+            form.ShowDialog();
+            DSRefresh();
+        }
+
+        private void DSRefresh()
+        {
+            try
+            {
+                List<ControlPointTemplate> templates = DataService.SelectUserControlPointsTemplate(disciplineID, Session.GetCurrentSession().ID);
+                DataSetInitializer.clbDataSetInitialize<ControlPointTemplate>(ref clbTemplates, templates, "id", "GetFormatedString");
+            }
+            catch(Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
         private void ClearSelected()
         {
             foreach (int elementIndex in clbTemplates.CheckedIndices)
@@ -87,27 +125,24 @@ namespace PointRaitingSystem
                 this.Close();
             }
         }
+        private void clbTemplates_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Insert)
+                AddNewTemplate();
+            if (e.KeyData == Keys.Delete)
+                RemoveSelectedTemplate();
+        }
         private void tssmDeleteSelecteTemplate_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (MessageBox.Show("Удалить выбранный элемент", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-                    return;
+            RemoveSelectedTemplate();
+        }
+        private void tsmiEditTemplate_Click(object sender, EventArgs e)
+        {
 
-                if (DataService.DeleteCPTemplate(((ControlPointTemplate)clbTemplates.SelectedItem).id))
-                {
-                    List<ControlPointTemplate> templates = DataService.SelectUserControlPointsTemplate(disciplineID, Session.GetCurrentSession().ID);
-                    DataSetInitializer.clbDataSetInitialize<ControlPointTemplate>(ref clbTemplates, templates, "id", "GetFormatedString");
-                }
-            }
-            catch(Exception ex)
-            {
-                logger.Error(ex);
-            }
         }
         private void tsmiAddNewTemplate_Click(object sender, EventArgs e)
         {
-
+            AddNewTemplate();
         }
         private void clbTemplates_ItemCheck(object sender, ItemCheckEventArgs e)
         {

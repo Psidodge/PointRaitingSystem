@@ -48,27 +48,29 @@
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(184, 552);
+            this.panel1.Size = new System.Drawing.Size(245, 679);
             this.panel1.TabIndex = 0;
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.btnLoadFromFile);
-            this.groupBox2.Location = new System.Drawing.Point(9, 161);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Location = new System.Drawing.Point(12, 198);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox2.Size = new System.Drawing.Size(170, 81);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox2.Size = new System.Drawing.Size(227, 100);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Загрузка из файла";
             // 
             // btnLoadFromFile
             // 
-            this.btnLoadFromFile.Location = new System.Drawing.Point(5, 30);
+            this.btnLoadFromFile.Location = new System.Drawing.Point(7, 37);
+            this.btnLoadFromFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnLoadFromFile.Name = "btnLoadFromFile";
-            this.btnLoadFromFile.Size = new System.Drawing.Size(151, 23);
+            this.btnLoadFromFile.Size = new System.Drawing.Size(201, 28);
             this.btnLoadFromFile.TabIndex = 4;
             this.btnLoadFromFile.Text = "Загрузить из файла";
             this.btnLoadFromFile.UseVisualStyleBackColor = true;
@@ -80,20 +82,21 @@
             this.groupBox1.Controls.Add(this.btnAddTeachers);
             this.groupBox1.Controls.Add(this.btnAddGroups);
             this.groupBox1.Controls.Add(this.btnAddDisciplines);
-            this.groupBox1.Location = new System.Drawing.Point(9, 13);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Location = new System.Drawing.Point(12, 16);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox1.Size = new System.Drawing.Size(170, 143);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox1.Size = new System.Drawing.Size(227, 176);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Ручное редактирование";
             // 
             // btnAddStudents
             // 
-            this.btnAddStudents.Location = new System.Drawing.Point(5, 18);
+            this.btnAddStudents.Location = new System.Drawing.Point(7, 22);
+            this.btnAddStudents.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnAddStudents.Name = "btnAddStudents";
-            this.btnAddStudents.Size = new System.Drawing.Size(151, 23);
+            this.btnAddStudents.Size = new System.Drawing.Size(201, 28);
             this.btnAddStudents.TabIndex = 0;
             this.btnAddStudents.Text = "Студенты";
             this.btnAddStudents.UseVisualStyleBackColor = true;
@@ -101,9 +104,10 @@
             // 
             // btnAddTeachers
             // 
-            this.btnAddTeachers.Location = new System.Drawing.Point(5, 46);
+            this.btnAddTeachers.Location = new System.Drawing.Point(7, 57);
+            this.btnAddTeachers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnAddTeachers.Name = "btnAddTeachers";
-            this.btnAddTeachers.Size = new System.Drawing.Size(151, 23);
+            this.btnAddTeachers.Size = new System.Drawing.Size(201, 28);
             this.btnAddTeachers.TabIndex = 1;
             this.btnAddTeachers.Text = "Преподаватели";
             this.btnAddTeachers.UseVisualStyleBackColor = true;
@@ -111,9 +115,10 @@
             // 
             // btnAddGroups
             // 
-            this.btnAddGroups.Location = new System.Drawing.Point(5, 105);
+            this.btnAddGroups.Location = new System.Drawing.Point(7, 129);
+            this.btnAddGroups.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnAddGroups.Name = "btnAddGroups";
-            this.btnAddGroups.Size = new System.Drawing.Size(151, 23);
+            this.btnAddGroups.Size = new System.Drawing.Size(201, 28);
             this.btnAddGroups.TabIndex = 3;
             this.btnAddGroups.Text = "Группы";
             this.btnAddGroups.UseVisualStyleBackColor = true;
@@ -121,9 +126,10 @@
             // 
             // btnAddDisciplines
             // 
-            this.btnAddDisciplines.Location = new System.Drawing.Point(5, 76);
+            this.btnAddDisciplines.Location = new System.Drawing.Point(7, 94);
+            this.btnAddDisciplines.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnAddDisciplines.Name = "btnAddDisciplines";
-            this.btnAddDisciplines.Size = new System.Drawing.Size(151, 23);
+            this.btnAddDisciplines.Size = new System.Drawing.Size(201, 28);
             this.btnAddDisciplines.TabIndex = 2;
             this.btnAddDisciplines.Text = "Дисциплины";
             this.btnAddDisciplines.UseVisualStyleBackColor = true;
@@ -133,25 +139,26 @@
             // 
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.HotTrack = true;
-            this.tabControl.Location = new System.Drawing.Point(184, 0);
+            this.tabControl.Location = new System.Drawing.Point(245, 0);
+            this.tabControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabControl.Multiline = true;
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(764, 552);
+            this.tabControl.Size = new System.Drawing.Size(1019, 679);
             this.tabControl.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.tabControl.TabIndex = 1;
             this.tabControl.TabStop = false;
-            this.tabControl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tabControl_KeyDown);
             // 
             // admMainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(948, 552);
+            this.ClientSize = new System.Drawing.Size(1264, 679);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "admMainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "dashboard";
