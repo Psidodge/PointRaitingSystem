@@ -2,6 +2,8 @@
 using MainLib.Session;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace PointRaitingSystem
@@ -26,6 +28,7 @@ namespace PointRaitingSystem
                 tsslPointsLeft.Visible = false;
                 tsslPointsRemain.Visible = false;
             }
+            LoadFontSettings();
         }
 
         private uint groupId;
@@ -36,6 +39,11 @@ namespace PointRaitingSystem
         private FormType currentType;
 
 
+        private void LoadFontSettings()
+        {
+            System.ComponentModel.TypeConverter converter = System.ComponentModel.TypeDescriptor.GetConverter(typeof(Font));
+            this.Font = (Font)converter.ConvertFromString(ConfigurationManager.AppSettings["fontSettings"]);
+        }
         private void InitializeDataSets(object selectedDisciplineValue)
         {
             try

@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using MainLib.DBServices;
 using MainLib.Hashing;
+using System.Linq;
 
 namespace PointRaitingSystem
 {
@@ -12,7 +13,11 @@ namespace PointRaitingSystem
     {
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private bool loginValdiationComplete = false,
-                     passValidationComplete = false;
+                     passValidationComplete = false,
+                     isFiltered = false;
+
+        private Dictionary<string, string> allias;
+        private List<UserInfo> originListOfUsers = null;
 
         private void Clear()
         {
@@ -28,14 +33,20 @@ namespace PointRaitingSystem
             try
             {
                 List<UserInfo> teacherInfos = DataService.SelectAllUsers();
-                DataSetInitializer.dgvDataSetInitializer<UserInfo>(ref dgvTeachers, teacherInfos, new int[] { 0, 3 }, new string[] { "Name" });
+                SetHeadersAllias();
+                DataSetInitializer.dgvDataSetInitializer<UserInfo>(ref dgvTeachers, teacherInfos, allias, new int[] { 0, 3 }, new string[] { "Name" });
             }
             catch (Exception ex)
             {
                 logger.Error(ex);
             }
         }
-
+        private void SetHeadersAllias()
+        {
+            allias = new Dictionary<string, string>();
+            allias.Add("Name", "ФИО");
+            allias.Add("isAdmin", "Администратор");
+        }
 
         public tabTeachers()
         {
@@ -125,8 +136,6 @@ namespace PointRaitingSystem
                 logger.Error(ex);
             }
         }
-        
-
         private void btnUpdateAuth_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtLogin.Text) && loginValdiationComplete)
@@ -155,7 +164,6 @@ namespace PointRaitingSystem
                 logger.Error(ex);
             }
         }
-
         private void btnAddAuth_Click(object sender, EventArgs e)
         {
             if(passValidationComplete && loginValdiationComplete)
@@ -194,7 +202,6 @@ namespace PointRaitingSystem
                 logger.Error(ex);
             }
         }
-
         private void txtLogin_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Regex regex = new Regex("^(?=.{5,25}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$");
@@ -210,10 +217,29 @@ namespace PointRaitingSystem
                 loginValdiationComplete = false;
             }
         }
-
         private void dgvTeachers_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
         {
             e.Column.SortMode = DataGridViewColumnSortMode.NotSortable;
+        }
+        private void btnAddFilter_Click(object sender, EventArgs e)
+        {
+            if (originListOfUsers == null)
+                originListOfUsers = (List<UserInfo>)this.dgvTeachers.DataSource;
+
+            if(isFiltered)
+            {
+                dgvTeachers.DataSource = originListOfUsers;
+                isFiltered = false;
+            }
+
+            List<UserInfo> tempList = ((List<UserInfo>)this.dgvTeachers.DataSource).Where(x => x.Name.StartsWith(txtStudentName.Text)).ToList();
+            DataSetInitializer.dgvDataSetInitializer<UserInfo>(ref dgvTeachers, tempList, allias, new int[] { 0, 3 }, new string[] { "Name", "isAdmin"});
+            isFiltered = true;
+        }
+
+        private void btnResetFilter_Click(object sender, EventArgs e)
+        {
+            DataSetInitializer.dgvDataSetInitializer<UserInfo>(ref dgvTeachers, originListOfUsers, allias, new int[] { 0, 3 }, new string[] { "Name" });
         }
 
         private void txtPass_Validating(object sender, System.ComponentModel.CancelEventArgs e)

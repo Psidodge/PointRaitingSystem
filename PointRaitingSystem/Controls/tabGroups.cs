@@ -15,19 +15,29 @@ namespace PointRaitingSystem
     {
 
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
-
+        private List<GroupInfo> originGroupList;
+        private Dictionary<string, string> allias;
 
         private void InitializeDataSets()
         {
             try
             {
                 List<GroupInfo> groupsInfo = DataService.SelectAllGroupsInfo();
-                DataSetInitializer.dgvDataSetInitializer<GroupInfo>(ref dgvGroups, groupsInfo, new int[] { 0 }, new string[] { "name" });
+                originGroupList = groupsInfo;
+                SetHeadersAllias();
+                DataSetInitializer.dgvDataSetInitializer<GroupInfo>(ref dgvGroups, groupsInfo, allias, new int[] { 0 }, new string[] { "name" });
             }
             catch (Exception ex)
             {
                 logger.Error(ex);
             }
+        }
+
+        private void SetHeadersAllias()
+        {
+            allias = new Dictionary<string, string>();
+            allias.Add("name", "Название");
+            allias.Add("course", "Курс");
         }
 
         public tabGroups()
@@ -99,6 +109,23 @@ namespace PointRaitingSystem
             {
                 logger.Error(ex);
             }
+        }
+        private void btnAddFilter_Click(object sender, EventArgs e)
+        {
+            List<GroupInfo> tempList = (List<GroupInfo>)dgvGroups.DataSource;
+            if (!string.IsNullOrWhiteSpace(txtNameFilter.Text))
+                if(!chkbIsContains.Checked)
+                    tempList = tempList.Where(x => x.name.StartsWith(txtNameFilter.Text)).ToList();
+                else
+                    tempList = tempList.Where(x => x.name.Contains(txtNameFilter.Text)).ToList();
+            if (!string.IsNullOrWhiteSpace(txtCourseFilter.Text))
+                tempList = tempList.Where(x => x.course == int.Parse(txtCourseFilter.Text)).ToList();
+
+            DataSetInitializer.dgvDataSetInitializer<GroupInfo>(ref dgvGroups, tempList, allias, new int[] { 0 }, new string[] { "name" });
+        }
+        private void btnResetFilter_Click(object sender, EventArgs e)
+        {
+            DataSetInitializer.dgvDataSetInitializer<GroupInfo>(ref dgvGroups, originGroupList, allias, new int[] { 0 }, new string[] { "name" });
         }
     }
 }

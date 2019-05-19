@@ -47,10 +47,18 @@
             this.studentNamePanel = new System.Windows.Forms.Panel();
             this.lblStudentName = new System.Windows.Forms.Label();
             this.checkBoxOnlySelecetdStudent = new System.Windows.Forms.CheckBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cbGroupFilter = new System.Windows.Forms.ComboBox();
+            this.btnResetFilter = new System.Windows.Forms.Button();
+            this.btnAddFilter = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtStudentName = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStudents)).BeginInit();
             this.gbStudentInfo.SuspendLayout();
             this.gbTransferInfo.SuspendLayout();
             this.studentNamePanel.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvStudents
@@ -59,14 +67,14 @@
             this.dgvStudents.AllowUserToDeleteRows = false;
             this.dgvStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvStudents.Dock = System.Windows.Forms.DockStyle.Right;
-            this.dgvStudents.Location = new System.Drawing.Point(286, 0);
+            this.dgvStudents.Location = new System.Drawing.Point(293, 0);
             this.dgvStudents.Margin = new System.Windows.Forms.Padding(4);
             this.dgvStudents.MultiSelect = false;
             this.dgvStudents.Name = "dgvStudents";
             this.dgvStudents.ReadOnly = true;
             this.dgvStudents.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dgvStudents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvStudents.Size = new System.Drawing.Size(659, 596);
+            this.dgvStudents.Size = new System.Drawing.Size(715, 596);
             this.dgvStudents.TabIndex = 1;
             this.dgvStudents.SelectionChanged += new System.EventHandler(this.dgvStudents_SelectionChanged);
             // 
@@ -107,7 +115,7 @@
             this.gbStudentInfo.Margin = new System.Windows.Forms.Padding(4);
             this.gbStudentInfo.Name = "gbStudentInfo";
             this.gbStudentInfo.Padding = new System.Windows.Forms.Padding(4);
-            this.gbStudentInfo.Size = new System.Drawing.Size(286, 203);
+            this.gbStudentInfo.Size = new System.Drawing.Size(293, 203);
             this.gbStudentInfo.TabIndex = 4;
             this.gbStudentInfo.TabStop = false;
             this.gbStudentInfo.Text = "Информация о студентах";
@@ -226,9 +234,9 @@
             this.gbTransferInfo.Controls.Add(this.cbGroupFrom);
             this.gbTransferInfo.Controls.Add(this.cbGroupTo);
             this.gbTransferInfo.Controls.Add(this.label6);
-            this.gbTransferInfo.Location = new System.Drawing.Point(3, 238);
+            this.gbTransferInfo.Location = new System.Drawing.Point(3, 210);
             this.gbTransferInfo.Name = "gbTransferInfo";
-            this.gbTransferInfo.Size = new System.Drawing.Size(274, 218);
+            this.gbTransferInfo.Size = new System.Drawing.Size(283, 218);
             this.gbTransferInfo.TabIndex = 10;
             this.gbTransferInfo.TabStop = false;
             this.gbTransferInfo.Text = "Перевести студентов в другую группу";
@@ -264,16 +272,85 @@
             this.checkBoxOnlySelecetdStudent.UseVisualStyleBackColor = true;
             this.checkBoxOnlySelecetdStudent.CheckedChanged += new System.EventHandler(this.checkBoxOnlySelecetdStudent_CheckedChanged);
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label7);
+            this.groupBox3.Controls.Add(this.cbGroupFilter);
+            this.groupBox3.Controls.Add(this.btnResetFilter);
+            this.groupBox3.Controls.Add(this.btnAddFilter);
+            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Controls.Add(this.txtStudentName);
+            this.groupBox3.Location = new System.Drawing.Point(3, 462);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(286, 131);
+            this.groupBox3.TabIndex = 16;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Фильтр";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(7, 63);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(55, 17);
+            this.label7.TabIndex = 5;
+            this.label7.Text = "Группа";
+            // 
+            // cbGroupFilter
+            // 
+            this.cbGroupFilter.FormattingEnabled = true;
+            this.cbGroupFilter.Location = new System.Drawing.Point(65, 60);
+            this.cbGroupFilter.Name = "cbGroupFilter";
+            this.cbGroupFilter.Size = new System.Drawing.Size(133, 24);
+            this.cbGroupFilter.TabIndex = 4;
+            // 
+            // btnResetFilter
+            // 
+            this.btnResetFilter.Location = new System.Drawing.Point(152, 90);
+            this.btnResetFilter.Name = "btnResetFilter";
+            this.btnResetFilter.Size = new System.Drawing.Size(134, 28);
+            this.btnResetFilter.TabIndex = 3;
+            this.btnResetFilter.Text = "Сбросить фильтр";
+            this.btnResetFilter.UseVisualStyleBackColor = true;
+            this.btnResetFilter.Click += new System.EventHandler(this.btnResetFilter_Click);
+            // 
+            // btnAddFilter
+            // 
+            this.btnAddFilter.Location = new System.Drawing.Point(13, 90);
+            this.btnAddFilter.Name = "btnAddFilter";
+            this.btnAddFilter.Size = new System.Drawing.Size(133, 28);
+            this.btnAddFilter.TabIndex = 2;
+            this.btnAddFilter.Text = "Отфильтровать";
+            this.btnAddFilter.UseVisualStyleBackColor = true;
+            this.btnAddFilter.Click += new System.EventHandler(this.btnAddFilter_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 35);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(42, 17);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "ФИО";
+            // 
+            // txtStudentName
+            // 
+            this.txtStudentName.Location = new System.Drawing.Point(65, 32);
+            this.txtStudentName.Name = "txtStudentName";
+            this.txtStudentName.Size = new System.Drawing.Size(206, 22);
+            this.txtStudentName.TabIndex = 0;
+            // 
             // tabStudents
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.gbTransferInfo);
             this.Controls.Add(this.gbStudentInfo);
             this.Controls.Add(this.dgvStudents);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "tabStudents";
-            this.Size = new System.Drawing.Size(945, 596);
+            this.Size = new System.Drawing.Size(1008, 596);
             this.Load += new System.EventHandler(this.tabStudents_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvStudents)).EndInit();
             this.gbStudentInfo.ResumeLayout(false);
@@ -282,6 +359,8 @@
             this.gbTransferInfo.PerformLayout();
             this.studentNamePanel.ResumeLayout(false);
             this.studentNamePanel.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -306,5 +385,12 @@
         private System.Windows.Forms.CheckBox checkBoxOnlySelecetdStudent;
         private System.Windows.Forms.Panel studentNamePanel;
         private System.Windows.Forms.Label lblStudentName;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button btnResetFilter;
+        private System.Windows.Forms.Button btnAddFilter;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtStudentName;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ComboBox cbGroupFilter;
     }
 }

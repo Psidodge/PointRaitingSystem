@@ -7,6 +7,7 @@ using MainLib.DBServices;
 using MainLib.Session;
 using MainLib.ReportsFactory;
 using System.Configuration;
+using System.Drawing;
 
 namespace PointRaitingSystem
 {
@@ -19,6 +20,7 @@ namespace PointRaitingSystem
             tsmDeb.Visible = true;
 #endif
             InitializeDataSets();
+            LoadFontSettings();
             tsslCurrentDate.Text = DateTime.Now.ToShortDateString();
         }
 
@@ -30,6 +32,12 @@ namespace PointRaitingSystem
         private bool isCellsHiden = false,
                      isReexamCommited = false;
        
+        private void LoadFontSettings()
+        {
+            System.ComponentModel.TypeConverter converter = System.ComponentModel.TypeDescriptor.GetConverter(typeof(Font));
+            this.Font = (Font)converter.ConvertFromString(ConfigurationManager.AppSettings["fontSettings"]);
+        }
+
         private void cbGroups_SelectionChangeCommitted(object sender, EventArgs e)
         {
             cbDiscipline.Text = string.Empty;
@@ -428,6 +436,18 @@ namespace PointRaitingSystem
             admMainForm form = new admMainForm();
             form.Show();
 #endif
+        }
+        private void tsmiFontSetting_Click(object sender, EventArgs e)
+        {
+            fontDialog.ShowDialog();
+            this.Font = fontDialog.Font;
+
+            System.ComponentModel.TypeConverter converter = System.ComponentModel.TypeDescriptor.GetConverter(typeof(Font));
+
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.AppSettings.Settings["fontSettings"].Value = converter.ConvertToString(this.Font);
+            config.Save(ConfigurationSaveMode.Modified);
+            ConfigurationManager.RefreshSection("appSettings");
         }
         private void tscbDebUserList_TextChanged(object sender, EventArgs e)
         {

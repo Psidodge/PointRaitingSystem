@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -26,6 +27,7 @@ namespace PointRaitingSystem
         private void usrSettingsForm_Load(object sender, EventArgs e)
         {
             InitializeDataSets();
+            LoadFontSettings();
         }
 
         private void CheckAlreadyAttachedGroups(List<GroupInfo> groups)
@@ -84,6 +86,11 @@ namespace PointRaitingSystem
             }
         }
 
+        private void LoadFontSettings()
+        {
+            System.ComponentModel.TypeConverter converter = System.ComponentModel.TypeDescriptor.GetConverter(typeof(Font));
+            this.Font = (Font)converter.ConvertFromString(ConfigurationManager.AppSettings["fontSettings"]);
+        }
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();

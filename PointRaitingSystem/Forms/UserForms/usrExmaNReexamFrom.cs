@@ -4,6 +4,8 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Drawing;
+using System.Configuration;
 
 namespace PointRaitingSystem
 {
@@ -36,8 +38,15 @@ namespace PointRaitingSystem
                     tabControl.TabPages[1].Text = "Переэкзаменовка";
                     break;
             }
+            LoadFontSettings();
         }
         public bool IsCommited { get => isCommited; }
+
+        private void LoadFontSettings()
+        {
+            System.ComponentModel.TypeConverter converter = System.ComponentModel.TypeDescriptor.GetConverter(typeof(Font));
+            this.Font = (Font)converter.ConvertFromString(ConfigurationManager.AppSettings["fontSettings"]);
+        }
 
         private void FillControlPointInfo(bool isVisible = false)
         {

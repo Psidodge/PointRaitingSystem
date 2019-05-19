@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace PointRaitingSystem
             dataSetInitializer(groupID, disciplineID);
             this.groupID = groupID;
             this.disciplineID = disciplineID;
+            LoadFontSettings();
         }
 
         private uint groupID,
@@ -32,7 +34,11 @@ namespace PointRaitingSystem
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
 
-
+        private void LoadFontSettings()
+        {
+            System.ComponentModel.TypeConverter converter = System.ComponentModel.TypeDescriptor.GetConverter(typeof(Font));
+            this.Font = (Font)converter.ConvertFromString(ConfigurationManager.AppSettings["fontSettings"]);
+        }
         private void dataSetInitializer(uint groupID, uint disciplineID)
         {
             try

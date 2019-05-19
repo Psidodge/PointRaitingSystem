@@ -7,6 +7,7 @@ using MainLib.ReportsFactory;
 using MainLib.DBServices;
 using MainLib.Session;
 using System.Configuration;
+using System.Drawing;
 
 namespace PointRaitingSystem
 {
@@ -24,6 +25,13 @@ namespace PointRaitingSystem
             this.groupID = groupID;
             this.disciplineID = disciplineID;
             path = ConfigurationManager.AppSettings["reportFilePath"];
+            LoadFontSettings();
+        }
+
+        private void LoadFontSettings()
+        {
+            System.ComponentModel.TypeConverter converter = System.ComponentModel.TypeDescriptor.GetConverter(typeof(Font));
+            this.Font = (Font)converter.ConvertFromString(ConfigurationManager.AppSettings["fontSettings"]);
         }
 
         private void DataSetsInitializer(uint groupID, uint disciplineID)

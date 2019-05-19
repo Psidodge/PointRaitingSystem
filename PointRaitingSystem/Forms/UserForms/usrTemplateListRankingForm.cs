@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace PointRaitingSystem
         public usrTemplateListRankingForm(ref List<ControlPointTemplate> templates)
         {
             InitializeComponent();
+            LoadFontSettings();
             pointTemplates = templates;
             try
             {
@@ -34,6 +36,11 @@ namespace PointRaitingSystem
 
         }
 
+        private void LoadFontSettings()
+        {
+            System.ComponentModel.TypeConverter converter = System.ComponentModel.TypeDescriptor.GetConverter(typeof(Font));
+            this.Font = (Font)converter.ConvertFromString(ConfigurationManager.AppSettings["fontSettings"]);
+        }
         private void btnMoveUp_Click(object sender, EventArgs e)
         {
             if (lbTemplates.SelectedIndex == 0)

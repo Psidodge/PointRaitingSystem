@@ -10,6 +10,8 @@ namespace PointRaitingSystem
     {
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private bool isDSInitialized = false;
+        private List<StudentInfo> originStudentsList = null;
+        private Dictionary<string, string> allias;
 
         public tabStudents()
         {
@@ -26,7 +28,8 @@ namespace PointRaitingSystem
             try
             {
                 List<StudentInfo> students = DataService.SelectAllStudentsInfo();
-                DataSetInitializer.dgvDataSetInitializer<StudentInfo>(ref dgvStudents, students, new int[] { 0, 3 }, new string[] { "name" });
+                SetHeadersAllias();
+                DataSetInitializer.dgvDataSetInitializer<StudentInfo>(ref dgvStudents, students, allias, new int[] { 0, 3 }, new string[] { "name" });
 
                 if (!isDSInitialized)
                 {
@@ -34,6 +37,8 @@ namespace PointRaitingSystem
                     DataSetInitializer.ComboBoxDataSetInitializer<GroupInfo>(ref cbGroup, groups, "id", "name");
                     DataSetInitializer.ComboBoxDataSetInitializer<GroupInfo>(ref cbGroupFrom, new List<GroupInfo>(groups), "id", "name");
                     DataSetInitializer.ComboBoxDataSetInitializer<GroupInfo>(ref cbGroupTo, new List<GroupInfo>(groups), "id", "name");
+                    groups.Insert(0, new GroupInfo() { });
+                    DataSetInitializer.ComboBoxDataSetInitializer<GroupInfo>(ref cbGroupFilter, new List<GroupInfo>(groups), "id", "name");
                     isDSInitialized = true;
                 }
             }
@@ -41,6 +46,12 @@ namespace PointRaitingSystem
             {
                 logger.Error(ex);
             }
+        }
+        private void SetHeadersAllias()
+        {
+            allias = new Dictionary<string, string>();
+            allias.Add("name", "ФИО");
+            allias.Add("group_name", "Группа");
         }
         private void tabStudents_Load(object sender, EventArgs e)
         {
@@ -100,7 +111,7 @@ namespace PointRaitingSystem
             //NOTE: add exception handler here
             txtStId.Text = dgvStudents.CurrentRow.Cells["id"].Value.ToString();
             txtName.Text = dgvStudents.CurrentRow.Cells["name"].Value.ToString();
-            cbGroup.SelectedValue = DataService.GetIdOfGroupByGroupName(dgvStudents.CurrentRow.Cells["group_name"].Value.ToString());
+            cbGroup.SelectedIndex = cbGroup.FindStringExact(dgvStudents.CurrentRow.Cells["group_name"].Value.ToString());
         }
         private void btnApply_Click(object sender, EventArgs e)
         {
@@ -193,6 +204,26 @@ namespace PointRaitingSystem
                     logger.Error(ex);
                 }
             }
+        }
+
+        private void btnAddFilter_Click(object sender, EventArgs e)
+        {
+            List<StudentInfo> tempListStudents = (List<StudentInfo>)dgvStudents.DataSource;
+
+            if (originStudentsList == null)
+                originStudentsList = (List<StudentInfo>)dgvStudents.DataSource;
+
+            if (((GroupInfo)cbGroupFilter.SelectedItem).name != null)
+                tempListStudents = tempListStudents.Where(x => x.group_name == ((GroupInfo)cbGroupFilter.SelectedItem).name).ToList();
+
+            if (!string.IsNullOrWhiteSpace(txtStudentName.Text))
+                tempListStudents = tempListStudents.Where(x => x.name.StartsWith(txtStudentName.Text)).ToList();
+
+            DataSetInitializer.dgvDataSetInitializer<StudentInfo>(ref dgvStudents, tempListStudents, allias, new int[] { 0, 3 }, new string[] { "name" });
+        }
+        private void btnResetFilter_Click(object sender, EventArgs e)
+        {
+            DataSetInitializer.dgvDataSetInitializer<StudentInfo>(ref dgvStudents, originStudentsList, allias, new int[] { 0, 3 }, new string[] { "name" });
         }
     }
 }

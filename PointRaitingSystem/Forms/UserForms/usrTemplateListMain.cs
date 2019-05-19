@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace PointRaitingSystem
         public usrTemplateList(uint groupID, uint disciplineID)
         {
             InitializeComponent();
+            LoadFontSettings();
             this.groupID = groupID;
             this.disciplineID = disciplineID;
             IntializeDataSets(disciplineID);
@@ -54,6 +56,11 @@ namespace PointRaitingSystem
             DSRefresh();
         }
 
+        private void LoadFontSettings()
+        {
+            System.ComponentModel.TypeConverter converter = System.ComponentModel.TypeDescriptor.GetConverter(typeof(Font));
+            this.Font = (Font)converter.ConvertFromString(ConfigurationManager.AppSettings["fontSettings"]);
+        }
         private void DSRefresh()
         {
             try

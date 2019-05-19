@@ -34,13 +34,33 @@ namespace PointRaitingSystem
             elementRef.AutoGenerateColumns = autoGenerateColumns;
             elementRef.DataSource = dataSet;
 
-            if(columnsToHide != null)
+            if (columnsToHide != null)
                 foreach (int index in columnsToHide)
                     elementRef.Columns[index].Visible = false;
 
             if(columnsSizeFill != null)
                 foreach (string index in columnsSizeFill)
                     elementRef.Columns[index].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        }
+        public static void dgvDataSetInitializer<T>(ref DataGridView elementRef, List<T> dataSet, Dictionary<string, string> headerAllias, int[] columnsToHide, string[] columnsSizeFill, bool autoGenerateColumns = true)
+        {
+            elementRef.AutoGenerateColumns = autoGenerateColumns;
+            elementRef.DataSource = dataSet;
+
+            if (columnsToHide != null)
+                foreach (int index in columnsToHide)
+                    elementRef.Columns[index].Visible = false;
+
+            if (columnsSizeFill != null)
+                foreach (string index in columnsSizeFill)
+                    elementRef.Columns[index].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+            foreach (var el in headerAllias)
+            {
+                elementRef.Columns[el.Key].HeaderText = el.Value;
+                if (elementRef.Columns[el.Key].AutoSizeMode != DataGridViewAutoSizeColumnMode.Fill)
+                    elementRef.Columns[el.Key].AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
+            }
         }
         public static void dgvDataSetInitializer<T>(ref DataGridView elementRef, List<T> dataSet, int[] columnsToHide, bool autoGenerateColumns = true, bool readOnly = false)
         {

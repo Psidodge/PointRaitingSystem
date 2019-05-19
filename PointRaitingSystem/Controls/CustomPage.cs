@@ -38,15 +38,6 @@ namespace PointRaitingSystem
             this.Controls.Add(page);
         }
 
-        public string[] GetColumnNames()
-        {
-            switch(currentPageType)
-            {
-                case PAGE_TYPE.DISCIPLINES:
-                    return ((tabDisciplines)page).GetColumnNames;
-            }
-            return null;
-        }
         public override void Refresh()
         {
             page.Refresh();

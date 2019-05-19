@@ -47,15 +47,21 @@
             this.txtAuthID = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnResetFilter = new System.Windows.Forms.Button();
+            this.btnAddFilter = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtStudentName = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTeachers)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnUpdateUser
             // 
             this.btnUpdateUser.Location = new System.Drawing.Point(181, 130);
-            this.btnUpdateUser.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnUpdateUser.Margin = new System.Windows.Forms.Padding(4);
             this.btnUpdateUser.Name = "btnUpdateUser";
             this.btnUpdateUser.Size = new System.Drawing.Size(143, 28);
             this.btnUpdateUser.TabIndex = 3;
@@ -66,7 +72,7 @@
             // btnAddUser
             // 
             this.btnAddUser.Location = new System.Drawing.Point(12, 130);
-            this.btnAddUser.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAddUser.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddUser.Name = "btnAddUser";
             this.btnAddUser.Size = new System.Drawing.Size(143, 28);
             this.btnAddUser.TabIndex = 2;
@@ -81,10 +87,11 @@
             this.dgvTeachers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTeachers.Dock = System.Windows.Forms.DockStyle.Right;
             this.dgvTeachers.Location = new System.Drawing.Point(332, 0);
-            this.dgvTeachers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvTeachers.Margin = new System.Windows.Forms.Padding(4);
             this.dgvTeachers.MultiSelect = false;
             this.dgvTeachers.Name = "dgvTeachers";
             this.dgvTeachers.ReadOnly = true;
+            this.dgvTeachers.RowHeadersVisible = false;
             this.dgvTeachers.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dgvTeachers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvTeachers.Size = new System.Drawing.Size(676, 596);
@@ -103,9 +110,9 @@
             this.groupBox1.Controls.Add(this.btnUpdateUser);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(332, 178);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
@@ -115,7 +122,7 @@
             // 
             this.checkBoxIsAdmin.AutoSize = true;
             this.checkBoxIsAdmin.Location = new System.Drawing.Point(12, 102);
-            this.checkBoxIsAdmin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxIsAdmin.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxIsAdmin.Name = "checkBoxIsAdmin";
             this.checkBoxIsAdmin.Size = new System.Drawing.Size(307, 21);
             this.checkBoxIsAdmin.TabIndex = 1;
@@ -125,7 +132,7 @@
             // txtId
             // 
             this.txtId.Location = new System.Drawing.Point(63, 38);
-            this.txtId.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtId.Margin = new System.Windows.Forms.Padding(4);
             this.txtId.Name = "txtId";
             this.txtId.ReadOnly = true;
             this.txtId.Size = new System.Drawing.Size(40, 22);
@@ -135,7 +142,7 @@
             // txtName
             // 
             this.txtName.Location = new System.Drawing.Point(63, 70);
-            this.txtName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtName.Margin = new System.Windows.Forms.Padding(4);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(260, 22);
             this.txtName.TabIndex = 0;
@@ -172,9 +179,9 @@
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Location = new System.Drawing.Point(12, 222);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox2.Size = new System.Drawing.Size(272, 215);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
@@ -192,7 +199,7 @@
             // btnUpdateAuth
             // 
             this.btnUpdateAuth.Location = new System.Drawing.Point(8, 169);
-            this.btnUpdateAuth.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnUpdateAuth.Margin = new System.Windows.Forms.Padding(4);
             this.btnUpdateAuth.Name = "btnUpdateAuth";
             this.btnUpdateAuth.Size = new System.Drawing.Size(256, 34);
             this.btnUpdateAuth.TabIndex = 7;
@@ -203,7 +210,7 @@
             // txtPass
             // 
             this.txtPass.Location = new System.Drawing.Point(76, 95);
-            this.txtPass.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtPass.Margin = new System.Windows.Forms.Padding(4);
             this.txtPass.Name = "txtPass";
             this.txtPass.PasswordChar = '*';
             this.txtPass.Size = new System.Drawing.Size(187, 22);
@@ -213,7 +220,7 @@
             // btnAddAuth
             // 
             this.btnAddAuth.Location = new System.Drawing.Point(8, 127);
-            this.btnAddAuth.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAddAuth.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddAuth.Name = "btnAddAuth";
             this.btnAddAuth.Size = new System.Drawing.Size(256, 34);
             this.btnAddAuth.TabIndex = 6;
@@ -234,7 +241,7 @@
             // txtLogin
             // 
             this.txtLogin.Location = new System.Drawing.Point(76, 63);
-            this.txtLogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtLogin.Margin = new System.Windows.Forms.Padding(4);
             this.txtLogin.Name = "txtLogin";
             this.txtLogin.Size = new System.Drawing.Size(187, 22);
             this.txtLogin.TabIndex = 4;
@@ -243,7 +250,7 @@
             // txtAuthID
             // 
             this.txtAuthID.Location = new System.Drawing.Point(76, 28);
-            this.txtAuthID.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtAuthID.Margin = new System.Windows.Forms.Padding(4);
             this.txtAuthID.Name = "txtAuthID";
             this.txtAuthID.ReadOnly = true;
             this.txtAuthID.Size = new System.Drawing.Size(40, 22);
@@ -270,14 +277,64 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "ID";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.btnResetFilter);
+            this.groupBox3.Controls.Add(this.btnAddFilter);
+            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.txtStudentName);
+            this.groupBox3.Location = new System.Drawing.Point(12, 455);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(320, 108);
+            this.groupBox3.TabIndex = 15;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Фильтр";
+            // 
+            // btnResetFilter
+            // 
+            this.btnResetFilter.Location = new System.Drawing.Point(6, 68);
+            this.btnResetFilter.Name = "btnResetFilter";
+            this.btnResetFilter.Size = new System.Drawing.Size(137, 28);
+            this.btnResetFilter.TabIndex = 3;
+            this.btnResetFilter.Text = "Сбросить фильтр";
+            this.btnResetFilter.UseVisualStyleBackColor = true;
+            this.btnResetFilter.Click += new System.EventHandler(this.btnResetFilter_Click);
+            // 
+            // btnAddFilter
+            // 
+            this.btnAddFilter.Location = new System.Drawing.Point(175, 68);
+            this.btnAddFilter.Name = "btnAddFilter";
+            this.btnAddFilter.Size = new System.Drawing.Size(137, 28);
+            this.btnAddFilter.TabIndex = 2;
+            this.btnAddFilter.Text = "Отфильтровать";
+            this.btnAddFilter.UseVisualStyleBackColor = true;
+            this.btnAddFilter.Click += new System.EventHandler(this.btnAddFilter_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(7, 35);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(42, 17);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "ФИО";
+            // 
+            // txtStudentName
+            // 
+            this.txtStudentName.Location = new System.Drawing.Point(59, 32);
+            this.txtStudentName.Name = "txtStudentName";
+            this.txtStudentName.Size = new System.Drawing.Size(252, 22);
+            this.txtStudentName.TabIndex = 0;
+            // 
             // tabTeachers
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgvTeachers);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "tabTeachers";
             this.Size = new System.Drawing.Size(1008, 596);
             this.Load += new System.EventHandler(this.tabTeachers_Load);
@@ -286,6 +343,8 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -311,5 +370,10 @@
         private System.Windows.Forms.Button btnAddAuth;
         private System.Windows.Forms.Button btnUpdateAuth;
         private System.Windows.Forms.Label lblInfo;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.TextBox txtStudentName;
+        private System.Windows.Forms.Button btnResetFilter;
+        private System.Windows.Forms.Button btnAddFilter;
+        private System.Windows.Forms.Label label6;
     }
 }

@@ -74,6 +74,8 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsslCurrentDate = new System.Windows.Forms.ToolStripStatusLabel();
             this.dgvStudents = new System.Windows.Forms.DataGridView();
+            this.tsmiFontSetting = new System.Windows.Forms.ToolStripMenuItem();
+            this.fontDialog = new System.Windows.Forms.FontDialog();
             this.menuStrip1.SuspendLayout();
             this.menuPanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -139,6 +141,7 @@
             // настройкиToolStripMenuItem
             // 
             this.настройкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiFontSetting,
             this.tsmiPickReportFolder});
             this.настройкиToolStripMenuItem.Name = "настройкиToolStripMenuItem";
             this.настройкиToolStripMenuItem.Size = new System.Drawing.Size(96, 24);
@@ -529,8 +532,8 @@
             // 
             this.dgvStudents.AllowUserToAddRows = false;
             this.dgvStudents.AllowUserToDeleteRows = false;
+            this.dgvStudents.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvStudents.Dock = System.Windows.Forms.DockStyle.Right;
             this.dgvStudents.Location = new System.Drawing.Point(386, 28);
             this.dgvStudents.Margin = new System.Windows.Forms.Padding(4);
             this.dgvStudents.Name = "dgvStudents";
@@ -540,6 +543,18 @@
             this.dgvStudents.TabIndex = 4;
             this.dgvStudents.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStudents_CellEndEdit);
             this.dgvStudents.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvStudents_ColumnHeaderMouseClick);
+            // 
+            // tsmiFontSetting
+            // 
+            this.tsmiFontSetting.Name = "tsmiFontSetting";
+            this.tsmiFontSetting.Size = new System.Drawing.Size(333, 26);
+            this.tsmiFontSetting.Text = "Шрифт";
+            this.tsmiFontSetting.Click += new System.EventHandler(this.tsmiFontSetting_Click);
+            // 
+            // fontDialog
+            // 
+            this.fontDialog.MaxSize = 12;
+            this.fontDialog.ShowEffects = false;
             // 
             // usrMainForm
             // 
@@ -620,6 +635,8 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiAdm;
         private System.Windows.Forms.ToolStripMenuItem tsmiDebChangeUser;
         private System.Windows.Forms.ToolStripComboBox tscbDebUserList;
+        private System.Windows.Forms.ToolStripMenuItem tsmiFontSetting;
+        private System.Windows.Forms.FontDialog fontDialog;
     }
 }
 

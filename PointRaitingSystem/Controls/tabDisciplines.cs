@@ -2,28 +2,36 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using MainLib.DBServices;
-using MainLib.Parsing;
+using System.Linq;
 
 namespace PointRaitingSystem
 {
     public partial class tabDisciplines : UserControl
     {
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
-        private readonly string[] columnNames = {"Название", "Семестр" };
-        private List<DisciplineInfo> tempDataSource;
+        private List<DisciplineInfo> originDisciplineList;
+        private Dictionary<string, string> allias;
 
         private void InitializeDataSets()
         {
             try
             {
                 List<DisciplineInfo> disciplines = DataService.SelectAllDisciplinesInfo();
-                tempDataSource = disciplines;
-                DataSetInitializer.dgvDataSetInitializer<DisciplineInfo>(ref dgvDisciplines, disciplines, new int[] { 0 }, new string[] { "name" });
+                originDisciplineList = disciplines;
+                SetHeadersAllias();
+                DataSetInitializer.dgvDataSetInitializer<DisciplineInfo>(ref dgvDisciplines, disciplines, allias, new int[] { 0, 3 }, new string[] { "name" });
             }
             catch (Exception ex)
             {
                 logger.Error(ex);
             }
+        }
+
+        private void SetHeadersAllias()
+        {
+            allias = new Dictionary<string, string>();
+            allias.Add("name", "Название");
+            allias.Add("semestr", "Семестр");
         }
 
         public tabDisciplines()
@@ -35,11 +43,6 @@ namespace PointRaitingSystem
         {
             InitializeDataSets();
         }
-        public void Filter()
-        {
-
-        }
-        public string[] GetColumnNames { get => columnNames; }
         
         private void tabDisciplines_Load(object sender, EventArgs e)
         {
@@ -100,6 +103,22 @@ namespace PointRaitingSystem
             txtId.Text = dgvDisciplines.CurrentRow.Cells["id"].Value.ToString();
             txtName.Text = dgvDisciplines.CurrentRow.Cells["name"].Value.ToString();
             txtSemestr.Text = dgvDisciplines.CurrentRow.Cells["semestr"].Value.ToString();
+        }
+        private void btnAddFilter_Click(object sender, EventArgs e)
+        {
+            List<DisciplineInfo> tempList = (List<DisciplineInfo>)dgvDisciplines.DataSource;
+
+            if (!string.IsNullOrWhiteSpace(txtNameFilter.Text))
+                tempList = tempList.Where(x => x.name.StartsWith(txtNameFilter.Text)).ToList();
+
+            if (!string.IsNullOrWhiteSpace(txtSemesterFilter.Text))
+                tempList = tempList.Where(x => x.semestr == int.Parse(txtSemesterFilter.Text)).ToList();
+
+            DataSetInitializer.dgvDataSetInitializer<DisciplineInfo>(ref dgvDisciplines, tempList, allias, new int[] { 0, 3 }, new string[] { "name" });
+        }
+        private void btnResetFilter_Click(object sender, EventArgs e)
+        {
+            DataSetInitializer.dgvDataSetInitializer<DisciplineInfo>(ref dgvDisciplines, originDisciplineList, allias, new int[] { 0, 3 }, new string[] { "name" });
         }
     }
 }
